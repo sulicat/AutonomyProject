@@ -19,9 +19,9 @@ except ImportError:
             break
     from catkin.environment_cache import generate_environment_script
 
-code = generate_environment_script('/home/sulicat/WPI/AutonomyProject/ros/devel/env.sh')
+code = generate_environment_script('/home/suli/git/AutonomyProject/ros/devel/env.sh')
 
-output_filename = '/home/sulicat/WPI/AutonomyProject/ros/build/catkin_generated/setup_cached.sh'
+output_filename = '/home/suli/git/AutonomyProject/ros/build/catkin_generated/setup_cached.sh'
 with open(output_filename, 'w') as f:
     #print('Generate script for cached setup "%s"' % output_filename)
     f.write('\n'.join(code))

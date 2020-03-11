@@ -1,2 +1,2 @@
-gazebo_tutorials:rrbot_control:rrbot_description:rrbot_gazebo:vehicle_controller
--DCATKIN_DEVEL_PREFIX=/home/sulicat/WPI/AutonomyProject/ros/devel -DCMAKE_INSTALL_PREFIX=/home/sulicat/WPI/AutonomyProject/ros/install -G Unix Makefiles
+simple_car_model
+-DCATKIN_DEVEL_PREFIX=/home/suli/git/AutonomyProject/ros/devel -DCMAKE_INSTALL_PREFIX=/home/suli/git/AutonomyProject/ros/install -G Unix Makefiles

@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/sulicat/WPI/AutonomyProject/ros/install")
+  set(CMAKE_INSTALL_PREFIX "/home/suli/git/AutonomyProject/ros/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/sulicat/WPI/AutonomyProject/ros/build/gtest/googlemock/cmake_install.cmake")
+  include("/home/suli/git/AutonomyProject/ros/build/gtest/googlemock/cmake_install.cmake")
 
 endif()
 
