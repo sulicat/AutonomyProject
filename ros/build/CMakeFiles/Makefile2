@@ -955,6 +955,61 @@ clean: simple_car_model/CMakeFiles/std_msgs_generate_messages_py.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Directory level rules for directory world_vis
+
+# Convenience name for "all" pass in the directory.
+world_vis/all: world_vis/CMakeFiles/world_vis_node.dir/all
+
+.PHONY : world_vis/all
+
+# Convenience name for "clean" pass in the directory.
+world_vis/clean: world_vis/CMakeFiles/world_vis_node.dir/clean
+
+.PHONY : world_vis/clean
+
+# Convenience name for "preinstall" pass in the directory.
+world_vis/preinstall:
+
+.PHONY : world_vis/preinstall
+
+#=============================================================================
+# Target rules for target world_vis/CMakeFiles/world_vis_node.dir
+
+# All Build rule for target.
+world_vis/CMakeFiles/world_vis_node.dir/all:
+	$(MAKE) -f world_vis/CMakeFiles/world_vis_node.dir/build.make world_vis/CMakeFiles/world_vis_node.dir/depend
+	$(MAKE) -f world_vis/CMakeFiles/world_vis_node.dir/build.make world_vis/CMakeFiles/world_vis_node.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=14,15 "Built target world_vis_node"
+.PHONY : world_vis/CMakeFiles/world_vis_node.dir/all
+
+# Include target in all.
+all: world_vis/CMakeFiles/world_vis_node.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+world_vis/CMakeFiles/world_vis_node.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/suli/git/AutonomyProject/ros/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_node.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/suli/git/AutonomyProject/ros/build/CMakeFiles 0
+.PHONY : world_vis/CMakeFiles/world_vis_node.dir/rule
+
+# Convenience name for target.
+world_vis_node: world_vis/CMakeFiles/world_vis_node.dir/rule
+
+.PHONY : world_vis_node
+
+# clean rule for target.
+world_vis/CMakeFiles/world_vis_node.dir/clean:
+	$(MAKE) -f world_vis/CMakeFiles/world_vis_node.dir/build.make world_vis/CMakeFiles/world_vis_node.dir/clean
+.PHONY : world_vis/CMakeFiles/world_vis_node.dir/clean
+
+# clean rule for target.
+clean: world_vis/CMakeFiles/world_vis_node.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Special targets to cleanup operation of make.
 
 # Special rule to run CMake to check the build system integrity.

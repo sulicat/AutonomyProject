@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/suli/git/AutonomyProject/ros/src/simple_car_model/src/main.cpp" "/home/suli/git/AutonomyProject/ros/build/simple_car_model/CMakeFiles/simple_car_model.dir/src/main.cpp.o"
+  "/home/suli/git/AutonomyProject/ros/src/world_vis/src/main.cpp" "/home/suli/git/AutonomyProject/ros/build/world_vis/CMakeFiles/world_vis_node.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -12,14 +12,15 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_TARGET_DEFINITIONS_CXX
   "ROSCONSOLE_BACKEND_LOG4CXX"
   "ROS_BUILD_SHARED_LIBS=1"
-  "ROS_PACKAGE_NAME=\"simple_car_model\""
+  "ROS_PACKAGE_NAME=\"world_vis\""
   )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/suli/git/AutonomyProject/ros/src/simple_car_model/include"
+  "/home/suli/git/AutonomyProject/ros/src/world_vis/include"
   "/opt/ros/melodic/include"
   "/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
+  "/home/suli/git/AutonomyProject/ros/src/world_vis/../../libs/basic/include"
   )
 
 # Targets to which this target links.

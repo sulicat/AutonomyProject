@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC   -shared -Wl,-soname,libsimple_car_model.so -o /home/suli/git/AutonomyProject/ros/devel/lib/libsimple_car_model.so CMakeFiles/simple_car_model.dir/src/main.cpp.o 

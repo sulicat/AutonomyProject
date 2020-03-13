@@ -15,9 +15,13 @@ set(CMAKE_MAKEFILE_DEPENDS
   "catkin_generated/order_packages.cmake"
   "simple_car_model/catkin_generated/ordered_paths.cmake"
   "simple_car_model/catkin_generated/package.cmake"
+  "world_vis/catkin_generated/ordered_paths.cmake"
+  "world_vis/catkin_generated/package.cmake"
   "/home/suli/git/AutonomyProject/ros/src/CMakeLists.txt"
   "/home/suli/git/AutonomyProject/ros/src/simple_car_model/CMakeLists.txt"
   "/home/suli/git/AutonomyProject/ros/src/simple_car_model/package.xml"
+  "/home/suli/git/AutonomyProject/ros/src/world_vis/CMakeLists.txt"
+  "/home/suli/git/AutonomyProject/ros/src/world_vis/package.xml"
   "/opt/ros/melodic/share/catkin/cmake/../package.xml"
   "/opt/ros/melodic/share/catkin/cmake/all.cmake"
   "/opt/ros/melodic/share/catkin/cmake/assert.cmake"
@@ -173,6 +177,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "gtest/googlemock/CMakeFiles/CMakeDirectoryInformation.cmake"
   "gtest/googlemock/gtest/CMakeFiles/CMakeDirectoryInformation.cmake"
   "simple_car_model/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "world_vis/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -202,4 +207,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "simple_car_model/CMakeFiles/std_msgs_generate_messages_nodejs.dir/DependInfo.cmake"
   "simple_car_model/CMakeFiles/roscpp_generate_messages_nodejs.dir/DependInfo.cmake"
   "simple_car_model/CMakeFiles/std_msgs_generate_messages_py.dir/DependInfo.cmake"
+  "world_vis/CMakeFiles/world_vis_node.dir/DependInfo.cmake"
   )

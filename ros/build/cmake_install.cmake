@@ -132,6 +132,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/suli/git/AutonomyProject/ros/build/gtest/cmake_install.cmake")
   include("/home/suli/git/AutonomyProject/ros/build/simple_car_model/cmake_install.cmake")
+  include("/home/suli/git/AutonomyProject/ros/build/world_vis/cmake_install.cmake")
 
 endif()
 

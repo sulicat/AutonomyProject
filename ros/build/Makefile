@@ -492,6 +492,19 @@ std_msgs_generate_messages_py/fast:
 	$(MAKE) -f simple_car_model/CMakeFiles/std_msgs_generate_messages_py.dir/build.make simple_car_model/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
 
+#=============================================================================
+# Target rules for targets named world_vis_node
+
+# Build rule for target.
+world_vis_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 world_vis_node
+.PHONY : world_vis_node
+
+# fast build rule for target.
+world_vis_node/fast:
+	$(MAKE) -f world_vis/CMakeFiles/world_vis_node.dir/build.make world_vis/CMakeFiles/world_vis_node.dir/build
+.PHONY : world_vis_node/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -530,6 +543,7 @@ help:
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_py"
+	@echo "... world_vis_node"
 .PHONY : help
 
 

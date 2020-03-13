@@ -58,3 +58,11 @@
 /home/suli/git/AutonomyProject/ros/build/simple_car_model/CMakeFiles/std_msgs_generate_messages_nodejs.dir
 /home/suli/git/AutonomyProject/ros/build/simple_car_model/CMakeFiles/roscpp_generate_messages_nodejs.dir
 /home/suli/git/AutonomyProject/ros/build/simple_car_model/CMakeFiles/std_msgs_generate_messages_py.dir
+/home/suli/git/AutonomyProject/ros/build/world_vis/CMakeFiles/install/strip.dir
+/home/suli/git/AutonomyProject/ros/build/world_vis/CMakeFiles/install/local.dir
+/home/suli/git/AutonomyProject/ros/build/world_vis/CMakeFiles/test.dir
+/home/suli/git/AutonomyProject/ros/build/world_vis/CMakeFiles/list_install_components.dir
+/home/suli/git/AutonomyProject/ros/build/world_vis/CMakeFiles/world_vis_node.dir
+/home/suli/git/AutonomyProject/ros/build/world_vis/CMakeFiles/edit_cache.dir
+/home/suli/git/AutonomyProject/ros/build/world_vis/CMakeFiles/rebuild_cache.dir
+/home/suli/git/AutonomyProject/ros/build/world_vis/CMakeFiles/install.dir

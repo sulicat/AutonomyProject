@@ -266,9 +266,6 @@ RT_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/librt.so
 //Enable debian style python package layout
 SETUPTOOLS_DEB_LAYOUT:BOOL=ON
 
-//The directory containing a CMake configuration file for SFML.
-SFML_DIR:PATH=SFML_DIR-NOTFOUND
-
 //Name of the computer/site where compile is being run
 SITE:STRING=sulicatServer
 
@@ -372,14 +369,17 @@ rostime_DIR:PATH=/opt/ros/melodic/share/rostime/cmake
 //Value Computed by CMake
 simple_car_model_BINARY_DIR:STATIC=/home/suli/git/AutonomyProject/ros/build/simple_car_model
 
-//Dependencies for target
-simple_car_model_LIB_DEPENDS:STATIC=
-
 //Value Computed by CMake
 simple_car_model_SOURCE_DIR:STATIC=/home/suli/git/AutonomyProject/ros/src/simple_car_model
 
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/melodic/share/std_msgs/cmake
+
+//Value Computed by CMake
+world_vis_BINARY_DIR:STATIC=/home/suli/git/AutonomyProject/ros/build/world_vis
+
+//Value Computed by CMake
+world_vis_SOURCE_DIR:STATIC=/home/suli/git/AutonomyProject/ros/src/world_vis
 
 //The directory containing a CMake configuration file for xmlrpcpp.
 xmlrpcpp_DIR:PATH=/opt/ros/melodic/share/xmlrpcpp/cmake
@@ -496,7 +496,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=5
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

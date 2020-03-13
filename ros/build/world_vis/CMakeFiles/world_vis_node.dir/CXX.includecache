@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/suli/git/AutonomyProject/ros/src/world_vis/../../libs/basic/include/V2.hpp
+
+/home/suli/git/AutonomyProject/ros/src/world_vis/src/main.cpp
+SFML/Graphics.hpp
+-
+V2.hpp
+/home/suli/git/AutonomyProject/ros/src/world_vis/src/V2.hpp
+iostream
+-
+
