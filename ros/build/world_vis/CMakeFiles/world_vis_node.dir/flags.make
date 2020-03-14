@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=c++11
 
 CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"world_vis\"
 
-CXX_INCLUDES = -I/home/suli/git/AutonomyProject/ros/src/world_vis/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/home/suli/git/AutonomyProject/ros/src/world_vis/../../libs/basic/include 
+CXX_INCLUDES = -I/home/suli/git/AutonomyProject/ros/src/world_vis/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/home/suli/git/AutonomyProject/ros/src/world_vis/../../libs/basic/include -I/home/suli/git/AutonomyProject/ros/src/world_vis/../simple_car_model/include 
 

@@ -1,0 +1,8 @@
+Header header
+geometry_msgs/Vector3 position
+geometry_msgs/Vector3 vel
+geometry_msgs/Vector3 accel
+float32 steering_angle
+float32 vehicle_angle
+float32 vehicle_width
+float32 vehicle_length

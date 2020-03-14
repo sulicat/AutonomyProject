@@ -3,6 +3,6 @@ prefix=/home/suli/git/AutonomyProject/ros/install
 Name: simple_car_model
 Description: Description of simple_car_model
 Version: 0.0.0
-Cflags: 
+Cflags: -I${prefix}/include
 Libs: -L${prefix}/lib 
-Requires: 
+Requires: message_runtime

@@ -21,6 +21,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/opt/ros/melodic/include"
   "/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   "/home/suli/git/AutonomyProject/ros/src/world_vis/../../libs/basic/include"
+  "/home/suli/git/AutonomyProject/ros/src/world_vis/../simple_car_model/include"
   )
 
 # Targets to which this target links.

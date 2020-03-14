@@ -117,6 +117,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ../../libs/basic/include/
+  ../simple_car_model/include/
   )
 
 add_executable(${PROJECT_NAME}_node

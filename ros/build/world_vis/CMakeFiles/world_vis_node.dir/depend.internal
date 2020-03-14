@@ -3,4 +3,5 @@
 
 world_vis/CMakeFiles/world_vis_node.dir/src/main.cpp.o
  /home/suli/git/AutonomyProject/ros/src/world_vis/../../libs/basic/include/V2.hpp
+ /home/suli/git/AutonomyProject/ros/src/world_vis/../simple_car_model/include/BaseVehicle.hpp
  /home/suli/git/AutonomyProject/ros/src/world_vis/src/main.cpp
