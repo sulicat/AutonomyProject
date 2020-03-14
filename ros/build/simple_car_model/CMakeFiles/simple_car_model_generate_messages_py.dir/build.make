@@ -54,6 +54,7 @@ CMAKE_BINARY_DIR = /home/suli/git/AutonomyProject/ros/build
 include simple_car_model/CMakeFiles/simple_car_model_generate_messages_py.dir/progress.make
 
 simple_car_model/CMakeFiles/simple_car_model_generate_messages_py: /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleState.py
+simple_car_model/CMakeFiles/simple_car_model_generate_messages_py: /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleMoveCommand.py
 simple_car_model/CMakeFiles/simple_car_model_generate_messages_py: /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/__init__.py
 
 
@@ -64,13 +65,21 @@ simple_car_model/CMakeFiles/simple_car_model_generate_messages_py: /home/suli/gi
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python from MSG simple_car_model/VehicleState"
 	cd /home/suli/git/AutonomyProject/ros/build/simple_car_model && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg -Isimple_car_model:/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs/ -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -p simple_car_model -o /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg
 
+/home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleMoveCommand.py: /opt/ros/melodic/lib/genpy/genmsg_py.py
+/home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleMoveCommand.py: /home/suli/git/AutonomyProject/ros/msgs/VehicleMoveCommand.msg
+/home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleMoveCommand.py: /opt/ros/melodic/share/std_msgs/msg/Header.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Python from MSG simple_car_model/VehicleMoveCommand"
+	cd /home/suli/git/AutonomyProject/ros/build/simple_car_model && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg -Isimple_car_model:/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs/ -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -p simple_car_model -o /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg
+
 /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/__init__.py: /opt/ros/melodic/lib/genpy/genmsg_py.py
 /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/__init__.py: /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleState.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Python msg __init__.py for simple_car_model"
+/home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/__init__.py: /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleMoveCommand.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Python msg __init__.py for simple_car_model"
 	cd /home/suli/git/AutonomyProject/ros/build/simple_car_model && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg --initpy
 
 simple_car_model_generate_messages_py: simple_car_model/CMakeFiles/simple_car_model_generate_messages_py
 simple_car_model_generate_messages_py: /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleState.py
+simple_car_model_generate_messages_py: /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleMoveCommand.py
 simple_car_model_generate_messages_py: /home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/__init__.py
 simple_car_model_generate_messages_py: simple_car_model/CMakeFiles/simple_car_model_generate_messages_py.dir/build.make
 

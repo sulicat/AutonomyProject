@@ -54,6 +54,7 @@ CMAKE_BINARY_DIR = /home/suli/git/AutonomyProject/ros/build
 include simple_car_model/CMakeFiles/simple_car_model_generate_messages_cpp.dir/progress.make
 
 simple_car_model/CMakeFiles/simple_car_model_generate_messages_cpp: /home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleState.h
+simple_car_model/CMakeFiles/simple_car_model_generate_messages_cpp: /home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleMoveCommand.h
 
 
 /home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleState.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
@@ -64,8 +65,16 @@ simple_car_model/CMakeFiles/simple_car_model_generate_messages_cpp: /home/suli/g
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from simple_car_model/VehicleState.msg"
 	cd /home/suli/git/AutonomyProject/ros/src/simple_car_model && /home/suli/git/AutonomyProject/ros/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg -Isimple_car_model:/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs/ -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -p simple_car_model -o /home/suli/git/AutonomyProject/ros/devel/include/simple_car_model -e /opt/ros/melodic/share/gencpp/cmake/..
 
+/home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleMoveCommand.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
+/home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleMoveCommand.h: /home/suli/git/AutonomyProject/ros/msgs/VehicleMoveCommand.msg
+/home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleMoveCommand.h: /opt/ros/melodic/share/std_msgs/msg/Header.msg
+/home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleMoveCommand.h: /opt/ros/melodic/share/gencpp/msg.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from simple_car_model/VehicleMoveCommand.msg"
+	cd /home/suli/git/AutonomyProject/ros/src/simple_car_model && /home/suli/git/AutonomyProject/ros/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg -Isimple_car_model:/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs/ -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -p simple_car_model -o /home/suli/git/AutonomyProject/ros/devel/include/simple_car_model -e /opt/ros/melodic/share/gencpp/cmake/..
+
 simple_car_model_generate_messages_cpp: simple_car_model/CMakeFiles/simple_car_model_generate_messages_cpp
 simple_car_model_generate_messages_cpp: /home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleState.h
+simple_car_model_generate_messages_cpp: /home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleMoveCommand.h
 simple_car_model_generate_messages_cpp: simple_car_model/CMakeFiles/simple_car_model_generate_messages_cpp.dir/build.make
 
 .PHONY : simple_car_model_generate_messages_cpp

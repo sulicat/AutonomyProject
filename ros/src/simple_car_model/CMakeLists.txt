@@ -52,6 +52,7 @@ add_message_files(
   DIRECTORY ../../msgs/
   FILES
   VehicleState.msg
+  VehicleMoveCommand.msg
   )
 
 ## Generate services in the 'srv' folder

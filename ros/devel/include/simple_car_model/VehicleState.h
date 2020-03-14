@@ -29,7 +29,7 @@ struct VehicleState_
 
   VehicleState_()
     : header()
-    , position()
+    , pos()
     , vel()
     , accel()
     , steering_angle(0.0)
@@ -39,7 +39,7 @@ struct VehicleState_
     }
   VehicleState_(const ContainerAllocator& _alloc)
     : header(_alloc)
-    , position(_alloc)
+    , pos(_alloc)
     , vel(_alloc)
     , accel(_alloc)
     , steering_angle(0.0)
@@ -54,8 +54,8 @@ struct VehicleState_
    typedef  ::std_msgs::Header_<ContainerAllocator>  _header_type;
   _header_type header;
 
-   typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _position_type;
-  _position_type position;
+   typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _pos_type;
+  _pos_type pos;
 
    typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _vel_type;
   _vel_type vel;
@@ -153,12 +153,12 @@ struct MD5Sum< ::simple_car_model::VehicleState_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "ee5f58c0c027a7069a3e20bf33a427ae";
+    return "7be0e5dbec6988c6204f629b0d5ed4f1";
   }
 
   static const char* value(const ::simple_car_model::VehicleState_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xee5f58c0c027a706ULL;
-  static const uint64_t static_value2 = 0x9a3e20bf33a427aeULL;
+  static const uint64_t static_value1 = 0x7be0e5dbec6988c6ULL;
+  static const uint64_t static_value2 = 0x204f629b0d5ed4f1ULL;
 };
 
 template<class ContainerAllocator>
@@ -178,7 +178,7 @@ struct Definition< ::simple_car_model::VehicleState_<ContainerAllocator> >
   static const char* value()
   {
     return "Header header\n"
-"geometry_msgs/Vector3 position\n"
+"geometry_msgs/Vector3 pos\n"
 "geometry_msgs/Vector3 vel\n"
 "geometry_msgs/Vector3 accel\n"
 "float32 steering_angle\n"
@@ -232,7 +232,7 @@ namespace serialization
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
       stream.next(m.header);
-      stream.next(m.position);
+      stream.next(m.pos);
       stream.next(m.vel);
       stream.next(m.accel);
       stream.next(m.steering_angle);
@@ -260,9 +260,9 @@ struct Printer< ::simple_car_model::VehicleState_<ContainerAllocator> >
     s << indent << "header: ";
     s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
-    s << indent << "position: ";
+    s << indent << "pos: ";
     s << std::endl;
-    Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.position);
+    Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.pos);
     s << indent << "vel: ";
     s << std::endl;
     Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.vel);

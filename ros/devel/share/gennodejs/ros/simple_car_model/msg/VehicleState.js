@@ -21,7 +21,7 @@ class VehicleState {
     if (initObj === null) {
       // initObj === null is a special case for deserialization where we don't initialize fields
       this.header = null;
-      this.position = null;
+      this.pos = null;
       this.vel = null;
       this.accel = null;
       this.steering_angle = null;
@@ -36,11 +36,11 @@ class VehicleState {
       else {
         this.header = new std_msgs.msg.Header();
       }
-      if (initObj.hasOwnProperty('position')) {
-        this.position = initObj.position
+      if (initObj.hasOwnProperty('pos')) {
+        this.pos = initObj.pos
       }
       else {
-        this.position = new geometry_msgs.msg.Vector3();
+        this.pos = new geometry_msgs.msg.Vector3();
       }
       if (initObj.hasOwnProperty('vel')) {
         this.vel = initObj.vel
@@ -85,8 +85,8 @@ class VehicleState {
     // Serializes a message object of type VehicleState
     // Serialize message field [header]
     bufferOffset = std_msgs.msg.Header.serialize(obj.header, buffer, bufferOffset);
-    // Serialize message field [position]
-    bufferOffset = geometry_msgs.msg.Vector3.serialize(obj.position, buffer, bufferOffset);
+    // Serialize message field [pos]
+    bufferOffset = geometry_msgs.msg.Vector3.serialize(obj.pos, buffer, bufferOffset);
     // Serialize message field [vel]
     bufferOffset = geometry_msgs.msg.Vector3.serialize(obj.vel, buffer, bufferOffset);
     // Serialize message field [accel]
@@ -108,8 +108,8 @@ class VehicleState {
     let data = new VehicleState(null);
     // Deserialize message field [header]
     data.header = std_msgs.msg.Header.deserialize(buffer, bufferOffset);
-    // Deserialize message field [position]
-    data.position = geometry_msgs.msg.Vector3.deserialize(buffer, bufferOffset);
+    // Deserialize message field [pos]
+    data.pos = geometry_msgs.msg.Vector3.deserialize(buffer, bufferOffset);
     // Deserialize message field [vel]
     data.vel = geometry_msgs.msg.Vector3.deserialize(buffer, bufferOffset);
     // Deserialize message field [accel]
@@ -138,14 +138,14 @@ class VehicleState {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'ee5f58c0c027a7069a3e20bf33a427ae';
+    return '7be0e5dbec6988c6204f629b0d5ed4f1';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
     Header header
-    geometry_msgs/Vector3 position
+    geometry_msgs/Vector3 pos
     geometry_msgs/Vector3 vel
     geometry_msgs/Vector3 accel
     float32 steering_angle
@@ -196,11 +196,11 @@ class VehicleState {
       resolved.header = new std_msgs.msg.Header()
     }
 
-    if (msg.position !== undefined) {
-      resolved.position = geometry_msgs.msg.Vector3.Resolve(msg.position)
+    if (msg.pos !== undefined) {
+      resolved.pos = geometry_msgs.msg.Vector3.Resolve(msg.pos)
     }
     else {
-      resolved.position = new geometry_msgs.msg.Vector3()
+      resolved.pos = new geometry_msgs.msg.Vector3()
     }
 
     if (msg.vel !== undefined) {

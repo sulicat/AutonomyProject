@@ -38,7 +38,10 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/simple_car_model/../../msgs" TYPE FILE FILES "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/simple_car_model/../../msgs" TYPE FILE FILES
+    "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg"
+    "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg"
+    )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

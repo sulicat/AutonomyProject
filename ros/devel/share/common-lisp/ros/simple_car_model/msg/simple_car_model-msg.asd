@@ -6,6 +6,8 @@
                :std_msgs-msg
 )
   :components ((:file "_package")
+    (:file "VehicleMoveCommand" :depends-on ("_package_VehicleMoveCommand"))
+    (:file "_package_VehicleMoveCommand" :depends-on ("_package"))
     (:file "VehicleState" :depends-on ("_package_VehicleState"))
     (:file "_package_VehicleState" :depends-on ("_package"))
   ))

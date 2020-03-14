@@ -54,6 +54,7 @@ CMAKE_BINARY_DIR = /home/suli/git/AutonomyProject/ros/build
 include simple_car_model/CMakeFiles/simple_car_model_generate_messages_lisp.dir/progress.make
 
 simple_car_model/CMakeFiles/simple_car_model_generate_messages_lisp: /home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg/VehicleState.lisp
+simple_car_model/CMakeFiles/simple_car_model_generate_messages_lisp: /home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg/VehicleMoveCommand.lisp
 
 
 /home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg/VehicleState.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
@@ -63,8 +64,15 @@ simple_car_model/CMakeFiles/simple_car_model_generate_messages_lisp: /home/suli/
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from simple_car_model/VehicleState.msg"
 	cd /home/suli/git/AutonomyProject/ros/build/simple_car_model && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg -Isimple_car_model:/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs/ -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -p simple_car_model -o /home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg
 
+/home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg/VehicleMoveCommand.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
+/home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg/VehicleMoveCommand.lisp: /home/suli/git/AutonomyProject/ros/msgs/VehicleMoveCommand.msg
+/home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg/VehicleMoveCommand.lisp: /opt/ros/melodic/share/std_msgs/msg/Header.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Lisp code from simple_car_model/VehicleMoveCommand.msg"
+	cd /home/suli/git/AutonomyProject/ros/build/simple_car_model && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg -Isimple_car_model:/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs/ -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -p simple_car_model -o /home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg
+
 simple_car_model_generate_messages_lisp: simple_car_model/CMakeFiles/simple_car_model_generate_messages_lisp
 simple_car_model_generate_messages_lisp: /home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg/VehicleState.lisp
+simple_car_model_generate_messages_lisp: /home/suli/git/AutonomyProject/ros/devel/share/common-lisp/ros/simple_car_model/msg/VehicleMoveCommand.lisp
 simple_car_model_generate_messages_lisp: simple_car_model/CMakeFiles/simple_car_model_generate_messages_lisp.dir/build.make
 
 .PHONY : simple_car_model_generate_messages_lisp

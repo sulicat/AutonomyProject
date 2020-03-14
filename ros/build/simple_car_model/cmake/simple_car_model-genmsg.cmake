@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "simple_car_model: 1 messages, 0 services")
+message(STATUS "simple_car_model: 2 messages, 0 services")
 
 set(MSG_I_FLAGS "-Isimple_car_model:/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs/;-Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg")
 
@@ -22,6 +22,11 @@ add_custom_target(_simple_car_model_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "simple_car_model" "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg" "geometry_msgs/Vector3:std_msgs/Header"
 )
 
+get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg" NAME_WE)
+add_custom_target(_simple_car_model_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "simple_car_model" "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg" "std_msgs/Header"
+)
+
 #
 #  langs = gencpp;geneus;genlisp;gennodejs;genpy
 #
@@ -32,6 +37,12 @@ _generate_msg_cpp(simple_car_model
   "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/simple_car_model
+)
+_generate_msg_cpp(simple_car_model
+  "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/simple_car_model
 )
 
@@ -51,6 +62,8 @@ add_dependencies(simple_car_model_generate_messages simple_car_model_generate_me
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg" NAME_WE)
 add_dependencies(simple_car_model_generate_messages_cpp _simple_car_model_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg" NAME_WE)
+add_dependencies(simple_car_model_generate_messages_cpp _simple_car_model_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
 add_custom_target(simple_car_model_gencpp)
@@ -65,6 +78,12 @@ _generate_msg_eus(simple_car_model
   "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/simple_car_model
+)
+_generate_msg_eus(simple_car_model
+  "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/simple_car_model
 )
 
@@ -84,6 +103,8 @@ add_dependencies(simple_car_model_generate_messages simple_car_model_generate_me
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg" NAME_WE)
 add_dependencies(simple_car_model_generate_messages_eus _simple_car_model_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg" NAME_WE)
+add_dependencies(simple_car_model_generate_messages_eus _simple_car_model_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
 add_custom_target(simple_car_model_geneus)
@@ -98,6 +119,12 @@ _generate_msg_lisp(simple_car_model
   "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/simple_car_model
+)
+_generate_msg_lisp(simple_car_model
+  "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/simple_car_model
 )
 
@@ -117,6 +144,8 @@ add_dependencies(simple_car_model_generate_messages simple_car_model_generate_me
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg" NAME_WE)
 add_dependencies(simple_car_model_generate_messages_lisp _simple_car_model_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg" NAME_WE)
+add_dependencies(simple_car_model_generate_messages_lisp _simple_car_model_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
 add_custom_target(simple_car_model_genlisp)
@@ -131,6 +160,12 @@ _generate_msg_nodejs(simple_car_model
   "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/simple_car_model
+)
+_generate_msg_nodejs(simple_car_model
+  "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/simple_car_model
 )
 
@@ -150,6 +185,8 @@ add_dependencies(simple_car_model_generate_messages simple_car_model_generate_me
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg" NAME_WE)
 add_dependencies(simple_car_model_generate_messages_nodejs _simple_car_model_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg" NAME_WE)
+add_dependencies(simple_car_model_generate_messages_nodejs _simple_car_model_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
 add_custom_target(simple_car_model_gennodejs)
@@ -164,6 +201,12 @@ _generate_msg_py(simple_car_model
   "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/simple_car_model
+)
+_generate_msg_py(simple_car_model
+  "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/simple_car_model
 )
 
@@ -182,6 +225,8 @@ add_dependencies(simple_car_model_generate_messages simple_car_model_generate_me
 
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg" NAME_WE)
+add_dependencies(simple_car_model_generate_messages_py _simple_car_model_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg" NAME_WE)
 add_dependencies(simple_car_model_generate_messages_py _simple_car_model_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility

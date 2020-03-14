@@ -6,6 +6,24 @@
 
 #IncludeRegexTransform: 
 
+/home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleMoveCommand.h
+string
+-
+vector
+-
+map
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+std_msgs/Header.h
+-
+
 /home/suli/git/AutonomyProject/ros/devel/include/simple_car_model/VehicleState.h
 string
 -
@@ -35,6 +53,8 @@ geometry_msgs/Vector3.h
 /home/suli/git/AutonomyProject/ros/src/simple_car_model/include/BaseVehicle.hpp
 V2.hpp
 /home/suli/git/AutonomyProject/ros/src/simple_car_model/include/V2.hpp
+math.h
+-
 
 /home/suli/git/AutonomyProject/ros/src/simple_car_model/src/main.cpp
 ros/ros.h
@@ -43,6 +63,8 @@ std_msgs/String.h
 /home/suli/git/AutonomyProject/ros/src/simple_car_model/src/std_msgs/String.h
 simple_car_model/VehicleState.h
 /home/suli/git/AutonomyProject/ros/src/simple_car_model/src/simple_car_model/VehicleState.h
+simple_car_model/VehicleMoveCommand.h
+/home/suli/git/AutonomyProject/ros/src/simple_car_model/src/simple_car_model/VehicleMoveCommand.h
 BaseVehicle.hpp
 /home/suli/git/AutonomyProject/ros/src/simple_car_model/src/BaseVehicle.hpp
 

@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/simple_car_model_generate_messages_py"
   "/home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleState.py"
+  "/home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/_VehicleMoveCommand.py"
   "/home/suli/git/AutonomyProject/ros/devel/lib/python2.7/dist-packages/simple_car_model/msg/__init__.py"
 )
 

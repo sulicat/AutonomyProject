@@ -90,6 +90,17 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -123,17 +134,6 @@ test:
 test/fast: test
 
 .PHONY : test/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -331,6 +331,21 @@ simple_car_model_generate_messages_cpp: simple_car_model/CMakeFiles/simple_car_m
 simple_car_model_generate_messages_cpp/fast:
 	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f simple_car_model/CMakeFiles/simple_car_model_generate_messages_cpp.dir/build.make simple_car_model/CMakeFiles/simple_car_model_generate_messages_cpp.dir/build
 .PHONY : simple_car_model_generate_messages_cpp/fast
+
+# Convenience name for target.
+simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+.PHONY : simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_cpp: simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+
+.PHONY : roscpp_generate_messages_cpp
+
+# fast build rule for target.
+roscpp_generate_messages_cpp/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/build
+.PHONY : roscpp_generate_messages_cpp/fast
 
 # Convenience name for target.
 simple_car_model/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
@@ -558,6 +573,21 @@ _simple_car_model_generate_messages_check_deps_VehicleState/fast:
 .PHONY : _simple_car_model_generate_messages_check_deps_VehicleState/fast
 
 # Convenience name for target.
+simple_car_model/CMakeFiles/_simple_car_model_generate_messages_check_deps_VehicleMoveCommand.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 simple_car_model/CMakeFiles/_simple_car_model_generate_messages_check_deps_VehicleMoveCommand.dir/rule
+.PHONY : simple_car_model/CMakeFiles/_simple_car_model_generate_messages_check_deps_VehicleMoveCommand.dir/rule
+
+# Convenience name for target.
+_simple_car_model_generate_messages_check_deps_VehicleMoveCommand: simple_car_model/CMakeFiles/_simple_car_model_generate_messages_check_deps_VehicleMoveCommand.dir/rule
+
+.PHONY : _simple_car_model_generate_messages_check_deps_VehicleMoveCommand
+
+# fast build rule for target.
+_simple_car_model_generate_messages_check_deps_VehicleMoveCommand/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f simple_car_model/CMakeFiles/_simple_car_model_generate_messages_check_deps_VehicleMoveCommand.dir/build.make simple_car_model/CMakeFiles/_simple_car_model_generate_messages_check_deps_VehicleMoveCommand.dir/build
+.PHONY : _simple_car_model_generate_messages_check_deps_VehicleMoveCommand/fast
+
+# Convenience name for target.
 simple_car_model/CMakeFiles/simple_car_model_gencpp.dir/rule:
 	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 simple_car_model/CMakeFiles/simple_car_model_gencpp.dir/rule
 .PHONY : simple_car_model/CMakeFiles/simple_car_model_gencpp.dir/rule
@@ -647,21 +677,6 @@ simple_car_model_generate_messages_py/fast:
 	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f simple_car_model/CMakeFiles/simple_car_model_generate_messages_py.dir/build.make simple_car_model/CMakeFiles/simple_car_model_generate_messages_py.dir/build
 .PHONY : simple_car_model_generate_messages_py/fast
 
-# Convenience name for target.
-simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
-	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-.PHONY : simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_cpp: simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-
-.PHONY : roscpp_generate_messages_cpp
-
-# fast build rule for target.
-roscpp_generate_messages_cpp/fast:
-	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make simple_car_model/CMakeFiles/roscpp_generate_messages_cpp.dir/build
-.PHONY : roscpp_generate_messages_cpp/fast
-
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -709,6 +724,8 @@ help:
 	@echo "... simple_car_model_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... simple_car_model_generate_messages_cpp"
+	@echo "... rebuild_cache"
+	@echo "... roscpp_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"
@@ -727,14 +744,13 @@ help:
 	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... simple_car_model_generate_messages"
 	@echo "... _simple_car_model_generate_messages_check_deps_VehicleState"
+	@echo "... _simple_car_model_generate_messages_check_deps_VehicleMoveCommand"
 	@echo "... simple_car_model_gencpp"
 	@echo "... simple_car_model_geneus"
 	@echo "... simple_car_model_generate_messages_eus"
 	@echo "... simple_car_model_generate_messages_lisp"
 	@echo "... simple_car_model_gennodejs"
 	@echo "... simple_car_model_generate_messages_py"
-	@echo "... roscpp_generate_messages_cpp"
-	@echo "... rebuild_cache"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

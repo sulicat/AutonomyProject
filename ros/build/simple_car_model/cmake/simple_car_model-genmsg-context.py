@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg"
+messages_str = "/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg;/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg"
 services_str = ""
 pkg_name = "simple_car_model"
 dependencies_str = "std_msgs;geometry_msgs"

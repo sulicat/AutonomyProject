@@ -18,13 +18,13 @@
 
 (defclass simple_car_model::VehicleState
   :super ros::object
-  :slots (_header _position _vel _accel _steering_angle _vehicle_angle _vehicle_width _vehicle_length ))
+  :slots (_header _pos _vel _accel _steering_angle _vehicle_angle _vehicle_width _vehicle_length ))
 
 (defmethod simple_car_model::VehicleState
   (:init
    (&key
     ((:header __header) (instance std_msgs::Header :init))
-    ((:position __position) (instance geometry_msgs::Vector3 :init))
+    ((:pos __pos) (instance geometry_msgs::Vector3 :init))
     ((:vel __vel) (instance geometry_msgs::Vector3 :init))
     ((:accel __accel) (instance geometry_msgs::Vector3 :init))
     ((:steering_angle __steering_angle) 0.0)
@@ -34,7 +34,7 @@
     )
    (send-super :init)
    (setq _header __header)
-   (setq _position __position)
+   (setq _pos __pos)
    (setq _vel __vel)
    (setq _accel __accel)
    (setq _steering_angle (float __steering_angle))
@@ -49,13 +49,13 @@
      (progn
        (if __header (setq _header (car __header)))
        _header)))
-  (:position
-   (&rest __position)
-   (if (keywordp (car __position))
-       (send* _position __position)
+  (:pos
+   (&rest __pos)
+   (if (keywordp (car __pos))
+       (send* _pos __pos)
      (progn
-       (if __position (setq _position (car __position)))
-       _position)))
+       (if __pos (setq _pos (car __pos)))
+       _pos)))
   (:vel
    (&rest __vel)
    (if (keywordp (car __vel))
@@ -87,8 +87,8 @@
    (+
     ;; std_msgs/Header _header
     (send _header :serialization-length)
-    ;; geometry_msgs/Vector3 _position
-    (send _position :serialization-length)
+    ;; geometry_msgs/Vector3 _pos
+    (send _pos :serialization-length)
     ;; geometry_msgs/Vector3 _vel
     (send _vel :serialization-length)
     ;; geometry_msgs/Vector3 _accel
@@ -108,8 +108,8 @@
               (make-string-output-stream (send self :serialization-length)))))
      ;; std_msgs/Header _header
        (send _header :serialize s)
-     ;; geometry_msgs/Vector3 _position
-       (send _position :serialize s)
+     ;; geometry_msgs/Vector3 _pos
+       (send _pos :serialize s)
      ;; geometry_msgs/Vector3 _vel
        (send _vel :serialize s)
      ;; geometry_msgs/Vector3 _accel
@@ -128,8 +128,8 @@
    (buf &optional (ptr- 0))
    ;; std_msgs/Header _header
      (send _header :deserialize buf ptr-) (incf ptr- (send _header :serialization-length))
-   ;; geometry_msgs/Vector3 _position
-     (send _position :deserialize buf ptr-) (incf ptr- (send _position :serialization-length))
+   ;; geometry_msgs/Vector3 _pos
+     (send _pos :deserialize buf ptr-) (incf ptr- (send _pos :serialization-length))
    ;; geometry_msgs/Vector3 _vel
      (send _vel :deserialize buf ptr-) (incf ptr- (send _vel :serialization-length))
    ;; geometry_msgs/Vector3 _accel
@@ -146,11 +146,11 @@
    self)
   )
 
-(setf (get simple_car_model::VehicleState :md5sum-) "ee5f58c0c027a7069a3e20bf33a427ae")
+(setf (get simple_car_model::VehicleState :md5sum-) "7be0e5dbec6988c6204f629b0d5ed4f1")
 (setf (get simple_car_model::VehicleState :datatype-) "simple_car_model/VehicleState")
 (setf (get simple_car_model::VehicleState :definition-)
       "Header header
-geometry_msgs/Vector3 position
+geometry_msgs/Vector3 pos
 geometry_msgs/Vector3 vel
 geometry_msgs/Vector3 accel
 float32 steering_angle
@@ -189,6 +189,6 @@ float64 z
 
 
 
-(provide :simple_car_model/VehicleState "ee5f58c0c027a7069a3e20bf33a427ae")
+(provide :simple_car_model/VehicleState "7be0e5dbec6988c6204f629b0d5ed4f1")
 
 

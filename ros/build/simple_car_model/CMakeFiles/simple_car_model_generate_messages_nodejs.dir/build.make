@@ -54,6 +54,7 @@ CMAKE_BINARY_DIR = /home/suli/git/AutonomyProject/ros/build
 include simple_car_model/CMakeFiles/simple_car_model_generate_messages_nodejs.dir/progress.make
 
 simple_car_model/CMakeFiles/simple_car_model_generate_messages_nodejs: /home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg/VehicleState.js
+simple_car_model/CMakeFiles/simple_car_model_generate_messages_nodejs: /home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg/VehicleMoveCommand.js
 
 
 /home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg/VehicleState.js: /opt/ros/melodic/lib/gennodejs/gen_nodejs.py
@@ -63,8 +64,15 @@ simple_car_model/CMakeFiles/simple_car_model_generate_messages_nodejs: /home/sul
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from simple_car_model/VehicleState.msg"
 	cd /home/suli/git/AutonomyProject/ros/build/simple_car_model && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleState.msg -Isimple_car_model:/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs/ -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -p simple_car_model -o /home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg
 
+/home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg/VehicleMoveCommand.js: /opt/ros/melodic/lib/gennodejs/gen_nodejs.py
+/home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg/VehicleMoveCommand.js: /home/suli/git/AutonomyProject/ros/msgs/VehicleMoveCommand.msg
+/home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg/VehicleMoveCommand.js: /opt/ros/melodic/share/std_msgs/msg/Header.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/suli/git/AutonomyProject/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Javascript code from simple_car_model/VehicleMoveCommand.msg"
+	cd /home/suli/git/AutonomyProject/ros/build/simple_car_model && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs//VehicleMoveCommand.msg -Isimple_car_model:/home/suli/git/AutonomyProject/ros/src/simple_car_model/../../msgs/ -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -p simple_car_model -o /home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg
+
 simple_car_model_generate_messages_nodejs: simple_car_model/CMakeFiles/simple_car_model_generate_messages_nodejs
 simple_car_model_generate_messages_nodejs: /home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg/VehicleState.js
+simple_car_model_generate_messages_nodejs: /home/suli/git/AutonomyProject/ros/devel/share/gennodejs/ros/simple_car_model/msg/VehicleMoveCommand.js
 simple_car_model_generate_messages_nodejs: simple_car_model/CMakeFiles/simple_car_model_generate_messages_nodejs.dir/build.make
 
 .PHONY : simple_car_model_generate_messages_nodejs

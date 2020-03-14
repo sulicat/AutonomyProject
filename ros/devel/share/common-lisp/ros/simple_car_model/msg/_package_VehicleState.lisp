@@ -1,8 +1,8 @@
 (cl:in-package simple_car_model-msg)
 (cl:export '(HEADER-VAL
           HEADER
-          POSITION-VAL
-          POSITION
+          POS-VAL
+          POS
           VEL-VAL
           VEL
           ACCEL-VAL

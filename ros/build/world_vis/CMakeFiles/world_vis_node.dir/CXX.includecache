@@ -11,6 +11,8 @@
 /home/suli/git/AutonomyProject/ros/src/world_vis/../simple_car_model/include/BaseVehicle.hpp
 V2.hpp
 /home/suli/git/AutonomyProject/ros/src/world_vis/../simple_car_model/include/V2.hpp
+math.h
+-
 
 /home/suli/git/AutonomyProject/ros/src/world_vis/src/main.cpp
 SFML/Graphics.hpp
