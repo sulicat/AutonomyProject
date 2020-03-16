@@ -5,8 +5,8 @@
 #include <math.h>
 
 #define PI 3.141592653589793
-#define DEG_TO_RAD (180.0/PI)
-#define RAD_TO_DEG (PI/180.0)
+#define RAD_TO_DEG (180.0/PI)
+#define DEG_TO_RAD (PI/180.0)
 
 class BaseVehicle{
 public:
@@ -14,6 +14,7 @@ public:
     V2<float> vel;
     V2<float> accel;
     float steering_angle;	// angle of stearing from vehicle angle degrees/sec
+    float vehicle_angle_vel;
     float vehicle_angle;	// angle of vehicle from x axis
     float linear_vel;
     float steering_angle_vel;
@@ -24,18 +25,26 @@ public:
 	pos = V2<float>(0, 0);
 	vel = V2<float>(0,0);
         accel = V2<float>(0,0);
-	steering_angle = 20;	// inline with vehicle
-	vehicle_angle = 10;	// inline with x axis
+	steering_angle = 0;	// inline with vehicle
+	vehicle_angle = 0;	// inline with x axis
+	vehicle_angle_vel = 0;
 	width = 1.7;
 	length = 4;
     }
 
     void update( float dt ){
-	pos.x += dt * linear_vel * cos( vehicle_angle * DEG_TO_RAD );
-	pos.y += dt * linear_vel * sin( vehicle_angle * DEG_TO_RAD );
+
+	steering_angle += dt * steering_angle_vel;
+	vehicle_angle_vel = (linear_vel/length) * tan( steering_angle * DEG_TO_RAD );
+
+	vel.x = dt * linear_vel * cos( vehicle_angle * DEG_TO_RAD );
+	vel.y = dt * linear_vel * sin( vehicle_angle * DEG_TO_RAD );
+
+	vehicle_angle += vehicle_angle_vel;
+	pos.x += vel.x;
+	pos.y += vel.y;
     }
 
 };
-
 
 #endif

@@ -1,11 +1,23 @@
 #include <SFML/Graphics.hpp>
+#include "ros/ros.h"
 #include "V2.hpp"
 #include "BaseVehicle.hpp"
+#include "ros_to_system.h"
+#include "simple_car_model/VehicleState.h"
+#include "simple_car_model/VehicleMoveCommand.h"
 #include <iostream>
 
 #define WINDOW_WIDTH 1080
 #define WINDOW_HEIGHT 720
 
+
+BaseVehicle vehicle;
+
+
+void veh_state_callback( simple_car_model::VehicleState veh_state ){
+    std::cout << "Got vehicle state\n";
+    simple_car::state_to_model( vehicle, veh_state );
+}
 
 class World{
 public:
@@ -39,7 +51,7 @@ public:
 
 
 	sf::Vector2f veh_center = sf::Vector2f(render_v_chassis.getPosition().x + render_v_chassis.getSize().x/2,
-						    render_v_chassis.getPosition().y + render_v_chassis.getSize().y/2);
+					       render_v_chassis.getPosition().y + render_v_chassis.getSize().y/2);
 
 	sf::Transform veh_rotation;
 	sf::Transform steering_angle_rotation_l;
@@ -100,12 +112,6 @@ public:
 	window.draw(render_v_wheel_fl, steering_angle_rotation_l);
 	window.draw(render_v_wheel_fr, steering_angle_rotation_r);
 
-	sf::CircleShape orig(2);
-	orig.setPosition(veh_center);
-	orig.setFillColor(sf::Color(255,0,0));
-	window.draw(orig);
-
-
     }
 
     void render_obstacles( sf::RenderWindow& window ){
@@ -131,27 +137,64 @@ private:
 
 
 
-int main(){
+int main( int argc, char** argv ){
     sf::RenderWindow window(sf::VideoMode(1080, 720), "World Vis");
 
     World world;
-    BaseVehicle vehicle;
     world.set_vehicle( &vehicle );
 
+    ros::init(argc, argv, "world_vis");
+    ros::NodeHandle node_handle;
+
+    ros::Publisher move_command_pub = node_handle.advertise<simple_car_model::VehicleMoveCommand>( "vehicle_move_command", 1 );
+    ros::Subscriber sub = node_handle.subscribe("vehicle_state", 1, veh_state_callback);
 
 
-    while (window.isOpen()){
+
+    ros::Rate rate(100);
+
+    while (window.isOpen() && ros::ok()){
         sf::Event event;
         while (window.pollEvent(event)){
             if (event.type == sf::Event::Closed)
                 window.close();
+
+	    bool publish_move_command = false;
+	    simple_car_model::VehicleMoveCommand move_command;
+	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ){
+		publish_move_command = true;
+		move_command.steering_angle_vel += -15;
+	    }
+	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ){
+		publish_move_command = true;
+		move_command.steering_angle_vel += 15;
+	    }
+	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ){
+		publish_move_command = true;
+		move_command.linear_vel += 10;
+	    }
+	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ){
+		publish_move_command = true;
+		move_command.linear_vel -= 10;
+	    }
+	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Space) ){
+		publish_move_command = true;
+		move_command.linear_vel = 0;
+		move_command.steering_angle_vel = 0;
+	    }
+
+	    if( publish_move_command ){
+		move_command_pub.publish( move_command );
+	    }
         }
+
 
         window.clear( sf::Color(255,255,255) );
 	world.render( window );
-	vehicle.vehicle_angle += 0.01;
-
         window.display();
+
+	ros::spinOnce();
+	rate.sleep();
     }
 
     return 0;

@@ -3,6 +3,6 @@ prefix=/home/suli/git/AutonomyProject/ros/install
 Name: world_vis
 Description: Description of world_vis
 Version: 0.0.0
-Cflags: 
+Cflags: -I${prefix}/include
 Libs: -L${prefix}/lib 
-Requires: 
+Requires: message_runtime

@@ -17,8 +17,6 @@
 
 #include <std_msgs/Header.h>
 #include <geometry_msgs/Vector3.h>
-#include <geometry_msgs/Vector3.h>
-#include <geometry_msgs/Vector3.h>
 
 namespace simple_car_model
 {
@@ -30,22 +28,26 @@ struct VehicleState_
   VehicleState_()
     : header()
     , pos()
-    , vel()
-    , accel()
     , steering_angle(0.0)
     , vehicle_angle(0.0)
     , vehicle_width(0.0)
-    , vehicle_length(0.0)  {
+    , vehicle_length(0.0)
+    , linear_vel(0.0)
+    , steering_angle_vel(0.0)
+    , linear_accel(0.0)
+    , steering_angle_acel(0.0)  {
     }
   VehicleState_(const ContainerAllocator& _alloc)
     : header(_alloc)
     , pos(_alloc)
-    , vel(_alloc)
-    , accel(_alloc)
     , steering_angle(0.0)
     , vehicle_angle(0.0)
     , vehicle_width(0.0)
-    , vehicle_length(0.0)  {
+    , vehicle_length(0.0)
+    , linear_vel(0.0)
+    , steering_angle_vel(0.0)
+    , linear_accel(0.0)
+    , steering_angle_acel(0.0)  {
   (void)_alloc;
     }
 
@@ -56,12 +58,6 @@ struct VehicleState_
 
    typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _pos_type;
   _pos_type pos;
-
-   typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _vel_type;
-  _vel_type vel;
-
-   typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _accel_type;
-  _accel_type accel;
 
    typedef float _steering_angle_type;
   _steering_angle_type steering_angle;
@@ -74,6 +70,18 @@ struct VehicleState_
 
    typedef float _vehicle_length_type;
   _vehicle_length_type vehicle_length;
+
+   typedef float _linear_vel_type;
+  _linear_vel_type linear_vel;
+
+   typedef float _steering_angle_vel_type;
+  _steering_angle_vel_type steering_angle_vel;
+
+   typedef float _linear_accel_type;
+  _linear_accel_type linear_accel;
+
+   typedef float _steering_angle_acel_type;
+  _steering_angle_acel_type steering_angle_acel;
 
 
 
@@ -153,12 +161,12 @@ struct MD5Sum< ::simple_car_model::VehicleState_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "7be0e5dbec6988c6204f629b0d5ed4f1";
+    return "43281be11163876743cb99e5003e3502";
   }
 
   static const char* value(const ::simple_car_model::VehicleState_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x7be0e5dbec6988c6ULL;
-  static const uint64_t static_value2 = 0x204f629b0d5ed4f1ULL;
+  static const uint64_t static_value1 = 0x43281be111638767ULL;
+  static const uint64_t static_value2 = 0x43cb99e5003e3502ULL;
 };
 
 template<class ContainerAllocator>
@@ -179,12 +187,14 @@ struct Definition< ::simple_car_model::VehicleState_<ContainerAllocator> >
   {
     return "Header header\n"
 "geometry_msgs/Vector3 pos\n"
-"geometry_msgs/Vector3 vel\n"
-"geometry_msgs/Vector3 accel\n"
 "float32 steering_angle\n"
 "float32 vehicle_angle\n"
 "float32 vehicle_width\n"
 "float32 vehicle_length\n"
+"float32 linear_vel\n"
+"float32 steering_angle_vel\n"
+"float32 linear_accel\n"
+"float32 steering_angle_acel\n"
 "================================================================================\n"
 "MSG: std_msgs/Header\n"
 "# Standard metadata for higher-level stamped data types.\n"
@@ -233,12 +243,14 @@ namespace serialization
     {
       stream.next(m.header);
       stream.next(m.pos);
-      stream.next(m.vel);
-      stream.next(m.accel);
       stream.next(m.steering_angle);
       stream.next(m.vehicle_angle);
       stream.next(m.vehicle_width);
       stream.next(m.vehicle_length);
+      stream.next(m.linear_vel);
+      stream.next(m.steering_angle_vel);
+      stream.next(m.linear_accel);
+      stream.next(m.steering_angle_acel);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -263,12 +275,6 @@ struct Printer< ::simple_car_model::VehicleState_<ContainerAllocator> >
     s << indent << "pos: ";
     s << std::endl;
     Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.pos);
-    s << indent << "vel: ";
-    s << std::endl;
-    Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.vel);
-    s << indent << "accel: ";
-    s << std::endl;
-    Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.accel);
     s << indent << "steering_angle: ";
     Printer<float>::stream(s, indent + "  ", v.steering_angle);
     s << indent << "vehicle_angle: ";
@@ -277,6 +283,14 @@ struct Printer< ::simple_car_model::VehicleState_<ContainerAllocator> >
     Printer<float>::stream(s, indent + "  ", v.vehicle_width);
     s << indent << "vehicle_length: ";
     Printer<float>::stream(s, indent + "  ", v.vehicle_length);
+    s << indent << "linear_vel: ";
+    Printer<float>::stream(s, indent + "  ", v.linear_vel);
+    s << indent << "steering_angle_vel: ";
+    Printer<float>::stream(s, indent + "  ", v.steering_angle_vel);
+    s << indent << "linear_accel: ";
+    Printer<float>::stream(s, indent + "  ", v.linear_accel);
+    s << indent << "steering_angle_acel: ";
+    Printer<float>::stream(s, indent + "  ", v.steering_angle_acel);
   }
 };
 

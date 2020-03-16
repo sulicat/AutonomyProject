@@ -3,10 +3,6 @@
           HEADER
           POS-VAL
           POS
-          VEL-VAL
-          VEL
-          ACCEL-VAL
-          ACCEL
           STEERING_ANGLE-VAL
           STEERING_ANGLE
           VEHICLE_ANGLE-VAL
@@ -15,4 +11,12 @@
           VEHICLE_WIDTH
           VEHICLE_LENGTH-VAL
           VEHICLE_LENGTH
+          LINEAR_VEL-VAL
+          LINEAR_VEL
+          STEERING_ANGLE_VEL-VAL
+          STEERING_ANGLE_VEL
+          LINEAR_ACCEL-VAL
+          LINEAR_ACCEL
+          STEERING_ANGLE_ACEL-VAL
+          STEERING_ANGLE_ACEL
 ))

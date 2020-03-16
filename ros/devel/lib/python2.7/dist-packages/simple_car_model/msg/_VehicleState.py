@@ -9,17 +9,19 @@ import geometry_msgs.msg
 import std_msgs.msg
 
 class VehicleState(genpy.Message):
-  _md5sum = "7be0e5dbec6988c6204f629b0d5ed4f1"
+  _md5sum = "43281be11163876743cb99e5003e3502"
   _type = "simple_car_model/VehicleState"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """Header header
 geometry_msgs/Vector3 pos
-geometry_msgs/Vector3 vel
-geometry_msgs/Vector3 accel
 float32 steering_angle
 float32 vehicle_angle
 float32 vehicle_width
 float32 vehicle_length
+float32 linear_vel
+float32 steering_angle_vel
+float32 linear_accel
+float32 steering_angle_acel
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.
@@ -48,8 +50,8 @@ MSG: geometry_msgs/Vector3
 float64 x
 float64 y
 float64 z"""
-  __slots__ = ['header','pos','vel','accel','steering_angle','vehicle_angle','vehicle_width','vehicle_length']
-  _slot_types = ['std_msgs/Header','geometry_msgs/Vector3','geometry_msgs/Vector3','geometry_msgs/Vector3','float32','float32','float32','float32']
+  __slots__ = ['header','pos','steering_angle','vehicle_angle','vehicle_width','vehicle_length','linear_vel','steering_angle_vel','linear_accel','steering_angle_acel']
+  _slot_types = ['std_msgs/Header','geometry_msgs/Vector3','float32','float32','float32','float32','float32','float32','float32','float32']
 
   def __init__(self, *args, **kwds):
     """
@@ -59,7 +61,7 @@ float64 z"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,pos,vel,accel,steering_angle,vehicle_angle,vehicle_width,vehicle_length
+       header,pos,steering_angle,vehicle_angle,vehicle_width,vehicle_length,linear_vel,steering_angle_vel,linear_accel,steering_angle_acel
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -72,10 +74,6 @@ float64 z"""
         self.header = std_msgs.msg.Header()
       if self.pos is None:
         self.pos = geometry_msgs.msg.Vector3()
-      if self.vel is None:
-        self.vel = geometry_msgs.msg.Vector3()
-      if self.accel is None:
-        self.accel = geometry_msgs.msg.Vector3()
       if self.steering_angle is None:
         self.steering_angle = 0.
       if self.vehicle_angle is None:
@@ -84,15 +82,25 @@ float64 z"""
         self.vehicle_width = 0.
       if self.vehicle_length is None:
         self.vehicle_length = 0.
+      if self.linear_vel is None:
+        self.linear_vel = 0.
+      if self.steering_angle_vel is None:
+        self.steering_angle_vel = 0.
+      if self.linear_accel is None:
+        self.linear_accel = 0.
+      if self.steering_angle_acel is None:
+        self.steering_angle_acel = 0.
     else:
       self.header = std_msgs.msg.Header()
       self.pos = geometry_msgs.msg.Vector3()
-      self.vel = geometry_msgs.msg.Vector3()
-      self.accel = geometry_msgs.msg.Vector3()
       self.steering_angle = 0.
       self.vehicle_angle = 0.
       self.vehicle_width = 0.
       self.vehicle_length = 0.
+      self.linear_vel = 0.
+      self.steering_angle_vel = 0.
+      self.linear_accel = 0.
+      self.steering_angle_acel = 0.
 
   def _get_types(self):
     """
@@ -115,7 +123,7 @@ float64 z"""
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
-      buff.write(_get_struct_9d4f().pack(_x.pos.x, _x.pos.y, _x.pos.z, _x.vel.x, _x.vel.y, _x.vel.z, _x.accel.x, _x.accel.y, _x.accel.z, _x.steering_angle, _x.vehicle_angle, _x.vehicle_width, _x.vehicle_length))
+      buff.write(_get_struct_3d8f().pack(_x.pos.x, _x.pos.y, _x.pos.z, _x.steering_angle, _x.vehicle_angle, _x.vehicle_width, _x.vehicle_length, _x.linear_vel, _x.steering_angle_vel, _x.linear_accel, _x.steering_angle_acel))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -129,10 +137,6 @@ float64 z"""
         self.header = std_msgs.msg.Header()
       if self.pos is None:
         self.pos = geometry_msgs.msg.Vector3()
-      if self.vel is None:
-        self.vel = geometry_msgs.msg.Vector3()
-      if self.accel is None:
-        self.accel = geometry_msgs.msg.Vector3()
       end = 0
       _x = self
       start = end
@@ -149,8 +153,8 @@ float64 z"""
         self.header.frame_id = str[start:end]
       _x = self
       start = end
-      end += 88
-      (_x.pos.x, _x.pos.y, _x.pos.z, _x.vel.x, _x.vel.y, _x.vel.z, _x.accel.x, _x.accel.y, _x.accel.z, _x.steering_angle, _x.vehicle_angle, _x.vehicle_width, _x.vehicle_length,) = _get_struct_9d4f().unpack(str[start:end])
+      end += 56
+      (_x.pos.x, _x.pos.y, _x.pos.z, _x.steering_angle, _x.vehicle_angle, _x.vehicle_width, _x.vehicle_length, _x.linear_vel, _x.steering_angle_vel, _x.linear_accel, _x.steering_angle_acel,) = _get_struct_3d8f().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -172,7 +176,7 @@ float64 z"""
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
-      buff.write(_get_struct_9d4f().pack(_x.pos.x, _x.pos.y, _x.pos.z, _x.vel.x, _x.vel.y, _x.vel.z, _x.accel.x, _x.accel.y, _x.accel.z, _x.steering_angle, _x.vehicle_angle, _x.vehicle_width, _x.vehicle_length))
+      buff.write(_get_struct_3d8f().pack(_x.pos.x, _x.pos.y, _x.pos.z, _x.steering_angle, _x.vehicle_angle, _x.vehicle_width, _x.vehicle_length, _x.linear_vel, _x.steering_angle_vel, _x.linear_accel, _x.steering_angle_acel))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -187,10 +191,6 @@ float64 z"""
         self.header = std_msgs.msg.Header()
       if self.pos is None:
         self.pos = geometry_msgs.msg.Vector3()
-      if self.vel is None:
-        self.vel = geometry_msgs.msg.Vector3()
-      if self.accel is None:
-        self.accel = geometry_msgs.msg.Vector3()
       end = 0
       _x = self
       start = end
@@ -207,8 +207,8 @@ float64 z"""
         self.header.frame_id = str[start:end]
       _x = self
       start = end
-      end += 88
-      (_x.pos.x, _x.pos.y, _x.pos.z, _x.vel.x, _x.vel.y, _x.vel.z, _x.accel.x, _x.accel.y, _x.accel.z, _x.steering_angle, _x.vehicle_angle, _x.vehicle_width, _x.vehicle_length,) = _get_struct_9d4f().unpack(str[start:end])
+      end += 56
+      (_x.pos.x, _x.pos.y, _x.pos.z, _x.steering_angle, _x.vehicle_angle, _x.vehicle_width, _x.vehicle_length, _x.linear_vel, _x.steering_angle_vel, _x.linear_accel, _x.steering_angle_acel,) = _get_struct_3d8f().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -217,15 +217,15 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_9d4f = None
-def _get_struct_9d4f():
-    global _struct_9d4f
-    if _struct_9d4f is None:
-        _struct_9d4f = struct.Struct("<9d4f")
-    return _struct_9d4f
 _struct_3I = None
 def _get_struct_3I():
     global _struct_3I
     if _struct_3I is None:
         _struct_3I = struct.Struct("<3I")
     return _struct_3I
+_struct_3d8f = None
+def _get_struct_3d8f():
+    global _struct_3d8f
+    if _struct_3d8f is None:
+        _struct_3d8f = struct.Struct("<3d8f")
+    return _struct_3d8f

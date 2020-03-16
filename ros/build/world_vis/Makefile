@@ -80,16 +80,17 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
 
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -123,17 +124,16 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
 
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -166,6 +166,201 @@ preinstall/fast:
 depend:
 	cd /home/suli/git/AutonomyProject/ros/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+# Convenience name for target.
+world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleMoveCommand.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleMoveCommand.dir/rule
+.PHONY : world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleMoveCommand.dir/rule
+
+# Convenience name for target.
+_world_vis_generate_messages_check_deps_VehicleMoveCommand: world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleMoveCommand.dir/rule
+
+.PHONY : _world_vis_generate_messages_check_deps_VehicleMoveCommand
+
+# fast build rule for target.
+_world_vis_generate_messages_check_deps_VehicleMoveCommand/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleMoveCommand.dir/build.make world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleMoveCommand.dir/build
+.PHONY : _world_vis_generate_messages_check_deps_VehicleMoveCommand/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_genpy.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_genpy.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_genpy.dir/rule
+
+# Convenience name for target.
+world_vis_genpy: world_vis/CMakeFiles/world_vis_genpy.dir/rule
+
+.PHONY : world_vis_genpy
+
+# fast build rule for target.
+world_vis_genpy/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_genpy.dir/build.make world_vis/CMakeFiles/world_vis_genpy.dir/build
+.PHONY : world_vis_genpy/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_gencpp.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_gencpp.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_gencpp.dir/rule
+
+# Convenience name for target.
+world_vis_gencpp: world_vis/CMakeFiles/world_vis_gencpp.dir/rule
+
+.PHONY : world_vis_gencpp
+
+# fast build rule for target.
+world_vis_gencpp/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_gencpp.dir/build.make world_vis/CMakeFiles/world_vis_gencpp.dir/build
+.PHONY : world_vis_gencpp/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_generate_messages_cpp.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_generate_messages_cpp.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+world_vis_generate_messages_cpp: world_vis/CMakeFiles/world_vis_generate_messages_cpp.dir/rule
+
+.PHONY : world_vis_generate_messages_cpp
+
+# fast build rule for target.
+world_vis_generate_messages_cpp/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_generate_messages_cpp.dir/build.make world_vis/CMakeFiles/world_vis_generate_messages_cpp.dir/build
+.PHONY : world_vis_generate_messages_cpp/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_generate_messages.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_generate_messages.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_generate_messages.dir/rule
+
+# Convenience name for target.
+world_vis_generate_messages: world_vis/CMakeFiles/world_vis_generate_messages.dir/rule
+
+.PHONY : world_vis_generate_messages
+
+# fast build rule for target.
+world_vis_generate_messages/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_generate_messages.dir/build.make world_vis/CMakeFiles/world_vis_generate_messages.dir/build
+.PHONY : world_vis_generate_messages/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleState.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleState.dir/rule
+.PHONY : world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleState.dir/rule
+
+# Convenience name for target.
+_world_vis_generate_messages_check_deps_VehicleState: world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleState.dir/rule
+
+.PHONY : _world_vis_generate_messages_check_deps_VehicleState
+
+# fast build rule for target.
+_world_vis_generate_messages_check_deps_VehicleState/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleState.dir/build.make world_vis/CMakeFiles/_world_vis_generate_messages_check_deps_VehicleState.dir/build
+.PHONY : _world_vis_generate_messages_check_deps_VehicleState/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_genlisp.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_genlisp.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_genlisp.dir/rule
+
+# Convenience name for target.
+world_vis_genlisp: world_vis/CMakeFiles/world_vis_genlisp.dir/rule
+
+.PHONY : world_vis_genlisp
+
+# fast build rule for target.
+world_vis_genlisp/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_genlisp.dir/build.make world_vis/CMakeFiles/world_vis_genlisp.dir/build
+.PHONY : world_vis_genlisp/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_geneus.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_geneus.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_geneus.dir/rule
+
+# Convenience name for target.
+world_vis_geneus: world_vis/CMakeFiles/world_vis_geneus.dir/rule
+
+.PHONY : world_vis_geneus
+
+# fast build rule for target.
+world_vis_geneus/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_geneus.dir/build.make world_vis/CMakeFiles/world_vis_geneus.dir/build
+.PHONY : world_vis_geneus/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_generate_messages_nodejs.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_generate_messages_nodejs.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+world_vis_generate_messages_nodejs: world_vis/CMakeFiles/world_vis_generate_messages_nodejs.dir/rule
+
+.PHONY : world_vis_generate_messages_nodejs
+
+# fast build rule for target.
+world_vis_generate_messages_nodejs/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_generate_messages_nodejs.dir/build.make world_vis/CMakeFiles/world_vis_generate_messages_nodejs.dir/build
+.PHONY : world_vis_generate_messages_nodejs/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_generate_messages_lisp.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_generate_messages_lisp.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+world_vis_generate_messages_lisp: world_vis/CMakeFiles/world_vis_generate_messages_lisp.dir/rule
+
+.PHONY : world_vis_generate_messages_lisp
+
+# fast build rule for target.
+world_vis_generate_messages_lisp/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_generate_messages_lisp.dir/build.make world_vis/CMakeFiles/world_vis_generate_messages_lisp.dir/build
+.PHONY : world_vis_generate_messages_lisp/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_gennodejs.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_gennodejs.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_gennodejs.dir/rule
+
+# Convenience name for target.
+world_vis_gennodejs: world_vis/CMakeFiles/world_vis_gennodejs.dir/rule
+
+.PHONY : world_vis_gennodejs
+
+# fast build rule for target.
+world_vis_gennodejs/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_gennodejs.dir/build.make world_vis/CMakeFiles/world_vis_gennodejs.dir/build
+.PHONY : world_vis_gennodejs/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_generate_messages_py.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_generate_messages_py.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_generate_messages_py.dir/rule
+
+# Convenience name for target.
+world_vis_generate_messages_py: world_vis/CMakeFiles/world_vis_generate_messages_py.dir/rule
+
+.PHONY : world_vis_generate_messages_py
+
+# fast build rule for target.
+world_vis_generate_messages_py/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_generate_messages_py.dir/build.make world_vis/CMakeFiles/world_vis_generate_messages_py.dir/build
+.PHONY : world_vis_generate_messages_py/fast
+
+# Convenience name for target.
+world_vis/CMakeFiles/world_vis_generate_messages_eus.dir/rule:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f CMakeFiles/Makefile2 world_vis/CMakeFiles/world_vis_generate_messages_eus.dir/rule
+.PHONY : world_vis/CMakeFiles/world_vis_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+world_vis_generate_messages_eus: world_vis/CMakeFiles/world_vis_generate_messages_eus.dir/rule
+
+.PHONY : world_vis_generate_messages_eus
+
+# fast build rule for target.
+world_vis_generate_messages_eus/fast:
+	cd /home/suli/git/AutonomyProject/ros/build && $(MAKE) -f world_vis/CMakeFiles/world_vis_generate_messages_eus.dir/build.make world_vis/CMakeFiles/world_vis_generate_messages_eus.dir/build
+.PHONY : world_vis_generate_messages_eus/fast
 
 # Convenience name for target.
 world_vis/CMakeFiles/world_vis_node.dir/rule:
@@ -217,12 +412,25 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
-	@echo "... test"
-	@echo "... list_install_components"
-	@echo "... world_vis_node"
-	@echo "... edit_cache"
-	@echo "... rebuild_cache"
 	@echo "... install"
+	@echo "... list_install_components"
+	@echo "... edit_cache"
+	@echo "... _world_vis_generate_messages_check_deps_VehicleMoveCommand"
+	@echo "... rebuild_cache"
+	@echo "... world_vis_genpy"
+	@echo "... world_vis_gencpp"
+	@echo "... world_vis_generate_messages_cpp"
+	@echo "... world_vis_generate_messages"
+	@echo "... _world_vis_generate_messages_check_deps_VehicleState"
+	@echo "... world_vis_genlisp"
+	@echo "... world_vis_geneus"
+	@echo "... world_vis_generate_messages_nodejs"
+	@echo "... world_vis_generate_messages_lisp"
+	@echo "... world_vis_gennodejs"
+	@echo "... world_vis_generate_messages_py"
+	@echo "... world_vis_generate_messages_eus"
+	@echo "... world_vis_node"
+	@echo "... test"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
