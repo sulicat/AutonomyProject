@@ -138,7 +138,7 @@ private:
 
 
 int main( int argc, char** argv ){
-    sf::RenderWindow window(sf::VideoMode(1080, 720), "World Vis");
+    sf::RenderWindow window(sf::VideoMode(400, 400), "World Vis");//1080, 720), "World Vis");
 
     World world;
     world.set_vehicle( &vehicle );
@@ -151,7 +151,7 @@ int main( int argc, char** argv ){
 
 
 
-    ros::Rate rate(100);
+    ros::Rate rate(50);
 
     while (window.isOpen() && ros::ok()){
         sf::Event event;
@@ -163,19 +163,23 @@ int main( int argc, char** argv ){
 	    simple_car_model::VehicleMoveCommand move_command;
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ){
 		publish_move_command = true;
-		move_command.steering_angle_vel += -15;
+		move_command.linear_vel += 0;
+		move_command.steering_angle_vel = -15;
 	    }
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ){
 		publish_move_command = true;
-		move_command.steering_angle_vel += 15;
+		move_command.linear_vel += 0;
+		move_command.steering_angle_vel = 15;
 	    }
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ){
 		publish_move_command = true;
-		move_command.linear_vel += 10;
+		move_command.linear_vel = 10;
+		move_command.steering_angle_vel += 0;
 	    }
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ){
 		publish_move_command = true;
-		move_command.linear_vel -= 10;
+		move_command.linear_vel = -10;
+		move_command.steering_angle_vel += 0;
 	    }
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Space) ){
 		publish_move_command = true;

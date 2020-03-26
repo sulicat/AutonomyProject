@@ -1,8 +1,8 @@
-prefix=/home/suli/git/AutonomyProject/ros/install
+prefix=/home/oavillanueva/AutonomyProject/ros/install
 
 Name: simple_car_model
 Description: Description of simple_car_model
 Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
+Cflags: -I/home/oavillanueva/AutonomyProject/ros/install/include
+Libs: -L/home/oavillanueva/AutonomyProject/ros/install/lib 
 Requires: message_runtime

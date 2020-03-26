@@ -20,6 +20,7 @@ public:
     float steering_angle_vel;
     float width;		// in m
     float length;		// in m
+    float max_steering_angle;	// in degrees
 
     BaseVehicle(){
 	pos = V2<float>(0, 0);
@@ -30,11 +31,20 @@ public:
 	vehicle_angle_vel = 0;
 	width = 1.7;
 	length = 4;
+	max_steering_angle = 20;
     }
 
     void update( float dt ){
-
+	
 	steering_angle += dt * steering_angle_vel;
+	if (steering_angle > max_steering_angle) {
+	steering_angle = max_steering_angle;
+	}
+	else if (steering_angle < -max_steering_angle) {
+	steering_angle = -max_steering_angle;
+	}
+	
+
 	vehicle_angle_vel = (linear_vel/length) * tan( steering_angle * DEG_TO_RAD );
 
 	vel.x = dt * linear_vel * cos( vehicle_angle * DEG_TO_RAD );
