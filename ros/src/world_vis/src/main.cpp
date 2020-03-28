@@ -7,8 +7,8 @@
 #include "simple_car_model/VehicleMoveCommand.h"
 #include <iostream>
 
-#define WINDOW_WIDTH 1080
-#define WINDOW_HEIGHT 720
+#define WINDOW_WIDTH 400 //1080 changed for testing purposes
+#define WINDOW_HEIGHT 400 //720 changed for testing purposes
 
 
 BaseVehicle vehicle;
@@ -27,7 +27,7 @@ public:
 
     World(){
 	vehicle_set = false;
-	window_width_m = 100;
+	window_width_m = 37.04;// adjust to 100 for 1080x720 screen
     }
 
     void set_vehicle( BaseVehicle* new_vehicle ){
@@ -138,7 +138,7 @@ private:
 
 
 int main( int argc, char** argv ){
-    sf::RenderWindow window(sf::VideoMode(400, 400), "World Vis");//1080, 720), "World Vis");
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "World Vis");
 
     World world;
     world.set_vehicle( &vehicle );
