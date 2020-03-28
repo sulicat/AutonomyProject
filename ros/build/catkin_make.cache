@@ -1,2 +1,0 @@
-simple_car_model:world_vis
--DCATKIN_DEVEL_PREFIX=/home/oavillanueva/AutonomyProject/ros/devel -DCMAKE_INSTALL_PREFIX=/home/oavillanueva/AutonomyProject/ros/install -G Unix Makefiles
