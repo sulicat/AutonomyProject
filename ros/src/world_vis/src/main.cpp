@@ -151,7 +151,7 @@ int main( int argc, char** argv ){
 
 
 
-    ros::Rate rate(50);
+    ros::Rate rate(20);
 
     while (window.isOpen() && ros::ok()){
         sf::Event event;
@@ -163,23 +163,23 @@ int main( int argc, char** argv ){
 	    simple_car_model::VehicleMoveCommand move_command;
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ){
 		publish_move_command = true;
-		move_command.linear_vel += 0;
+		move_command.linear_vel = vehicle.linear_vel;
 		move_command.steering_angle_vel = -15;
 	    }
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ){
 		publish_move_command = true;
-		move_command.linear_vel += 0;
+		move_command.linear_vel = vehicle.linear_vel;
 		move_command.steering_angle_vel = 15;
 	    }
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ){
 		publish_move_command = true;
 		move_command.linear_vel = 10;
-		move_command.steering_angle_vel += 0;
+		move_command.steering_angle_vel = vehicle.steering_angle_vel;
 	    }
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ){
 		publish_move_command = true;
 		move_command.linear_vel = -10;
-		move_command.steering_angle_vel += 0;
+		move_command.steering_angle_vel = vehicle.steering_angle_vel;
 	    }
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Space) ){
 		publish_move_command = true;
