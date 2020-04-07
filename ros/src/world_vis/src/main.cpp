@@ -5,6 +5,8 @@
 #include "ros_to_system.h"
 #include "simple_car_model/VehicleState.h"
 #include "simple_car_model/VehicleMoveCommand.h"
+#include "simple_car_model/Waypoint.h"
+#include "simple_car_model/Trajectory.h"
 #include <iostream>
 
 #define WINDOW_WIDTH 400 //1080 changed for testing purposes
