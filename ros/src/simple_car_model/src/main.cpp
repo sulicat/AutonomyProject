@@ -8,10 +8,11 @@
 //   vehicle_state: Published topic
 
 #include "ros/ros.h"
-#include "std_msgs/String.h"
 #include "simple_car_model/VehicleState.h"
 #include "simple_car_model/VehicleMoveCommand.h"
-#include "BaseVehicle.hpp"
+#include "std_msgs/String.h"
+
+#include "BaseVehicle.h"
 #include "ros_to_system.h"
 
 #define RATE (20)

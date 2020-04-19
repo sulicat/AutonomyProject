@@ -45,7 +45,6 @@ generate_messages(
   geometry_msgs
   )
 
-
 catkin_package(
   CATKIN_DEPENDS message_runtime
 #  INCLUDE_DIRS include
@@ -60,12 +59,16 @@ link_directories( /usr/lib/x86_64-linux-gnu/ )
 ## Your package locations should be listed before other locations
 include_directories(
   include
-  ${catkin_INCLUDE_DIRS}
   ../../libs/basic/include/
+  ${catkin_INCLUDE_DIRS}
   )
 
+
 add_executable(${PROJECT_NAME}_node
-  src/main.cpp)
+  src/ros_to_system.cpp
+  ../../libs/basic/src/BaseVehicle.cpp
+  src/main.cpp
+  )
 
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
@@ -75,3 +78,8 @@ target_link_libraries(${PROJECT_NAME}_node
   sfml-window
   sfml-graphics
   )
+
+add_dependencies(${PROJECT_NAME}_node
+  ${catkin_EXPORTED_TARGETS})
+
+add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp)
