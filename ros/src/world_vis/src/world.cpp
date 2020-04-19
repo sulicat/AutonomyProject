@@ -17,18 +17,35 @@ void World::set_tracked_wpt( world_vis::Waypoint* wpt ){
     simple_car::state_to_model( *wpt_tracking_vehicle, wpt_tracking->state );
 }
 
+
+void World::render_meter_line( sf::RenderWindow& window ){
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+
+    render_rect_meter_line = sf::RectangleShape( sf::Vector2f(1 * ZOOM_FACTOR,
+							      1 * ZOOM_FACTOR) );
+
+    render_rect_meter_line.move( 10, 10 );
+    render_rect_meter_line.setFillColor( sf::Color(0, 0, 0) );
+    render_v_chassis.setOutlineColor( sf::Color(0, 0, 0) );
+
+    window.draw( render_rect_meter_line );
+
+}
+
 void World::render_vehicle( sf::RenderWindow& window,
 			    BaseVehicle* input_vehicle,
 			    int alpha ){
 
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+    int offset_x = pan_x;
+    int offset_y = pan_y;
 
     // chassis
     render_v_chassis = sf::RectangleShape( sf::Vector2f(input_vehicle->length * ZOOM_FACTOR,
 							input_vehicle->width * ZOOM_FACTOR) );
 
-    render_v_chassis.move( input_vehicle->pos.x * ZOOM_FACTOR,
-			   input_vehicle->pos.y * ZOOM_FACTOR );
+    render_v_chassis.move( input_vehicle->pos.x * ZOOM_FACTOR + offset_x,
+			   input_vehicle->pos.y * ZOOM_FACTOR + offset_y );
 
     render_v_chassis.setFillColor( sf::Color(0, 0, 0, 0) );
     render_v_chassis.setOutlineColor( sf::Color(0, 0, 0, alpha) );
@@ -68,17 +85,17 @@ void World::render_vehicle( sf::RenderWindow& window,
     render_v_wheel_fl.setFillColor( sf::Color(0, 0, 255, alpha) );
     render_v_wheel_fr.setFillColor( sf::Color(0, 0, 255, alpha) );
 
-    render_v_wheel_bl.move( (input_vehicle->pos.x) * ZOOM_FACTOR,
-			    (input_vehicle->pos.y + input_vehicle->width - wheel_width) * ZOOM_FACTOR );
+    render_v_wheel_bl.move( (input_vehicle->pos.x) * ZOOM_FACTOR + offset_x,
+			    (input_vehicle->pos.y + input_vehicle->width - wheel_width) * ZOOM_FACTOR + offset_y);
 
-    render_v_wheel_br.move( (input_vehicle->pos.x) * ZOOM_FACTOR,
-			    (input_vehicle->pos.y) * ZOOM_FACTOR );
+    render_v_wheel_br.move( (input_vehicle->pos.x) * ZOOM_FACTOR  + offset_x,
+			    (input_vehicle->pos.y) * ZOOM_FACTOR  + offset_y);
 
-    render_v_wheel_fl.move( (input_vehicle->pos.x + input_vehicle->length - wheel_length) * ZOOM_FACTOR,
-			    (input_vehicle->pos.y + input_vehicle->width - wheel_width) * ZOOM_FACTOR );
+    render_v_wheel_fl.move( (input_vehicle->pos.x + input_vehicle->length - wheel_length) * ZOOM_FACTOR  + offset_x,
+			    (input_vehicle->pos.y + input_vehicle->width - wheel_width) * ZOOM_FACTOR  + offset_y);
 
-    render_v_wheel_fr.move( (input_vehicle->pos.x + input_vehicle->length - wheel_length) * ZOOM_FACTOR,
-			    (input_vehicle->pos.y) * ZOOM_FACTOR );
+    render_v_wheel_fr.move( (input_vehicle->pos.x + input_vehicle->length - wheel_length) * ZOOM_FACTOR  + offset_x,
+			    (input_vehicle->pos.y) * ZOOM_FACTOR  + offset_y);
 
 
     sf::Vector2f center_wheel_l = sf::Vector2f( render_v_wheel_fl.getPosition().x + render_v_wheel_fl.getSize().x/2,
@@ -110,8 +127,9 @@ void World::render_current_tracked_point( sf::RenderWindow& window ){
 }
 
 void World::render( sf::RenderWindow& window ){
-    render_vehicle(window, vehicle);
+    render_vehicle( window, vehicle );
     render_current_tracked_point( window );
-    render_obstacles(window);
+    render_obstacles( window );
+    render_meter_line( window );
 }
 

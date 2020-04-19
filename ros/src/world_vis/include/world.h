@@ -24,6 +24,8 @@ public:
     BaseVehicle* wpt_tracking_vehicle;
     bool vehicle_set;
     float window_width_m;
+    int pan_x = 0;
+    int pan_y = 0;
 
 
     World();
@@ -40,7 +42,10 @@ public:
 
     void render_current_tracked_point( sf::RenderWindow& window );
 
+    void render_meter_line( sf::RenderWindow& window );
+
     void render( sf::RenderWindow& window );
+
 
 private:
     // vehicle shapes
@@ -49,6 +54,7 @@ private:
     sf::RectangleShape render_v_wheel_br;
     sf::RectangleShape render_v_wheel_fl;
     sf::RectangleShape render_v_wheel_fr;
+    sf::RectangleShape render_rect_meter_line;
 };
 
 
