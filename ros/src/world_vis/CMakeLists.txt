@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Freetype REQUIRED)
 
+find_package(OpenGL REQUIRED)
+
 ## Generate messages in the 'msg' folder
 add_message_files(
   DIRECTORY ../../msgs/
@@ -48,12 +50,13 @@ generate_messages(
   )
 
 set(IMGUI_DIR ../../libs/imgui)
-set(IMGUI_SFML_DIR ../../libs/imgui)
+set(IMGUI_SFML_DIR ../../libs/imgui_sfml)
 
 file(GLOB_RECURSE IMGUI_SRC
     ${IMGUI_DIR}/*.h
     ${IMGUI_DIR}/*.cpp
 )
+
 
 catkin_package(
   CATKIN_DEPENDS message_runtime
@@ -63,7 +66,7 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
-link_directories( /usr/lib/x86_64-linux-gnu/ )
+link_directories( ../../libs/SFML-2.5.1/lib/ )
 
 
 ## Specify additional locations of header files
@@ -72,9 +75,12 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ../../libs/basic/include/
+  ../../libs/SFML-2.5.1/include/
   ${IMGUI_DIR}
   ${IMGUI_DIR}/misc
+  ${IMGUI_SFML_DIR}
   ${FREETYPE_INCLUDE_DIRS}
+  ${OPENGL_INCLUDE_DIRS}
   )
 
 add_executable(${PROJECT_NAME}_node
@@ -82,7 +88,9 @@ add_executable(${PROJECT_NAME}_node
   src/world.cpp
   src/ros_to_system.cpp
   ../../libs/basic/src/BaseVehicle.cpp
-  ${IMGUI_SRC})
+  ${IMGUI_SRC}
+  ${IMGUI_SFML_DIR}/imgui-SFML.cpp
+)
 
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
@@ -92,6 +100,7 @@ target_link_libraries(${PROJECT_NAME}_node
   sfml-system
   sfml-window
   sfml-graphics
+  ${OPENGL_LIBRARIES}
   )
 
 add_dependencies( ${PROJECT_NAME}_node

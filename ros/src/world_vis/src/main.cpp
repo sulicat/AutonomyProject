@@ -1,4 +1,13 @@
+#include "imgui.h"
+#include "imgui-SFML.h"
+
+
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+
 #include "ros/ros.h"
 #include "V2.hpp"
 #include "BaseVehicle.h"
@@ -27,6 +36,9 @@ void tracked_goal_callback( world_vis::Waypoint wpnt ){
 
 int main( int argc, char** argv ){
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "World Vis");
+    window.setFramerateLimit(60);
+
+    ImGui::SFML::Init(window);
 
     World world;
     world.set_vehicle( &vehicle );
@@ -41,11 +53,14 @@ int main( int argc, char** argv ){
 
 
 
-    ros::Rate rate(20);
+    ros::Rate rate(60);
+    sf::Clock deltaClock;
 
     while (window.isOpen() && ros::ok()){
         sf::Event event;
         while (window.pollEvent(event)){
+            ImGui::SFML::ProcessEvent(event);
+
             if (event.type == sf::Event::Closed)
                 window.close();
 
@@ -83,13 +98,22 @@ int main( int argc, char** argv ){
         }
 
 
+	ImGui::SFML::Update(window, deltaClock.restart());
+        ImGui::ShowTestWindow();
+
+	ImGui::Begin("Hello, world!");
+	ImGui::Button("Look at this pretty button");
+	ImGui::End();
+
         window.clear( sf::Color(255,255,255) );
 	world.render( window );
+        ImGui::SFML::Render(window);
         window.display();
 
 	ros::spinOnce();
 	rate.sleep();
     }
 
+    ImGui::SFML::Shutdown();
     return 0;
 }

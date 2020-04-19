@@ -1,10 +1,9 @@
-// dear imgui
-// (binary_to_compressed_c.cpp)
+// ImGui - binary_to_compressed_c.cpp
 // Helper tool to turn a file into a C array, if you want to embed font data in your source code.
 
 // The data is first compressed with stb_compress() to reduce source code size,
 // then encoded in Base85 to fit in a string so we can fit roughly 4 bytes of compressed data into 5 bytes of source code (suggested by @mmalex)
-// (If we used 32-bit constants it would require take 11 bytes of source code to encode 4 bytes, and be endianness dependent)
+// (If we used 32-bits constants it would require take 11 bytes of source code to encode 4 bytes, and be endianness dependent)
 // Note that even with compression, the output array is likely to be bigger than the binary file..
 // Load compressed TTF fonts with ImGui::GetIO().Fonts->AddFontFromMemoryCompressedTTF()
 
@@ -32,8 +31,7 @@ stb_uint stb_compress(stb_uchar *out,stb_uchar *in,stb_uint len);
 
 static bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_base85_encoding, bool use_compression);
 
-/*
-int main(int argc, char** argv)
+/*int main(int argc, char** argv)
 {
     if (argc < 3)
     {
@@ -50,18 +48,14 @@ int main(int argc, char** argv)
         else if (strcmp(argv[argn], "-nocompress") == 0) { use_compression = false; argn++; }
         else
         {
-            fprintf(stderr, "Unknown argument: '%s'\n", argv[argn]);
+            printf("Unknown argument: '%s'\n", argv[argn]);
             return 1;
         }
     }
 
-    bool ret = binary_to_compressed_c(argv[argn], argv[argn+1], use_base85_encoding, use_compression);
-    if (!ret)
-        fprintf(stderr, "Error opening or reading file: '%s'\n", argv[argn]);
-    return ret ? 0 : 1;
+    return binary_to_compressed_c(argv[argn], argv[argn+1], use_base85_encoding, use_compression) ? 0 : 1;
 }
 */
-
 char Encode85Byte(unsigned int x)
 {
     x = (x % 85) + 35;
