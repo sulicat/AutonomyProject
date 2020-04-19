@@ -85,6 +85,7 @@ include_directories(
 
 add_executable(${PROJECT_NAME}_node
   src/main.cpp
+  src/gui.cpp
   src/world.cpp
   src/ros_to_system.cpp
   ../../libs/basic/src/BaseVehicle.cpp

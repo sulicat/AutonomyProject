@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "world.h"
+#include "gui.h"
 
 BaseVehicle vehicle;
 world_vis::Waypoint wpt_tracking_goal;
@@ -26,6 +27,7 @@ BaseVehicle wpt_tracking_goal_state;
 
 void veh_state_callback( world_vis::VehicleState veh_state ){
     simple_car::state_to_model( vehicle, veh_state );
+    GUI::Instance()->updateVehicleState( veh_state );
 }
 
 void tracked_goal_callback( world_vis::Waypoint wpnt ){
@@ -99,11 +101,8 @@ int main( int argc, char** argv ){
 
 
 	ImGui::SFML::Update(window, deltaClock.restart());
-        ImGui::ShowTestWindow();
 
-	ImGui::Begin("Hello, world!");
-	ImGui::Button("Look at this pretty button");
-	ImGui::End();
+	GUI::Instance()->render();
 
         window.clear( sf::Color(255,255,255) );
 	world.render( window );
