@@ -12,6 +12,7 @@
 #include "world_vis/Trajectory.h"
 #include "world_vis/Obstacle.h"
 #include "world_vis/ObstacleList.h"
+#include <std_msgs/Empty.h>
 #include <iostream>
 
 
@@ -22,6 +23,7 @@ class World{
 public:
     BaseVehicle* vehicle;
     world_vis::Waypoint* wpt_tracking;
+    world_vis::Trajectory* global_plan;
     BaseVehicle* wpt_tracking_vehicle;
     bool vehicle_set;
     float window_width_m;
@@ -38,6 +40,8 @@ public:
 
     void set_vehicle( BaseVehicle* new_vehicle );
 
+    void set_global_plan( world_vis::Trajectory* plan_in );
+
     void set_tracked_wpt( world_vis::Waypoint* wpt );
 
     void add_obstacle( int type, float x, float y, float w, float h );
@@ -46,10 +50,14 @@ public:
 
     void publish_obstacles();
 
+    void publish_global_plan_start();
+
     void teleport( int x, int y, float angle );
 
     void set_end_goal( int x, int y );
     void update_end_goal( int x, int y );
+
+    void render_global_plan( sf::RenderWindow& window );
 
     void render_vehicle( sf::RenderWindow& window,
 			 BaseVehicle* input_vehicle,
@@ -79,6 +87,7 @@ private:
     ros::Publisher obstacles_dynamic_pub;
     ros::Publisher teleport_pub;
     ros::Publisher end_state_pub;
+    ros::Publisher global_plan_start_pub;
 
     float end_goal_x;
     float end_goal_y;

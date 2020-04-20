@@ -26,6 +26,7 @@
 World world;
 BaseVehicle vehicle;
 world_vis::Waypoint wpt_tracking_goal;
+world_vis::Trajectory global_plan;
 BaseVehicle wpt_tracking_goal_state;
 int mouse_drag_x_press = 0;
 int mouse_drag_y_press = 0;
@@ -47,6 +48,10 @@ void end_goal_callback( world_vis::VehicleState _end ){
     std::cout << "Got end goal\n";
     std::cout << "   " << _end.pos.x << ", " << _end.pos.y << "\n";
     world.update_end_goal( _end.pos.x, _end.pos.y );
+}
+
+void global_plan_callback( world_vis::Trajectory plan_in ){
+    global_plan = plan_in;
 }
 
 
@@ -85,9 +90,11 @@ int main( int argc, char** argv ){
     ros::Subscriber sub = node_handle.subscribe("vehicle_state", 1, veh_state_callback);
     ros::Subscriber sub_tracked = node_handle.subscribe("tracked_goal", 1, tracked_goal_callback);
     ros::Subscriber sub_end = node_handle.subscribe("end_goal", 1, end_goal_callback);
+    ros::Subscriber sub_global_plan = node_handle.subscribe("global_plan", 1, global_plan_callback);
 
     world = World(&node_handle);
     world.set_vehicle( &vehicle );
+    world.set_global_plan( &global_plan );
     world.set_tracked_wpt( &wpt_tracking_goal );
 
 

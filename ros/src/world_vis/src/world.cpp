@@ -21,6 +21,7 @@ World::World( ros::NodeHandle* node_handle ){
     obstacles_dynamic_pub = node_handle->advertise<world_vis::ObstacleList>( "obstacles_dynamic", 1 );
     teleport_pub = node_handle->advertise<world_vis::VehicleState>( "vehicle_teleport", 1 );
     end_state_pub = node_handle->advertise<world_vis::VehicleState>( "end_goal", 1 );
+    global_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "global_start_command", 1 );
 
     WINDOW_WIDTH = 1080;
     WINDOW_HEIGHT = 720;
@@ -40,6 +41,10 @@ void World::set_tracked_wpt( world_vis::Waypoint* wpt ){
     simple_car::state_to_model( *wpt_tracking_vehicle, wpt_tracking->state );
 }
 
+void World::set_global_plan( world_vis::Trajectory* plan_in ){
+    global_plan = plan_in;
+}
+
 void World::add_obstacle( int type, float x, float y, float w, float h ){
     std::string type_str = type == STATIC ? "static ... " : "dynamic ... ";
     std::cout << "\t" << "Adding obstacle: " << type_str << x << ", " << y << ", " << w << ", " << h << "\n";
@@ -55,6 +60,10 @@ void World::add_obstacle( int type, float x, float y, float w, float h ){
     }else{
 	obstacles_dynamic.push_back(obst);
     }
+}
+
+void World::publish_global_plan_start(){
+    global_plan_start_pub.publish( std_msgs::Empty() );
 }
 
 void World::publish_obstacles(){
@@ -103,6 +112,22 @@ void World::load_obstacles( std::string path ){
     publish_obstacles();
 }
 
+void World::render_global_plan( sf::RenderWindow& window ){
+
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+    int offset_x = pan_x;
+    int offset_y = pan_y;
+
+    sf::VertexArray lines(sf::LinesStrip, global_plan->points.size());
+
+    for( int i = 0; i < global_plan->points.size(); i++ ){
+	lines[i].position = sf::Vector2f( global_plan->points[i].state.pos.x * ZOOM_FACTOR + offset_x,
+					  global_plan->points[i].state.pos.y * ZOOM_FACTOR + offset_y );
+
+	lines[i].color = sf::Color::Blue;
+    }
+    window.draw(lines);
+}
 
 void World::render_meter_line( sf::RenderWindow& window ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
@@ -286,6 +311,6 @@ void World::render( sf::RenderWindow& window ){
     render_obstacles( window );
     render_meter_line( window );
     render_end_goal( window );
-
+    render_global_plan( window );
 }
 

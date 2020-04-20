@@ -54,6 +54,7 @@ void GUI::render(){
 		}
 
 		if( ImGui::Button("Perform Global Plan") ){
+		    world->publish_global_plan_start();
 		}
 
 		if( ImGui::Button("Run Local Planner") ){
