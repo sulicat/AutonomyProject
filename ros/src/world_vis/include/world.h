@@ -11,6 +11,7 @@
 #include "world_vis/Waypoint.h"
 #include "world_vis/Trajectory.h"
 #include "world_vis/Obstacle.h"
+#include "world_vis/ObstacleList.h"
 #include <iostream>
 
 
@@ -33,7 +34,8 @@ public:
     std::vector< world_vis::Obstacle > obstacles_static;
     std::vector< world_vis::Obstacle > obstacles_dynamic;
 
-    World();
+    World( );
+    World( ros::NodeHandle* nh );
 
     void set_vehicle( BaseVehicle* new_vehicle );
 
@@ -42,6 +44,8 @@ public:
     void add_obstacle( int type, float x, float y, float w, float h );
 
     void load_obstacles( std::string path );
+
+    void publish_obstacles();
 
     void render_vehicle( sf::RenderWindow& window,
 			 BaseVehicle* input_vehicle,
@@ -63,6 +67,9 @@ private:
     sf::RectangleShape render_v_wheel_fl;
     sf::RectangleShape render_v_wheel_fr;
     sf::RectangleShape render_rect_meter_line;
+
+    ros::Publisher obstacles_static_pub;
+    ros::Publisher obstacles_dynamic_pub;
 };
 
 

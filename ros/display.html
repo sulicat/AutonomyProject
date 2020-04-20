@@ -1,0 +1,12 @@
+<html>
+
+<img id="global_cost_map"></img>
+
+<script>
+  setInterval( function(){
+      var global_cost_img = document.getElementById("global_cost_map");
+      global_cost_img.src = "global_cost_map.bmp?" + Date.now();
+  }, 1000);
+</script>
+
+</html>

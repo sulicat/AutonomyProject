@@ -27,6 +27,8 @@ add_message_files(
   Waypoint.msg
   Trajectory.msg
   Obstacle.msg
+  ObstacleList.msg
+  CostMap.msg
   )
 
 ## Generate services in the 'srv' folder

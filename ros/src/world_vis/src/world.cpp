@@ -6,10 +6,18 @@
 #include "json.hpp"
 
 World::World(){
+
+}
+
+World::World( ros::NodeHandle* node_handle ){
     vehicle_set = false;
     window_width_m = 100;// adjust to 100 for 1080x720 screen
     wpt_tracking_vehicle = new BaseVehicle();
     wpt_tracking = NULL;
+
+    obstacles_static_pub = node_handle->advertise<world_vis::ObstacleList>( "obstacles_static", 1 );
+    obstacles_dynamic_pub = node_handle->advertise<world_vis::ObstacleList>( "obstacles_dynamic", 1 );
+
 }
 
 void World::set_vehicle( BaseVehicle* new_vehicle ){
@@ -39,6 +47,19 @@ void World::add_obstacle( int type, float x, float y, float w, float h ){
     }
 }
 
+void World::publish_obstacles(){
+    world_vis::ObstacleList obstacles_to_pub_static;
+    for( int i = 0; i < obstacles_static.size(); i++ ){
+	obstacles_to_pub_static.obstacles.push_back(obstacles_static[i]);
+    }
+    world_vis::ObstacleList obstacles_to_pub_dynamic;
+    for( int i = 0; i < obstacles_dynamic.size(); i++ ){
+	obstacles_to_pub_dynamic.obstacles.push_back(obstacles_dynamic[i]);
+    }
+
+    obstacles_static_pub.publish( obstacles_to_pub_static );
+    obstacles_dynamic_pub.publish( obstacles_to_pub_dynamic );
+}
 
 void World::load_obstacles( std::string path ){
 
@@ -68,6 +89,8 @@ void World::load_obstacles( std::string path ){
 		      json_parsed["dynamic"][i]["w"],
 		      json_parsed["dynamic"][i]["h"] );
     }
+
+    publish_obstacles();
 }
 
 

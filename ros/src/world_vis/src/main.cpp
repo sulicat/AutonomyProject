@@ -64,9 +64,6 @@ int main( int argc, char** argv ){
     GUI::Instance()->set_world( &world );
     ImGui::SFML::Init(window);
 
-    world.set_vehicle( &vehicle );
-    world.set_tracked_wpt( &wpt_tracking_goal );
-
     ros::init(argc, argv, "world_vis");
     ros::NodeHandle node_handle;
 
@@ -74,6 +71,9 @@ int main( int argc, char** argv ){
     ros::Subscriber sub = node_handle.subscribe("vehicle_state", 1, veh_state_callback);
     ros::Subscriber sub_tracked = node_handle.subscribe("tracked_goal", 1, tracked_goal_callback);
 
+    world = World(&node_handle);
+    world.set_vehicle( &vehicle );
+    world.set_tracked_wpt( &wpt_tracking_goal );
 
 
     ros::Rate rate(60);
