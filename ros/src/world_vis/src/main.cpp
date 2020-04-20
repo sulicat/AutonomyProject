@@ -61,6 +61,7 @@ int main( int argc, char** argv ){
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "World Vis");
     window.setFramerateLimit(60);
 
+    GUI::Instance()->set_world( &world );
     ImGui::SFML::Init(window);
 
     world.set_vehicle( &vehicle );

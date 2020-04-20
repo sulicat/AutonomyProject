@@ -1,4 +1,9 @@
+#include <string>
+#include <fstream>
+#include <streambuf>
+
 #include "world.h"
+#include "json.hpp"
 
 World::World(){
     vehicle_set = false;
@@ -15,6 +20,54 @@ void World::set_vehicle( BaseVehicle* new_vehicle ){
 void World::set_tracked_wpt( world_vis::Waypoint* wpt ){
     wpt_tracking = wpt;
     simple_car::state_to_model( *wpt_tracking_vehicle, wpt_tracking->state );
+}
+
+void World::add_obstacle( int type, float x, float y, float w, float h ){
+    std::string type_str = type == STATIC ? "static ... " : "dynamic ... ";
+    std::cout << "\t" << "Adding obstacle: " << type_str << x << ", " << y << ", " << w << ", " << h << "\n";
+
+    world_vis::Obstacle obst;
+    obst.x = x;
+    obst.y = y;
+    obst.w = w;
+    obst.h = h;
+
+    if( type == STATIC ){
+	obstacles_static.push_back(obst);
+    }else{
+	obstacles_dynamic.push_back(obst);
+    }
+}
+
+
+void World::load_obstacles( std::string path ){
+
+    std::cout << "World: loading obstacles in: " << path << "\n";
+    std::ifstream t(path);
+    std::string str((std::istreambuf_iterator<char>(t)),
+		    std::istreambuf_iterator<char>());
+
+    std::cout << "\n" << str << "\n\n";
+
+    obstacles_static.clear();
+    obstacles_dynamic.clear();
+
+    auto json_parsed = nlohmann::json::parse(str);
+    for( int i = 0; i < json_parsed["static"].size(); i++ ){
+	add_obstacle( STATIC,
+		      json_parsed["static"][i]["x"],
+		      json_parsed["static"][i]["y"],
+		      json_parsed["static"][i]["w"],
+		      json_parsed["static"][i]["h"] );
+    }
+
+    for( int i = 0; i < json_parsed["dynamic"].size(); i++ ){
+	add_obstacle( DYNAMIC,
+		      json_parsed["dynamic"][i]["x"],
+		      json_parsed["dynamic"][i]["y"],
+		      json_parsed["dynamic"][i]["w"],
+		      json_parsed["dynamic"][i]["h"] );
+    }
 }
 
 
@@ -116,6 +169,31 @@ void World::render_vehicle( sf::RenderWindow& window,
 }
 
 void World::render_obstacles( sf::RenderWindow& window ){
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+    int offset_x = pan_x;
+    int offset_y = pan_y;
+
+    sf::RectangleShape rect_static;
+    for( int i = 0; i < obstacles_static.size(); i++ ){
+	rect_static = sf::RectangleShape( sf::Vector2f(obstacles_static[i].w * ZOOM_FACTOR,
+						       obstacles_static[i].h * ZOOM_FACTOR ));
+
+	rect_static.move( obstacles_static[i].x * ZOOM_FACTOR + offset_x,
+			  obstacles_static[i].y * ZOOM_FACTOR + offset_y );
+	rect_static.setFillColor( sf::Color(0, 0, 0) );
+	window.draw(rect_static);
+    }
+
+    sf::RectangleShape rect_dynamic;
+    for( int i = 0; i < obstacles_dynamic.size(); i++ ){
+	rect_dynamic = sf::RectangleShape( sf::Vector2f( obstacles_dynamic[i].w * ZOOM_FACTOR,
+							 obstacles_dynamic[i].h * ZOOM_FACTOR ));
+
+	rect_dynamic.move( obstacles_dynamic[i].x * ZOOM_FACTOR + offset_x,
+			   obstacles_dynamic[i].y * ZOOM_FACTOR + offset_y );
+	rect_dynamic.setFillColor( sf::Color(100, 100, 100) );
+	window.draw(rect_dynamic);
+    }
 
 }
 

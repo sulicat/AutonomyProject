@@ -26,6 +26,7 @@ add_message_files(
   VehicleMoveCommand.msg
   Waypoint.msg
   Trajectory.msg
+  Obstacle.msg
   )
 
 ## Generate services in the 'srv' folder
