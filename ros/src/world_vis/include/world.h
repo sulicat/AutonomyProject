@@ -48,6 +48,9 @@ public:
 
     void teleport( int x, int y, float angle );
 
+    void set_end_goal( int x, int y );
+    void update_end_goal( int x, int y );
+
     void render_vehicle( sf::RenderWindow& window,
 			 BaseVehicle* input_vehicle,
 			 int alpha = 255 );
@@ -57,6 +60,8 @@ public:
     void render_current_tracked_point( sf::RenderWindow& window );
 
     void render_meter_line( sf::RenderWindow& window );
+
+    void render_end_goal( sf::RenderWindow& window );
 
     void render( sf::RenderWindow& window );
 
@@ -68,10 +73,15 @@ private:
     sf::RectangleShape render_v_wheel_fl;
     sf::RectangleShape render_v_wheel_fr;
     sf::RectangleShape render_rect_meter_line;
+    sf::CircleShape render_circle_end_goal;
 
     ros::Publisher obstacles_static_pub;
     ros::Publisher obstacles_dynamic_pub;
     ros::Publisher teleport_pub;
+    ros::Publisher end_state_pub;
+
+    float end_goal_x;
+    float end_goal_y;
 };
 
 

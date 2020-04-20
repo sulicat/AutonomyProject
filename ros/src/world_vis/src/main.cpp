@@ -43,6 +43,12 @@ void tracked_goal_callback( world_vis::Waypoint wpnt ){
     wpt_tracking_goal = wpnt;
 }
 
+void end_goal_callback( world_vis::VehicleState _end ){
+    std::cout << "Got end goal\n";
+    std::cout << "   " << _end.pos.x << ", " << _end.pos.y << "\n";
+    world.update_end_goal( _end.pos.x, _end.pos.y );
+}
+
 
 void set_drag( bool state, int x, int y ){
     mouse_drag_x_press = x;
@@ -78,6 +84,7 @@ int main( int argc, char** argv ){
     ros::Publisher move_command_pub = node_handle.advertise<world_vis::VehicleMoveCommand>( "vehicle_move_command", 1 );
     ros::Subscriber sub = node_handle.subscribe("vehicle_state", 1, veh_state_callback);
     ros::Subscriber sub_tracked = node_handle.subscribe("tracked_goal", 1, tracked_goal_callback);
+    ros::Subscriber sub_end = node_handle.subscribe("end_goal", 1, end_goal_callback);
 
     world = World(&node_handle);
     world.set_vehicle( &vehicle );
@@ -140,20 +147,26 @@ int main( int argc, char** argv ){
 
 	    // mouse pressed
 	    if( event.type == sf::Event::MouseButtonPressed ){
+
 		if( event.mouseButton.button == sf::Mouse::Middle){
 		    set_drag(true, event.mouseButton.x, event.mouseButton.y );
 		}
 
 		if( event.mouseButton.button == sf::Mouse::Left){
+
 		    if( status == "tele" ){
 			std::cout << "tele to: "
 				  << event.mouseButton.x << " " << event.mouseButton.y
 				  << " " << tele_angle << "\n";
-			status = "none";
 			world.teleport( event.mouseButton.x,
 					event.mouseButton.y,
 					tele_angle);
+
+		    }else if( status == "end_goal" ){
+			world.set_end_goal( event.mouseButton.x, event.mouseButton.y );
 		    }
+
+		    status = "none";
 		}
 
 	    }

@@ -26,7 +26,7 @@ void GUI::render(){
 
 	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 	if (ImGui::BeginTabBar("Controls", tab_bar_flags)){
-
+	    // --------------------------------------------------------------------------------
 	    if (ImGui::BeginTabItem("Obstacles")){
 		ImGui::InputText("Load Obstacles Path", path_obstacles, IM_ARRAYSIZE(path_obstacles));
 		if( ImGui::Button("Load Obstacels") ){
@@ -36,6 +36,7 @@ void GUI::render(){
 		ImGui::EndTabItem();
 	    }
 
+	    // --------------------------------------------------------------------------------
 	    if (ImGui::BeginTabItem("Vehicle Position")){
 
 		ImGui::InputInt("Teleport Angle", tele_angle);
@@ -45,7 +46,19 @@ void GUI::render(){
 		ImGui::EndTabItem();
 	    }
 
+	    // --------------------------------------------------------------------------------
 	    if (ImGui::BeginTabItem("Goals/Trajectories")){
+
+		if( ImGui::Button("Set End Goal") ){
+		    *status = "end_goal";
+		}
+
+		if( ImGui::Button("Perform Global Plan") ){
+		}
+
+		if( ImGui::Button("Run Local Planner") ){
+		}
+
 		ImGui::EndTabItem();
 	    }
 

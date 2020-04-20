@@ -20,9 +20,13 @@ World::World( ros::NodeHandle* node_handle ){
     obstacles_static_pub = node_handle->advertise<world_vis::ObstacleList>( "obstacles_static", 1 );
     obstacles_dynamic_pub = node_handle->advertise<world_vis::ObstacleList>( "obstacles_dynamic", 1 );
     teleport_pub = node_handle->advertise<world_vis::VehicleState>( "vehicle_teleport", 1 );
+    end_state_pub = node_handle->advertise<world_vis::VehicleState>( "end_goal", 1 );
 
     WINDOW_WIDTH = 1080;
     WINDOW_HEIGHT = 720;
+
+    render_circle_end_goal = sf::CircleShape(5);
+    render_circle_end_goal.setFillColor( sf::Color(0, 180, 180) );
 
 }
 
@@ -128,6 +132,34 @@ void World::teleport( int x, int y, float angle ){
     teleport_pub.publish( tele_state );
 }
 
+void World::set_end_goal( int x, int y ){
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+    float screen_to_world_x = (x - pan_x) / ZOOM_FACTOR;
+    float screen_to_world_y = (y - pan_y) / ZOOM_FACTOR;
+
+    world_vis::VehicleState end_state;
+    end_state.pos.x = screen_to_world_x;
+    end_state.pos.y = screen_to_world_y;
+    end_state.vehicle_angle = 0;
+
+    end_state_pub.publish( end_state );
+}
+
+void World::update_end_goal( int x, int y ){
+    end_goal_x = x;
+    end_goal_y = y;
+}
+
+void World::render_end_goal( sf::RenderWindow& window ){
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+    int offset_x = pan_x;
+    int offset_y = pan_y;
+
+    render_circle_end_goal.setPosition( end_goal_x * ZOOM_FACTOR + offset_x,
+					end_goal_y * ZOOM_FACTOR + offset_y );
+
+    window.draw( render_circle_end_goal );
+}
 
 void World::render_vehicle( sf::RenderWindow& window,
 			    BaseVehicle* input_vehicle,
@@ -253,5 +285,7 @@ void World::render( sf::RenderWindow& window ){
     render_current_tracked_point( window );
     render_obstacles( window );
     render_meter_line( window );
+    render_end_goal( window );
+
 }
 
