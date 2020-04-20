@@ -6,7 +6,9 @@
 #include "json.hpp"
 
 World::World(){
-
+    WINDOW_WIDTH = 1080;
+    WINDOW_HEIGHT = 720;
+    window_width_m = 100;
 }
 
 World::World( ros::NodeHandle* node_handle ){
@@ -17,6 +19,10 @@ World::World( ros::NodeHandle* node_handle ){
 
     obstacles_static_pub = node_handle->advertise<world_vis::ObstacleList>( "obstacles_static", 1 );
     obstacles_dynamic_pub = node_handle->advertise<world_vis::ObstacleList>( "obstacles_dynamic", 1 );
+    teleport_pub = node_handle->advertise<world_vis::VehicleState>( "vehicle_teleport", 1 );
+
+    WINDOW_WIDTH = 1080;
+    WINDOW_HEIGHT = 720;
 
 }
 
@@ -107,6 +113,21 @@ void World::render_meter_line( sf::RenderWindow& window ){
     window.draw( render_rect_meter_line );
 
 }
+
+void World::teleport( int x, int y, float angle ){
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+
+    float screen_to_world_x = (x - pan_x) / ZOOM_FACTOR;
+    float screen_to_world_y = (y - pan_y) / ZOOM_FACTOR;
+
+    world_vis::VehicleState tele_state;
+    tele_state.pos.x = screen_to_world_x;
+    tele_state.pos.y = screen_to_world_y;
+    tele_state.vehicle_angle = angle;
+
+    teleport_pub.publish( tele_state );
+}
+
 
 void World::render_vehicle( sf::RenderWindow& window,
 			    BaseVehicle* input_vehicle,

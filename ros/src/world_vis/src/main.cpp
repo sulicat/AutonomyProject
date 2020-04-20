@@ -30,6 +30,8 @@ BaseVehicle wpt_tracking_goal_state;
 int mouse_drag_x_press = 0;
 int mouse_drag_y_press = 0;
 bool drag_on = false;
+std::string status;
+int tele_angle;
 
 void veh_state_callback( world_vis::VehicleState veh_state ){
     simple_car::state_to_model( vehicle, veh_state );
@@ -57,11 +59,17 @@ void mouse_move( int x, int y ){
     }
 }
 
+
 int main( int argc, char** argv ){
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "World Vis");
+    status = "none";
+
+    sf::RenderWindow window(sf::VideoMode(world.WINDOW_WIDTH, world.WINDOW_HEIGHT), "World Vis");
     window.setFramerateLimit(60);
 
     GUI::Instance()->set_world( &world );
+    GUI::Instance()->setStatus( &status );
+    GUI::Instance()->setTeleAngle( &tele_angle );
+
     ImGui::SFML::Init(window);
 
     ros::init(argc, argv, "world_vis");
@@ -119,6 +127,12 @@ int main( int argc, char** argv ){
 		move_command_pub.publish( move_command );
 	    }
 
+	    if (event.type == sf::Event::Resized) {
+		world.window_width_m = world.window_width_m * ((float)event.size.width / (float)world.WINDOW_WIDTH);
+		world.WINDOW_WIDTH = event.size.width;
+		world.WINDOW_HEIGHT = event.size.height;
+	    }
+
 	    // mouse scroll
 	    if(event.type == sf::Event::MouseWheelMoved){
 		world.window_width_m = world.window_width_m * (1 + ((float)event.mouseWheel.delta * ZOOM_SENSITIVITY));
@@ -129,6 +143,19 @@ int main( int argc, char** argv ){
 		if( event.mouseButton.button == sf::Mouse::Middle){
 		    set_drag(true, event.mouseButton.x, event.mouseButton.y );
 		}
+
+		if( event.mouseButton.button == sf::Mouse::Left){
+		    if( status == "tele" ){
+			std::cout << "tele to: "
+				  << event.mouseButton.x << " " << event.mouseButton.y
+				  << " " << tele_angle << "\n";
+			status = "none";
+			world.teleport( event.mouseButton.x,
+					event.mouseButton.y,
+					tele_angle);
+		    }
+		}
+
 	    }
 
 	    if( event.type == sf::Event::MouseButtonReleased ){
@@ -148,15 +175,15 @@ int main( int argc, char** argv ){
 
 	ImGui::SFML::Update(window, deltaClock.restart());
 
-	GUI::Instance()->render();
+	    GUI::Instance()->render();
 
-        window.clear( sf::Color(255,255,255) );
-	world.render( window );
-        ImGui::SFML::Render(window);
-        window.display();
+	    window.clear( sf::Color(255,255,255) );
+	    world.render( window );
+	    ImGui::SFML::Render(window);
+	    window.display();
 
-	ros::spinOnce();
-	rate.sleep();
+	    ros::spinOnce();
+	    rate.sleep();
     }
 
     ImGui::SFML::Shutdown();

@@ -15,9 +15,6 @@
 #include <iostream>
 
 
-#define WINDOW_WIDTH 1080 //400 //1080 changed for testing purposes
-#define WINDOW_HEIGHT 720 //400 //720 changed for testing purposes
-
 #define STATIC 0
 #define DYNAMIC 1
 
@@ -30,6 +27,8 @@ public:
     float window_width_m;
     int pan_x = 0;
     int pan_y = 0;
+    int WINDOW_WIDTH;
+    int WINDOW_HEIGHT;
 
     std::vector< world_vis::Obstacle > obstacles_static;
     std::vector< world_vis::Obstacle > obstacles_dynamic;
@@ -46,6 +45,8 @@ public:
     void load_obstacles( std::string path );
 
     void publish_obstacles();
+
+    void teleport( int x, int y, float angle );
 
     void render_vehicle( sf::RenderWindow& window,
 			 BaseVehicle* input_vehicle,
@@ -70,6 +71,7 @@ private:
 
     ros::Publisher obstacles_static_pub;
     ros::Publisher obstacles_dynamic_pub;
+    ros::Publisher teleport_pub;
 };
 
 

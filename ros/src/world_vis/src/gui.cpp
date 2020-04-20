@@ -5,6 +5,8 @@ GUI* GUI::instance = NULL;
 // singleton
 GUI::GUI(){
     strcpy(path_obstacles, "../obstacle_files/obstacles_0.json");
+    status = new std::string;
+    tele_angle = new int;
 }
 
 GUI* GUI::Instance(){
@@ -15,6 +17,8 @@ GUI* GUI::Instance(){
 }
 
 void GUI::render(){
+
+    ImGui::ShowDemoWindow();
 
     // draw the main window
     {
@@ -33,6 +37,11 @@ void GUI::render(){
 	    }
 
 	    if (ImGui::BeginTabItem("Vehicle Position")){
+
+		ImGui::InputInt("Teleport Angle", tele_angle);
+		if( ImGui::Button("Teleport Vehicle") ){
+		    *status = "tele";
+		}
 		ImGui::EndTabItem();
 	    }
 

@@ -19,6 +19,13 @@ public:
 	veh_state = _state;
     }
 
+    void setStatus( std::string* _stat ){
+	status = _stat;
+    }
+
+    void setTeleAngle( int* _t_angle ){
+	tele_angle = _t_angle;
+    }
 
     world_vis::VehicleState veh_state;
 
@@ -27,6 +34,8 @@ private:
     static GUI* instance;
     char path_obstacles[255];
     World* world;
+    std::string* status;
+    int* tele_angle;
 
 };
 
