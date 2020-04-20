@@ -1,0 +1,3 @@
+[submodule "ros/ros/libs/stb"]
+	path = ros/ros/libs/stb
+	url = https://github.com/nothings/stb
