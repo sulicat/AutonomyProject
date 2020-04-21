@@ -26,6 +26,11 @@ add_message_files(
   VehicleMoveCommand.msg
   Waypoint.msg
   Trajectory.msg
+  Obstacle.msg
+  ObstacleList.msg
+  CostMap.msg
+  Line.msg
+  RenderTree.msg
   )
 
 ## Generate services in the 'srv' folder
@@ -85,6 +90,7 @@ include_directories(
 
 add_executable(${PROJECT_NAME}_node
   src/main.cpp
+  src/gui.cpp
   src/world.cpp
   src/ros_to_system.cpp
   ../../libs/basic/src/BaseVehicle.cpp

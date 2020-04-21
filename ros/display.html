@@ -1,0 +1,13 @@
+<html>
+
+<h3>Global Cost Map</h3>
+<img style="border: 1px solid #000" id="global_cost_map" width="1200px"></img>
+
+<script>
+  setInterval( function(){
+      var global_cost_img = document.getElementById("global_cost_map");
+      global_cost_img.src = "resources/global_cost_map.bmp?" + Date.now();
+  }, 1000);
+</script>
+
+</html>

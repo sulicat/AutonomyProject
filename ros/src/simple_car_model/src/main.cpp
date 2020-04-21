@@ -28,6 +28,20 @@ void move_command_callback( simple_car_model::VehicleMoveCommand move_command){
     vehicle_model.steering_angle_vel = move_command.steering_angle_vel;
 }
 
+void vehicle_teleport_callback( simple_car_model::VehicleState tele_pos){
+    std::cout << "Got teleport command\n";
+    std::cout << "\t" << "x: " << tele_pos.pos.x << "\n";
+    std::cout << "\t" << "y: " << tele_pos.pos.y << "\n";
+    std::cout << "\t" << "angle: " << tele_pos.vehicle_angle << "\n";
+
+    vehicle_model.linear_vel = 0;
+    vehicle_model.steering_angle_vel = 0;
+    vehicle_model.pos.x = tele_pos.pos.x;
+    vehicle_model.pos.y = tele_pos.pos.y;
+    vehicle_model.vehicle_angle = tele_pos.vehicle_angle;
+
+}
+
 
 int main( int argc, char** argv){
 
@@ -38,6 +52,7 @@ int main( int argc, char** argv){
     simple_car_model::VehicleState vehicle_state;
     ros::Publisher vehicle_state_pub = node_handle.advertise<simple_car_model::VehicleState>( "vehicle_state", 1 );
     ros::Subscriber sub = node_handle.subscribe("vehicle_move_command", 1000, move_command_callback);
+    ros::Subscriber sub_tele = node_handle.subscribe("vehicle_teleport", 1, vehicle_teleport_callback);
 
     while( ros::ok() ){
 

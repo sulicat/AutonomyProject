@@ -20,8 +20,18 @@ add_message_files(
   VehicleMoveCommand.msg
   Waypoint.msg
   Trajectory.msg
+  Obstacle.msg
+  ObstacleList.msg
+  CostMap.msg
   )
 
+
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  geometry_msgs
+  )
 
 ###########
 ## Build ##
@@ -31,6 +41,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ../../libs/basic/include/
+  ../../libs/
 )
 
 add_executable( ${PROJECT_NAME}_node
@@ -40,3 +51,7 @@ target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   )
 
+add_dependencies( ${PROJECT_NAME}_node
+  ${catkin_EXPORTED_TARGETS} )
+
+add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp)
