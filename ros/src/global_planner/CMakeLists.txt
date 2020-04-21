@@ -23,6 +23,8 @@ add_message_files(
   Obstacle.msg
   ObstacleList.msg
   CostMap.msg
+  Line.msg
+  RenderTree.msg
   )
 
 generate_messages(
@@ -43,6 +45,7 @@ include_directories(
 
 add_executable( ${PROJECT_NAME}_node
   src/global_planner.cpp
+  src/node.cpp
   src/main.cpp)
 
 target_link_libraries(${PROJECT_NAME}_node

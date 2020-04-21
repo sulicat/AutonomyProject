@@ -6,6 +6,7 @@
 #include "global_planner/Waypoint.h"
 #include "global_planner/Trajectory.h"
 
+
 global_planner::Trajectory create_global_plan( global_planner::VehicleState start,
 					       global_planner::VehicleState end,
 					       global_planner::CostMap cost_map );

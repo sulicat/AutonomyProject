@@ -12,6 +12,8 @@
 #include "world_vis/Trajectory.h"
 #include "world_vis/Obstacle.h"
 #include "world_vis/ObstacleList.h"
+#include "world_vis/Line.h"
+#include "world_vis/RenderTree.h"
 #include <std_msgs/Empty.h>
 #include <iostream>
 
@@ -24,6 +26,7 @@ public:
     BaseVehicle* vehicle;
     world_vis::Waypoint* wpt_tracking;
     world_vis::Trajectory* global_plan;
+    world_vis::RenderTree* global_tree;
     BaseVehicle* wpt_tracking_vehicle;
     bool vehicle_set;
     float window_width_m;
@@ -42,6 +45,8 @@ public:
 
     void set_global_plan( world_vis::Trajectory* plan_in );
 
+    void set_global_tree( world_vis::RenderTree* tree_in );
+
     void set_tracked_wpt( world_vis::Waypoint* wpt );
 
     void add_obstacle( int type, float x, float y, float w, float h );
@@ -58,6 +63,8 @@ public:
     void update_end_goal( int x, int y );
 
     void render_global_plan( sf::RenderWindow& window );
+
+    void render_global_tree( sf::RenderWindow& window );
 
     void render_vehicle( sf::RenderWindow& window,
 			 BaseVehicle* input_vehicle,

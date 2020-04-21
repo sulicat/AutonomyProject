@@ -36,6 +36,11 @@ void World::set_vehicle( BaseVehicle* new_vehicle ){
     vehicle_set = true;
 }
 
+void World::set_global_tree( world_vis::RenderTree* tree_in ){
+    global_tree = tree_in;
+}
+
+
 void World::set_tracked_wpt( world_vis::Waypoint* wpt ){
     wpt_tracking = wpt;
     simple_car::state_to_model( *wpt_tracking_vehicle, wpt_tracking->state );
@@ -110,6 +115,33 @@ void World::load_obstacles( std::string path ){
     }
 
     publish_obstacles();
+}
+
+// Too many divisions bro... clean this up when sober :/
+void World::render_global_tree( sf::RenderWindow& window ){
+
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+    int offset_x = pan_x;
+    int offset_y = pan_y;
+
+    sf::VertexArray lines(sf::Lines, global_tree->edges.size()*2);
+
+    int counter = 0;
+    for( int i = 0; i < global_tree->edges.size()*2; i+=2 ){
+
+	lines[i].position = sf::Vector2f( global_tree->edges[counter].x1 * ZOOM_FACTOR + offset_x,
+					  global_tree->edges[counter].y1 * ZOOM_FACTOR + offset_y );
+
+	lines[i+1].position = sf::Vector2f( global_tree->edges[counter].x2 * ZOOM_FACTOR + offset_x,
+					    global_tree->edges[counter].y2 * ZOOM_FACTOR + offset_y );
+
+	lines[i].color = sf::Color(0, 255,255);
+	lines[i+1].color = sf::Color(0, 255,255);
+
+	counter++;
+    }
+    window.draw(lines);
+
 }
 
 void World::render_global_plan( sf::RenderWindow& window ){
@@ -312,5 +344,6 @@ void World::render( sf::RenderWindow& window ){
     render_meter_line( window );
     render_end_goal( window );
     render_global_plan( window );
+    render_global_tree( window );
 }
 

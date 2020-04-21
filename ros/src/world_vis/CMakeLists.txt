@@ -29,6 +29,8 @@ add_message_files(
   Obstacle.msg
   ObstacleList.msg
   CostMap.msg
+  Line.msg
+  RenderTree.msg
   )
 
 ## Generate services in the 'srv' folder
