@@ -96,6 +96,12 @@ void World::render_vehicle( sf::RenderWindow& window,
     window.draw(render_v_wheel_br, veh_rotation);
     window.draw(render_v_wheel_fl, steering_angle_rotation_l);
     window.draw(render_v_wheel_fr, steering_angle_rotation_r);
+
+///////////////////////////////////////////////////
+
+//////////////////////////////////////////////////
+
+
 }
 
 void World::render_obstacles( sf::RenderWindow& window ){

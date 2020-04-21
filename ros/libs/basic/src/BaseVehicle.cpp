@@ -9,7 +9,7 @@ BaseVehicle::BaseVehicle(){
     vehicle_angle_vel = 0;
     width = 1.7;
     length = 4;
-    max_steering_angle = 20;
+    max_steering_angle = 50;
 }
 
 void BaseVehicle::update( float dt ){

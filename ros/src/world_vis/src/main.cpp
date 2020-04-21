@@ -52,7 +52,6 @@ int main( int argc, char** argv ){
     ros::Subscriber sub_tracked = node_handle.subscribe("tracked_goal", 1, tracked_goal_callback);
 
 
-
     ros::Rate rate(60);
     sf::Clock deltaClock;
 
