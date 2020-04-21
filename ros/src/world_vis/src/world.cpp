@@ -343,7 +343,7 @@ void World::render( sf::RenderWindow& window ){
     render_obstacles( window );
     render_meter_line( window );
     render_end_goal( window );
-    render_global_plan( window );
     render_global_tree( window );
+    render_global_plan( window );
 }
 

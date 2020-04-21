@@ -18,8 +18,6 @@ GUI* GUI::Instance(){
 
 void GUI::render(){
 
-    ImGui::ShowDemoWindow();
-
     // draw the main window
     {
 	ImGui::Begin("controls");
