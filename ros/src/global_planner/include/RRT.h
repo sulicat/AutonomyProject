@@ -95,13 +95,19 @@ public:
 	float sampled_pnt_x;
 	float sampled_pnt_y;
 	if( !at_goal ){
-	    sampled_pnt_x = (rand() / (float)RAND_MAX) * cost_map_w*2 + cost_map.x - cost_map_w;
-	    sampled_pnt_y = (rand() / (float)RAND_MAX) * cost_map_h*2 + cost_map.y - cost_map_h;
+	    sampled_pnt_x = (rand() / (float)RAND_MAX) * (cost_map_w*2 + cost_map.x - cost_map_w);
+	    sampled_pnt_y = (rand() / (float)RAND_MAX) * (cost_map_h*2 + cost_map.y - cost_map_h);
 
 	}else{
 	    sampled_pnt_x = goal->x;
 	    sampled_pnt_y = goal->y;
 	}
+
+/*	root->add_child( new Node( 0, 0) );
+	root->add_child( new Node( cost_map_w * 2 + cost_map.x - cost_map_w, 0) );
+	root->add_child( new Node( cost_map_w * 2 + cost_map.x - cost_map_w, cost_map_h*2 + cost_map.y - cost_map_h) );
+	root->add_child( new Node( 0, cost_map_h*2 + cost_map.y - cost_map_h) );
+*/
 
 	Node temp( sampled_pnt_x, sampled_pnt_y );
 	Node* closest = closest_node( &temp );
@@ -127,7 +133,7 @@ public:
 	}
     }
 
-    void create_tree( int itter = 30000 ){
+    void create_tree( int itter = 10000 ){
 	reached = false;
 	all_tree_nodes.clear();
 
@@ -144,9 +150,9 @@ public:
 	goal = new Node( end.pos.x, end.pos.y );
 
 	int i = 0;
-	int i_max = itter * 10;
+	int i_max = itter * 100;
 	while( i < itter && i_max > 0 && !reached ){
-	    bool added = step( i % 20 == 0 );
+	    bool added = step( i_max % 20 == 0 );
 
 	    i_max--;
 	    if( added )
