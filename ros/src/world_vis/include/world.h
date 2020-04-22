@@ -61,6 +61,8 @@ public:
 
     void set_track( int x, int y, float angle );
 
+    void clear_track();
+
     void set_end_goal( int x, int y );
 
     void update_end_goal( int x, int y );

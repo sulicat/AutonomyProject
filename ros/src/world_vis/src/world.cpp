@@ -185,6 +185,9 @@ void World::teleport( int x, int y, float angle ){
     world_vis::VehicleState tele_state;
     tele_state.pos.x = screen_to_world_x;
     tele_state.pos.y = screen_to_world_y;
+    tele_state.linear_vel = 0.0;
+    tele_state.steering_angle_vel = 0.0;
+    tele_state.steering_angle = 0.0;
     tele_state.vehicle_angle = angle;
 
     teleport_pub.publish( tele_state );
@@ -205,6 +208,16 @@ void World::set_track( int x, int y, float angle ){
     tracked_pub.publish( wpt );
 }
 
+void World::clear_track(){
+    world_vis::Waypoint wpt;
+    world_vis::VehicleState state;
+    wpt.state.pos.x = 0.0;
+    wpt.state.pos.y = 0.0;
+    wpt.state.vehicle_angle = 0.0;
+    wpt.state.vehicle_width = 0.0;
+    wpt.state.vehicle_length = 0.0;
+    tracked_pub.publish( wpt );
+}
 
 void World::set_end_goal( int x, int y ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
