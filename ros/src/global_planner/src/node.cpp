@@ -144,6 +144,11 @@ global_planner::Trajectory Node::dfs_traj( Node* end ){
     parent_map[this] = NULL;
 
     current = end;
+    global_planner::Waypoint wp;
+    wp.state.pos.x = current->x;
+    wp.state.pos.y = current->y;
+    out.points.insert( out.points.begin(), wp );
+
     while( current != NULL &&
 	   parent_map.find( current ) != parent_map.end() ){
 
@@ -152,10 +157,9 @@ global_planner::Trajectory Node::dfs_traj( Node* end ){
 	    break;
 	}
 
-	global_planner::Waypoint wp;
 	wp.state.pos.x = parent_map[current]->x;
 	wp.state.pos.y = parent_map[current]->y;
-	out.points.push_back( wp );
+	out.points.insert( out.points.begin(), wp );
     }
 
     return out;
