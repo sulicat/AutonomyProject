@@ -147,10 +147,7 @@ int main( int argc, char** argv){
 
     while( ros::ok() ){
 
-	std::cout << "publishing global cost map\n";
 	pub_cost_map_global.publish( cost_map_global );
-
-	std::cout << "publishing local cost map\n";
 	pub_cost_map_local.publish( cost_map_local );
 
 	ros::spinOnce();

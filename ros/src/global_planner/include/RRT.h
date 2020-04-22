@@ -13,6 +13,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define RAD_TO_DEG (180.0 / 3.1415)
+#define DEG_TO_RAD (3.1415 / 180.0)
+#define MAX_KIN_ANGLE (10)
 
 class RRT{
 public:
@@ -91,6 +94,44 @@ public:
 	return out;
     }
 
+    Node* project_towards_using_kin( bool& add, Node* from, Node* to, float dt = 3 ){
+	//asd
+	float x_dist = to->x - from->x;
+	float y_dist = to->y - from->y;
+	float path_angle = atan2( y_dist, x_dist ) * RAD_TO_DEG;
+	float angle_diff = from->angle - path_angle;
+
+	Node* out;
+
+	float edge_len = sqrt( dist_between(from, to) );
+	float normal_x = (to->x - from->x) / edge_len;
+	float normal_y = (to->y - from->y) / edge_len;
+
+	if( abs(angle_diff) <= MAX_KIN_ANGLE ){
+
+	    out = new Node( from->x + normal_x * dt,
+			    from->y + normal_y * dt,
+			    path_angle );
+	    add = true;
+
+	}else{
+	    // implement me at some point pls
+/*	    float new_angle = (from->angle + MAX_KIN_ANGLE) * signbit(angle_diff);
+	    float x_max = from->x + (dt * cos( DEG_TO_RAD * (new_angle) ));
+	    float y_max = from->y + (dt * sin( DEG_TO_RAD * (new_angle) ));
+	    std::cout << "    max: " << x_max << "  " << y_max << "\n";
+	    out = new Node( from->x,
+			    from->y,
+			    path_angle );
+*/
+	    add = false;
+	}
+
+
+	return out;
+    }
+
+
     bool step( bool at_goal = false ){
 	float sampled_pnt_x;
 	float sampled_pnt_y;
@@ -103,19 +144,15 @@ public:
 	    sampled_pnt_y = goal->y;
 	}
 
-/*	root->add_child( new Node( 0, 0) );
-	root->add_child( new Node( cost_map_w * 2 + cost_map.x - cost_map_w, 0) );
-	root->add_child( new Node( cost_map_w * 2 + cost_map.x - cost_map_w, cost_map_h*2 + cost_map.y - cost_map_h) );
-	root->add_child( new Node( 0, cost_map_h*2 + cost_map.y - cost_map_h) );
-*/
-
 	Node temp( sampled_pnt_x, sampled_pnt_y );
 	Node* closest = closest_node( &temp );
 	Node sampled_node = Node(sampled_pnt_x, sampled_pnt_y);
 	// get the node projected towards the sampled node
-	Node* to_add_node = project_towards( closest, &sampled_node );
+	//Node* to_add_node = project_towards( closest, &sampled_node );
+	bool should_add;
+	Node* to_add_node = project_towards_using_kin( should_add, closest, &sampled_node );
 
-	if( is_free( to_add_node->x, to_add_node->y ) ){
+	if( should_add && is_free( to_add_node->x, to_add_node->y ) ){
 
 	    closest->add_child( to_add_node );
 	    all_tree_nodes.push_back(to_add_node);
@@ -133,7 +170,8 @@ public:
 	}
     }
 
-    void create_tree( int itter = 10000 ){
+    void create_tree( int itter = 15000 ){
+	std::cout << "--------------------\n\n";
 	reached = false;
 	all_tree_nodes.clear();
 

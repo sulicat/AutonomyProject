@@ -25,6 +25,7 @@ public:
 
     Node( );
     Node( float _x, float _y );
+    Node( float _x, float _y, float angle );
     void add_child( Node* n );
 
     std::vector<Node*> get_all();

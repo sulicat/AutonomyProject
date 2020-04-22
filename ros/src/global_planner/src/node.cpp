@@ -1,12 +1,15 @@
 #include "node.h"
 
 Node::Node() : Node(0,0){
-    
 }
 
-Node::Node( float _x, float _y ){
+Node::Node( float _x, float _y ) : Node( _x, _y, 0 ){
+}
+
+Node::Node( float _x, float _y, float _angle ){
     x = _x;
     y = _y;
+    angle = _angle;
     visited = false;
     r = 0;
     g = 0;
