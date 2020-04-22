@@ -14,6 +14,9 @@ class Node{
 public:
     float x;
     float y;
+    float angle;
+    float vel;
+    float steering_angle;
     bool visited;
     int r;
     int g;

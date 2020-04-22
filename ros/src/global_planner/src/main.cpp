@@ -9,7 +9,7 @@
 #include <std_msgs/Empty.h>
 #include "global_planner.h"
 #include "node.h"
-#include "prm.h"
+#include "RRT.h"
 
 #define RATE (20)
 
@@ -25,15 +25,14 @@ void cost_map_callback( global_planner::CostMap cost_map_in ){
 
 void start_plan_callback( std_msgs::Empty e ){
 
-    PRM prm( cost_map, vehicle_state, end_goal );
-    prm.sample();
-    prm.create_tree();
+    RRT rrt( cost_map, vehicle_state, end_goal );
+    rrt.create_tree();
 
-    Node* out_tree = prm.get_tree();
+    Node* out_tree = rrt.get_tree();
     pub_global_tree.publish( out_tree->create_render_tree() );
 
     global_planner::Trajectory out;
-    out = out_tree->dfs_traj( prm.goal );
+    out = out_tree->dfs_traj( rrt.goal );
 
     std::cout << "Created plan with: " << out.points.size() << " points\n";
     pub_global_plan.publish(out);
