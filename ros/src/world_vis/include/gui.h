@@ -27,6 +27,10 @@ public:
 	tele_angle = _t_angle;
     }
 
+    void setTrackedAngle( int* _t_angle ){
+	tracked_angle = _t_angle;
+    }
+
     world_vis::VehicleState veh_state;
 
 private:
@@ -36,6 +40,7 @@ private:
     World* world;
     std::string* status;
     int* tele_angle;
+    int* tracked_angle;
 
 };
 

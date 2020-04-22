@@ -22,6 +22,7 @@ World::World( ros::NodeHandle* node_handle ){
     teleport_pub = node_handle->advertise<world_vis::VehicleState>( "vehicle_teleport", 1 );
     end_state_pub = node_handle->advertise<world_vis::VehicleState>( "end_goal", 1 );
     global_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "global_start_command", 1 );
+    tracked_pub = node_handle->advertise<world_vis::Waypoint>( "tracked_goal", 1 );
 
     WINDOW_WIDTH = 1080;
     WINDOW_HEIGHT = 720;
@@ -188,6 +189,22 @@ void World::teleport( int x, int y, float angle ){
 
     teleport_pub.publish( tele_state );
 }
+
+void World::set_track( int x, int y, float angle ){
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+
+    float screen_to_world_x = (x - pan_x) / ZOOM_FACTOR;
+    float screen_to_world_y = (y - pan_y) / ZOOM_FACTOR;
+
+    world_vis::Waypoint wpt;
+    wpt.state.pos.x = screen_to_world_x;
+    wpt.state.pos.y = screen_to_world_y;
+    wpt.state.vehicle_angle = angle;
+    wpt.state.vehicle_width = 1.7;
+    wpt.state.vehicle_length = 4.0;
+    tracked_pub.publish( wpt );
+}
+
 
 void World::set_end_goal( int x, int y ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;

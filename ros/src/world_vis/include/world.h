@@ -59,7 +59,10 @@ public:
 
     void teleport( int x, int y, float angle );
 
+    void set_track( int x, int y, float angle );
+
     void set_end_goal( int x, int y );
+
     void update_end_goal( int x, int y );
 
     void render_global_plan( sf::RenderWindow& window );
@@ -95,6 +98,7 @@ private:
     ros::Publisher teleport_pub;
     ros::Publisher end_state_pub;
     ros::Publisher global_plan_start_pub;
+    ros::Publisher tracked_pub;
 
     float end_goal_x;
     float end_goal_y;

@@ -37,6 +37,7 @@ int mouse_drag_y_press = 0;
 bool drag_on = false;
 std::string status;
 int tele_angle;
+int tracked_angle;
 
 void veh_state_callback( world_vis::VehicleState veh_state ){
     simple_car::state_to_model( vehicle, veh_state );
@@ -89,6 +90,7 @@ int main( int argc, char** argv ){
     GUI::Instance()->set_world( &world );
     GUI::Instance()->setStatus( &status );
     GUI::Instance()->setTeleAngle( &tele_angle );
+    GUI::Instance()->setTrackedAngle( &tracked_angle );
 
     ImGui::SFML::Init(window);
 
@@ -181,6 +183,12 @@ int main( int argc, char** argv ){
 
 		    }else if( status == "end_goal" ){
 			world.set_end_goal( event.mouseButton.x, event.mouseButton.y );
+
+		    }else if( status == "tracked"){
+			world.set_track( event.mouseButton.x,
+					 event.mouseButton.y,
+					 tracked_angle );
+
 		    }
 
 		    status = "none";

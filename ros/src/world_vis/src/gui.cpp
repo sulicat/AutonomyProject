@@ -27,10 +27,16 @@ void GUI::render(){
 	    // --------------------------------------------------------------------------------
 	    if (ImGui::BeginTabItem("Obstacles")){
 		ImGui::InputText("Load Obstacles Path", path_obstacles, IM_ARRAYSIZE(path_obstacles));
+
 		if( ImGui::Button("Load Obstacels") ){
 		    std::cout << "loading obstacles from: " << path_obstacles << "\n";
 		    world->load_obstacles(path_obstacles);
 		}
+
+		if( ImGui::Button("Load Empty") ){
+		    world->load_obstacles("../obstacle_files/empty.json");
+		}
+
 		ImGui::EndTabItem();
 	    }
 
@@ -41,6 +47,12 @@ void GUI::render(){
 		if( ImGui::Button("Teleport Vehicle") ){
 		    *status = "tele";
 		}
+
+		ImGui::InputInt("Tracked Angle", tracked_angle);
+		if( ImGui::Button("Set Tracked") ){
+		    *status = "tracked";
+		}
+
 		ImGui::EndTabItem();
 	    }
 
@@ -57,6 +69,13 @@ void GUI::render(){
 
 		if( ImGui::Button("Run Local Planner") ){
 		}
+
+		ImGui::EndTabItem();
+	    }
+
+
+	    // --------------------------------------------------------------------------------
+	    if (ImGui::BeginTabItem("Show/Hide")){
 
 		ImGui::EndTabItem();
 	    }
