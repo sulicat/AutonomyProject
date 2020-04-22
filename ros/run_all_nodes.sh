@@ -4,12 +4,12 @@ echo "Running all nodes: "
 
 nodes=( "simple_car_model"
 	"vehicle_controller"
-	"world_vis" )
+	"world_vis"
+	"global_planner"
+	"cost_map_generator")
 
 kill_nodes () {
-    for n in ${nodes[@]}; do
-	pkill ${n}_node
-    done
+    rosnode kill --all
 }
 
 run_nodes () {
