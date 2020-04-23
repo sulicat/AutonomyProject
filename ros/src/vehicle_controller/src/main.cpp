@@ -23,14 +23,14 @@ float velocity_error_prev = 0.0;
 float angle_error = 0.0;
 float angle_error_prev = 0.0;
 
-float Kp_lin_vel = 0.3;
-float Kp_ang_vel = 4.0;
+float Kp_lin_vel = 0.5;
+float Kp_ang_vel = 0.5;
 
-float Ki_lin_vel = 0.4;
-float Ki_ang_vel = 0.4;
+float Ki_lin_vel = 0.7;
+float Ki_ang_vel = 0.0;
 
-float Kd_lin_vel = 0.2;
-float Kd_ang_vel = 0.2;
+float Kd_lin_vel = 0.5;
+float Kd_ang_vel = 0.0;
 
 float prev_angle = 0.0;
 
@@ -85,14 +85,91 @@ int main( int argc, char** argv){
                 y_error = wpt_tracking_goal.state.pos.y - vehicle.pos.y;
                 velocity_error = sqrt( pow( x_error , 2.0 ) + pow( y_error , 2.0 ) );
                 move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
-                if (abs(prev_angle - atan2( y_error , x_error ) * RAD_TO_DEG )>=90){
-                    move_command.linear_vel = Kp_lin_vel * - velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
+                // if (abs(prev_angle - atan2( y_error , x_error ) * RAD_TO_DEG )>=90){
+                //     move_command.linear_vel = Kp_lin_vel * - velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
 
-                } else{
-                    move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
-                }
+                // } else{
+                //     move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
+                // }
+                // if ((-vehicle.vehicle_angle > -180) & (-vehicle.vehicle_angle <= -90)){
+                //     if (abs(y_error) >= 0.00001){
+                //         if (vehicle.pos.y >= wpt_tracking_goal.state.pos.y){
+                //             velocity_error = -velocity_error;
+                //         }
+                //         else{
+                //             velocity_error = velocity_error;
+                //         }
+                //     }
+                //     else{
+                //         if (-vehicle.pos.x >= -wpt_tracking_goal.state.pos.x){
+                //             velocity_error = velocity_error;
+                //         }
+                //         else {
+                //             velocity_error = -velocity_error;
+                //         }
+                //     }
+                // }
+
+                // if ((-vehicle.vehicle_angle > -90) & (-vehicle.vehicle_angle <= 0)){
+                //     if (abs(y_error) >= 0.00001){
+                //         if (vehicle.pos.y >= wpt_tracking_goal.state.pos.y){
+                //             velocity_error = velocity_error;
+                //         }
+                //         else{
+                //             velocity_error = -velocity_error;
+                //         }
+                //     }
+                //     else{
+                //         if (-vehicle.pos.x >= -wpt_tracking_goal.state.pos.x){
+                //             velocity_error = velocity_error;
+                //         }
+                //         else {
+                //             velocity_error = -velocity_error;
+                //         }
+                //     }
+                // }
+
+                // if ((-vehicle.vehicle_angle > 0) & (-vehicle.vehicle_angle <= 90)){
+                //     if (abs(y_error) >= 0.00001){
+                //         if (vehicle.pos.y >= wpt_tracking_goal.state.pos.y){
+                //             velocity_error = velocity_error;
+                //         }
+                //         else{
+                //             velocity_error = -velocity_error;
+                //         }
+                //     }
+                //     else{
+                //         if (-vehicle.pos.x >= -wpt_tracking_goal.state.pos.x){
+                //             velocity_error = -velocity_error;
+                //         }
+                //         else {
+                //             velocity_error = velocity_error;
+                //         }
+                //     }
+                // }
+
+                // if ((-vehicle.vehicle_angle > 90) & (-vehicle.vehicle_angle <= 180)){
+                //     if (abs(y_error) >= 0.00001){
+                //         if (vehicle.pos.y >= wpt_tracking_goal.state.pos.y){
+                //             velocity_error = -velocity_error;
+                //         }
+                //         else{
+                //             velocity_error = velocity_error;
+                //         }
+                //     }
+                //     else{
+                //         if (-vehicle.pos.x >= -wpt_tracking_goal.state.pos.x){
+                //             velocity_error = -velocity_error;
+                //         }
+                //         else {
+                //             velocity_error = velocity_error;
+                //         }
+                //     }
+                // }
+
+                move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
                 if (velocity_error <= 0.5){
-                    move_command.linear_vel = 0.0;
+                     move_command.linear_vel = 0.0;
                 }
                 angle_error = atan2( y_error , x_error ) * RAD_TO_DEG - vehicle.vehicle_angle;
                 move_command.steering_angle_vel = Kp_ang_vel * angle_error - Kd_ang_vel * vehicle.steering_angle_vel + Ki_ang_vel *  angle_error_prev;

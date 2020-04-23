@@ -52,7 +52,9 @@ void GUI::render(){
 		if( ImGui::Button("Set Tracked") ){
 		    *status = "tracked";
 		}
-
+		if( ImGui::Button("Clear Tracked") ){
+		    world->clear_track();
+		}
 		ImGui::EndTabItem();
 	    }
 

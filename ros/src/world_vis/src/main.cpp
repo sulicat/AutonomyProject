@@ -23,7 +23,7 @@
 #include "world.h"
 #include "gui.h"
 
-#define ZOOM_SENSITIVITY 0.01
+#define ZOOM_SENSITIVITY 0.1
 
 World world;
 BaseVehicle vehicle;
