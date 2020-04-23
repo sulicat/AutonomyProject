@@ -12,6 +12,7 @@
 #include "local_planner/Trajectory.h"
 #include "local_planner/Line.h"
 #include "local_planner/RenderTree.h"
+#include <std_msgs/Empty.h>
 
 #include "node.h"
 #include "RRT.h"
@@ -20,10 +21,22 @@
 
 local_planner::VehicleState vehicle_state;
 local_planner::VehicleState end_goal;
+local_planner::VehicleState moving_towards;
 local_planner::Trajectory global_plan;
 local_planner::CostMap cost_map;
 ros::Publisher pub_local_plan;
 ros::Publisher pub_local_tree;
+ros::Publisher pub_move_command;
+
+local_planner::VehicleState goal;
+
+int goal_index = 0;
+bool is_running = false;
+float REACHED_RADIUS = 15;
+
+void local_plan_start_callback( std_msgs::Empty e ){
+    is_running = true;
+}
 
 void vehicle_state_callback( local_planner::VehicleState _vs ){
     vehicle_state = _vs;
@@ -39,15 +52,27 @@ void cost_map_callback( local_planner::CostMap _cm ){
 
 void global_plan_callback( local_planner::Trajectory _gp ){
     global_plan = _gp;
+    is_running = false;
+
+    if( global_plan.points.size() > 1 ){
+	goal_index = 1;
+
+    }else{
+	goal_index = -1;
+    }
+}
+
+float dist_between( float v1[2], float v2[2] ){
+    return (v1[0] - v2[0])*(v1[0] - v2[0]) + (v1[1] - v2[1])*(v1[1] - v2[1]);
 }
 
 bool plan_for( float time_alotted ){
 	auto start_time = std::chrono::system_clock::now();
 	double total_time = 0;
 
-	local_planner::VehicleState goal;
-	goal.pos.x = vehicle_state.pos.x + 20;
-	goal.pos.y = vehicle_state.pos.y + 1;
+	goal.pos.x = global_plan.points[ goal_index ].state.pos.x;
+	goal.pos.y = global_plan.points[ goal_index ].state.pos.y;
+	goal.vehicle_angle = global_plan.points[ goal_index ].state.vehicle_angle;
 
 	// create a tree at ther start
 	RRT rrt( cost_map, vehicle_state, goal );
@@ -65,7 +90,6 @@ bool plan_for( float time_alotted ){
 	    start_time = std::chrono::system_clock::now();
 	}
 
-
 	Node* out_tree = rrt.get_tree();
 	pub_local_tree.publish( out_tree->create_render_tree() );
 
@@ -73,11 +97,39 @@ bool plan_for( float time_alotted ){
 	out = out_tree->dfs_traj( rrt.goal );
 	pub_local_plan.publish(out);
 
-
 	std::cout << "[Local Planner] ran for: " << total_time << "\n";
 	std::cout << "[Local Planner]   steps: " << step_count << "\n";
 	std::cout << "[Local Planner]   path length: " << out.points.size() << "\n";
+	std::cout << "[Local Planner]   tracking wpt: " << goal_index << "\n";
+}
 
+void check_pos(){
+    float v1[2] = {vehicle_state.pos.x, vehicle_state.pos.y};
+    float v2[2] = {goal.pos.x, goal.pos.y};
+
+
+    if( dist_between( v2, v1 ) < REACHED_RADIUS ){
+	if( goal_index < global_plan.points.size() - 2 ){
+	    goal_index += 1;
+	}
+    }
+
+    std::cout << "dist between: " << dist_between( v2, v1 ) << "\n";
+    std::cout << "goal index: " << goal_index << "\n";
+
+}
+
+void send_move_command(){
+    local_planner::Waypoint cmd;
+    cmd.state.pos.x = goal.pos.x;
+    cmd.state.pos.y = goal.pos.y;
+    cmd.state.vehicle_angle = goal.vehicle_angle;
+    cmd.state.vehicle_width = 1.7;
+    cmd.state.vehicle_length = 4.0;
+    cmd.state.pos.x -= cmd.state.vehicle_length / 2;
+    cmd.state.pos.y -= cmd.state.vehicle_width / 2;
+
+    pub_move_command.publish( cmd );
 }
 
 
@@ -91,14 +143,19 @@ int main( int argc, char** argv){
     ros::Subscriber sub_end_goal = node_handle.subscribe("end_goal", 1, end_goal_callback);
     ros::Subscriber sub_cost_map = node_handle.subscribe("cost_map_local", 1, cost_map_callback);
     ros::Subscriber sub_global_plan = node_handle.subscribe("global_plan", 1, global_plan_callback);
+    ros::Subscriber sub_local_start = node_handle.subscribe("local_start_command", 1, local_plan_start_callback);
     pub_local_plan = node_handle.advertise<local_planner::Trajectory>( "local_plan", 1 );
     pub_local_tree = node_handle.advertise<local_planner::RenderTree>( "local_tree", 1 );
+    pub_move_command = node_handle.advertise<local_planner::Waypoint>( "tracked_goal", 1 );;
 
 
     while( ros::ok() ){
 
-
-	plan_for( 1.0/RATE );
+	if( is_running && goal_index >= 0 ){
+	    plan_for( 1.0/RATE );
+	    send_move_command();
+	    check_pos();
+	}
 
 	ros::spinOnce();
 	rate.sleep();

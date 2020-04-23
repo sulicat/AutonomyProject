@@ -22,6 +22,7 @@ World::World( ros::NodeHandle* node_handle ){
     teleport_pub = node_handle->advertise<world_vis::VehicleState>( "vehicle_teleport", 1 );
     end_state_pub = node_handle->advertise<world_vis::VehicleState>( "end_goal", 1 );
     global_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "global_start_command", 1 );
+    local_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "local_start_command", 1 );
     tracked_pub = node_handle->advertise<world_vis::Waypoint>( "tracked_goal", 1 );
 
     WINDOW_WIDTH = 1080;
@@ -78,6 +79,10 @@ void World::add_obstacle( int type, float x, float y, float w, float h ){
 
 void World::publish_global_plan_start(){
     global_plan_start_pub.publish( std_msgs::Empty() );
+}
+
+void World::publish_local_plan_start(){
+    local_plan_start_pub.publish( std_msgs::Empty() );
 }
 
 void World::publish_obstacles(){

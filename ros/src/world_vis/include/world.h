@@ -55,6 +55,7 @@ public:
     void load_obstacles( std::string path );
     void publish_obstacles();
     void publish_global_plan_start();
+    void publish_local_plan_start();
     void teleport( int x, int y, float angle );
     void set_track( int x, int y, float angle );
     void clear_track();
@@ -86,6 +87,7 @@ private:
     ros::Publisher teleport_pub;
     ros::Publisher end_state_pub;
     ros::Publisher global_plan_start_pub;
+    ros::Publisher local_plan_start_pub;
     ros::Publisher tracked_pub;
 
     float end_goal_x;

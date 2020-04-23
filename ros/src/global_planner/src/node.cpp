@@ -162,6 +162,7 @@ global_planner::Trajectory Node::dfs_traj( Node* end ){
 
 	wp.state.pos.x = parent_map[current]->x;
 	wp.state.pos.y = parent_map[current]->y;
+	wp.state.vehicle_angle = parent_map[current]->angle;
 	out.points.insert( out.points.begin(), wp );
     }
 

@@ -35,6 +35,7 @@ void vehicle_teleport_callback( simple_car_model::VehicleState tele_pos){
     std::cout << "\t" << "angle: " << tele_pos.vehicle_angle << "\n";
 
     vehicle_model.linear_vel = 0;
+    vehicle_model.steering_angle = 0;
     vehicle_model.steering_angle_vel = 0;
     vehicle_model.pos.x = tele_pos.pos.x;
     vehicle_model.pos.y = tele_pos.pos.y;
