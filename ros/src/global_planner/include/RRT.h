@@ -94,7 +94,7 @@ public:
 	return out;
     }
 
-    Node* project_towards_using_kin( bool& add, Node* from, Node* to, float dt = 8 ){
+    Node* project_towards_using_kin( bool& add, Node* from, Node* to, float dt = 3 ){
 	//asd
 	float x_dist = to->x - from->x;
 	float y_dist = to->y - from->y;
