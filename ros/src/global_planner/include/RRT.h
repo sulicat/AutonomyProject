@@ -15,7 +15,7 @@
 
 #define RAD_TO_DEG (180.0 / 3.1415)
 #define DEG_TO_RAD (3.1415 / 180.0)
-#define MAX_KIN_ANGLE (10)
+#define MAX_KIN_ANGLE (2)
 
 class RRT{
 public:
@@ -84,7 +84,7 @@ public:
 	return closest;
     }
 
-    Node* project_towards( Node* from, Node* to, float dt = 3 ){
+    Node* project_towards( Node* from, Node* to, float dt = 3.0 ){
 	float edge_len = sqrt( dist_between(from, to) );
 	float normal_x = (to->x - from->x) / edge_len;
 	float normal_y = (to->y - from->y) / edge_len;
@@ -179,8 +179,8 @@ public:
         cost_map_h = cost_map.cell_num_y * cost_map.cell_dimension;
 
 	// add the root to all the nodes
-	float _start_x = start.pos.x + start.vehicle_length + 1;
-	float _start_y = start.pos.y + start.vehicle_width/2;
+	float _start_x = start.pos.x;// + start.vehicle_length/2*cos(start.vehicle_angle);
+	float _start_y = start.pos.y;// - start.vehicle_width/2*cos(start.vehicle_angle);
 	root = new Node( _start_x, _start_y );
 	all_tree_nodes.push_back(root);
 
