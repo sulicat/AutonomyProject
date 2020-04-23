@@ -25,6 +25,7 @@ class World{
 public:
     BaseVehicle* vehicle;
     world_vis::Waypoint* wpt_tracking;
+    world_vis::VehicleState* local_goal;
     world_vis::Trajectory* global_plan;
     world_vis::RenderTree* global_tree;
     world_vis::Trajectory* local_plan;
@@ -51,6 +52,7 @@ public:
     void set_local_plan( world_vis::Trajectory* plan_in );
     void set_local_tree( world_vis::RenderTree* tree_in );
     void set_tracked_wpt( world_vis::Waypoint* wpt );
+    void set_local_goal( world_vis::VehicleState* wp );
     void add_obstacle( int type, float x, float y, float w, float h );
     void load_obstacles( std::string path );
     void publish_obstacles();
@@ -65,6 +67,7 @@ public:
     void render_global_tree( sf::RenderWindow& window );
     void render_local_plan( sf::RenderWindow& window );
     void render_local_tree( sf::RenderWindow& window );
+    void render_local_goal( sf::RenderWindow& window );
     void render_vehicle( sf::RenderWindow& window, BaseVehicle* input_vehicle, int alpha = 255 );
     void render_obstacles( sf::RenderWindow& window );
     void render_current_tracked_point( sf::RenderWindow& window );
@@ -81,6 +84,7 @@ private:
     sf::RectangleShape render_v_wheel_fr;
     sf::RectangleShape render_rect_meter_line;
     sf::CircleShape render_circle_end_goal;
+    sf::CircleShape render_circle_local_goal;
 
     ros::Publisher obstacles_static_pub;
     ros::Publisher obstacles_dynamic_pub;

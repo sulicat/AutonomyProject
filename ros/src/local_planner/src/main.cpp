@@ -21,14 +21,16 @@
 
 local_planner::VehicleState vehicle_state;
 local_planner::VehicleState end_goal;
+local_planner::VehicleState global_goal;
 local_planner::VehicleState moving_towards;
 local_planner::Trajectory global_plan;
 local_planner::CostMap cost_map;
 ros::Publisher pub_local_plan;
 ros::Publisher pub_local_tree;
 ros::Publisher pub_move_command;
+ros::Publisher pub_local_goal;
 
-local_planner::VehicleState goal;
+local_planner::VehicleState local_goal;
 
 int goal_index = 0;
 bool is_running = false;
@@ -70,12 +72,15 @@ bool plan_for( float time_alotted ){
 	auto start_time = std::chrono::system_clock::now();
 	double total_time = 0;
 
-	goal.pos.x = global_plan.points[ goal_index ].state.pos.x;
-	goal.pos.y = global_plan.points[ goal_index ].state.pos.y;
-	goal.vehicle_angle = global_plan.points[ goal_index ].state.vehicle_angle;
+	global_goal.pos.x = global_plan.points[ goal_index ].state.pos.x;
+	global_goal.pos.y = global_plan.points[ goal_index ].state.pos.y;
+	global_goal.vehicle_angle = global_plan.points[ goal_index ].state.vehicle_angle;
+
+	local_goal = global_goal; //for now
+	pub_local_goal.publish( local_goal );
 
 	// create a tree at ther start
-	RRT rrt( cost_map, vehicle_state, goal );
+	RRT rrt( cost_map, vehicle_state, global_goal );
 	rrt.reset_tree();
 	int step_count = 0;
 
@@ -105,7 +110,7 @@ bool plan_for( float time_alotted ){
 
 void check_pos(){
     float v1[2] = {vehicle_state.pos.x, vehicle_state.pos.y};
-    float v2[2] = {goal.pos.x, goal.pos.y};
+    float v2[2] = {local_goal.pos.x, local_goal.pos.y};
 
 
     if( dist_between( v2, v1 ) < REACHED_RADIUS ){
@@ -121,9 +126,9 @@ void check_pos(){
 
 void send_move_command(){
     local_planner::Waypoint cmd;
-    cmd.state.pos.x = goal.pos.x;
-    cmd.state.pos.y = goal.pos.y;
-    cmd.state.vehicle_angle = goal.vehicle_angle;
+    cmd.state.pos.x = local_goal.pos.x;
+    cmd.state.pos.y = local_goal.pos.y;
+    cmd.state.vehicle_angle = local_goal.vehicle_angle;
     cmd.state.vehicle_width = 1.7;
     cmd.state.vehicle_length = 4.0;
     cmd.state.pos.x -= cmd.state.vehicle_length / 2;
@@ -146,7 +151,8 @@ int main( int argc, char** argv){
     ros::Subscriber sub_local_start = node_handle.subscribe("local_start_command", 1, local_plan_start_callback);
     pub_local_plan = node_handle.advertise<local_planner::Trajectory>( "local_plan", 1 );
     pub_local_tree = node_handle.advertise<local_planner::RenderTree>( "local_tree", 1 );
-    pub_move_command = node_handle.advertise<local_planner::Waypoint>( "tracked_goal", 1 );;
+    pub_move_command = node_handle.advertise<local_planner::Waypoint>( "tracked_goal", 1 );
+    pub_local_goal = node_handle.advertise<local_planner::VehicleState>( "local_goal", 1 );
 
 
     while( ros::ok() ){

@@ -28,6 +28,7 @@
 World world;
 BaseVehicle vehicle;
 world_vis::Waypoint wpt_tracking_goal;
+world_vis::VehicleState local_goal;
 world_vis::Trajectory global_plan;
 world_vis::RenderTree global_tree;
 world_vis::Trajectory local_plan;
@@ -49,6 +50,10 @@ void veh_state_callback( world_vis::VehicleState veh_state ){
 void tracked_goal_callback( world_vis::Waypoint wpnt ){
     std::cout << "Got tracked goal\n";
     wpt_tracking_goal = wpnt;
+}
+
+void local_goal_callback( world_vis::VehicleState wpnt ){
+    local_goal = wpnt;
 }
 
 void end_goal_callback( world_vis::VehicleState _end ){
@@ -116,6 +121,7 @@ int main( int argc, char** argv ){
     ros::Subscriber sub_global_tree = node_handle.subscribe("global_tree", 1, global_tree_callback);
     ros::Subscriber sub_local_plan = node_handle.subscribe("local_plan", 1, local_plan_callback);
     ros::Subscriber sub_local_tree = node_handle.subscribe("local_tree", 1, local_tree_callback);
+    ros::Subscriber sub_local_goal = node_handle.subscribe("local_goal", 1, local_goal_callback);
 
     world = World(&node_handle);
     world.set_vehicle( &vehicle );
@@ -124,6 +130,7 @@ int main( int argc, char** argv ){
     world.set_local_plan( &local_plan );
     world.set_local_tree( &local_tree );
     world.set_tracked_wpt( &wpt_tracking_goal );
+    world.set_local_goal( &local_goal );
 
     ros::Rate rate(60);
     sf::Clock deltaClock;

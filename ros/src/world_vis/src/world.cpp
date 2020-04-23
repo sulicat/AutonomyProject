@@ -31,6 +31,13 @@ World::World( ros::NodeHandle* node_handle ){
     render_circle_end_goal = sf::CircleShape(5);
     render_circle_end_goal.setFillColor( sf::Color(0, 180, 180) );
 
+    render_circle_local_goal = sf::CircleShape(5);
+    render_circle_local_goal.setFillColor( sf::Color(255, 0, 0) );
+
+}
+
+void World::set_local_goal( world_vis::VehicleState* wp ){
+    local_goal = wp;
 }
 
 void World::set_vehicle( BaseVehicle* new_vehicle ){
@@ -277,6 +284,18 @@ void World::render_end_goal( sf::RenderWindow& window ){
     window.draw( render_circle_end_goal );
 }
 
+void World::render_local_goal( sf::RenderWindow& window ){
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+    int offset_x = pan_x;
+    int offset_y = pan_y;
+
+    render_circle_local_goal.setPosition( local_goal->pos.x * ZOOM_FACTOR + offset_x,
+					  local_goal->pos.y * ZOOM_FACTOR + offset_y );
+
+    window.draw( render_circle_local_goal );
+}
+
+
 void World::render_vehicle( sf::RenderWindow& window,
 			    BaseVehicle* input_vehicle,
 			    int alpha ){
@@ -403,7 +422,6 @@ void World::render_current_tracked_point( sf::RenderWindow& window ){
 }
 
 void World::render( sf::RenderWindow& window ){
-    render_vehicle( window, vehicle );
     render_current_tracked_point( window );
     render_obstacles( window );
     render_meter_line( window );
@@ -412,5 +430,7 @@ void World::render( sf::RenderWindow& window ){
     render_global_plan( window );
     render_local_tree( window );
     render_local_plan( window );
+    render_local_goal( window );
+    render_vehicle( window, vehicle );
 }
 
