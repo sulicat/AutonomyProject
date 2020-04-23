@@ -15,7 +15,7 @@
 
 #define RAD_TO_DEG (180.0 / 3.1415)
 #define DEG_TO_RAD (3.1415 / 180.0)
-#define MAX_KIN_ANGLE (10)
+#define MAX_KIN_ANGLE (20)
 
 class RRT{
 public:
@@ -84,7 +84,7 @@ public:
 	return closest;
     }
 
-    Node* project_towards( Node* from, Node* to, float dt = 3 ){
+    Node* project_towards( Node* from, Node* to, float dt = 8 ){
 	float edge_len = sqrt( dist_between(from, to) );
 	float normal_x = (to->x - from->x) / edge_len;
 	float normal_y = (to->y - from->y) / edge_len;
@@ -94,7 +94,7 @@ public:
 	return out;
     }
 
-    Node* project_towards_using_kin( bool& add, Node* from, Node* to, float dt = 3 ){
+    Node* project_towards_using_kin( bool& add, Node* from, Node* to, float dt = 8 ){
 	//asd
 	float x_dist = to->x - from->x;
 	float y_dist = to->y - from->y;
