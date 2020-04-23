@@ -127,7 +127,6 @@ void generate_cost_map_global( cost_map_generator::CostMap& cost_map, cost_map_g
     max_x += 20;
     max_y += 20;
 
-
     cost_map.x = min_x;
     cost_map.y = min_y;
     float temp_w = max_x - min_x;

@@ -41,6 +41,10 @@ void World::set_global_tree( world_vis::RenderTree* tree_in ){
     global_tree = tree_in;
 }
 
+void World::set_local_tree( world_vis::RenderTree* tree_in ){
+    local_tree = tree_in;
+}
+
 
 void World::set_tracked_wpt( world_vis::Waypoint* wpt ){
     wpt_tracking = wpt;
@@ -49,6 +53,10 @@ void World::set_tracked_wpt( world_vis::Waypoint* wpt ){
 
 void World::set_global_plan( world_vis::Trajectory* plan_in ){
     global_plan = plan_in;
+}
+
+void World::set_local_plan( world_vis::Trajectory* plan_in ){
+    local_plan = plan_in;
 }
 
 void World::add_obstacle( int type, float x, float y, float w, float h ){
@@ -118,49 +126,54 @@ void World::load_obstacles( std::string path ){
     publish_obstacles();
 }
 
-// Too many divisions bro... clean this up when sober :/
-void World::render_global_tree( sf::RenderWindow& window ){
-
+void World::draw_tree( sf::RenderWindow& window, world_vis::RenderTree* tree_in, sf::Color color_in ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
     int offset_x = pan_x;
     int offset_y = pan_y;
 
-    sf::VertexArray lines(sf::Lines, global_tree->edges.size()*2);
+    sf::VertexArray lines(sf::Lines, tree_in->edges.size()*2);
 
     int counter = 0;
-    for( int i = 0; i < global_tree->edges.size()*2; i+=2 ){
+    for( int i = 0; i < tree_in->edges.size()*2; i+=2 ){
 
-	lines[i].position = sf::Vector2f( global_tree->edges[counter].x1 * ZOOM_FACTOR + offset_x,
-					  global_tree->edges[counter].y1 * ZOOM_FACTOR + offset_y );
+	lines[i].position = sf::Vector2f( tree_in->edges[counter].x1 * ZOOM_FACTOR + offset_x,
+					  tree_in->edges[counter].y1 * ZOOM_FACTOR + offset_y );
 
-	lines[i+1].position = sf::Vector2f( global_tree->edges[counter].x2 * ZOOM_FACTOR + offset_x,
-					    global_tree->edges[counter].y2 * ZOOM_FACTOR + offset_y );
+	lines[i+1].position = sf::Vector2f( tree_in->edges[counter].x2 * ZOOM_FACTOR + offset_x,
+					    tree_in->edges[counter].y2 * ZOOM_FACTOR + offset_y );
 
-	lines[i].color = sf::Color(0, 255,255);
-	lines[i+1].color = sf::Color(0, 255,255);
+	lines[i].color = color_in;
+	lines[i+1].color = color_in;
 
 	counter++;
     }
     window.draw(lines);
-
 }
-
-void World::render_global_plan( sf::RenderWindow& window ){
-
+void World::draw_traj( sf::RenderWindow& window, world_vis::Trajectory* traj_in, sf::Color color_in ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
     int offset_x = pan_x;
     int offset_y = pan_y;
 
-    sf::VertexArray lines(sf::LinesStrip, global_plan->points.size());
+    sf::VertexArray lines(sf::LinesStrip, traj_in->points.size());
 
-    for( int i = 0; i < global_plan->points.size(); i++ ){
-	lines[i].position = sf::Vector2f( global_plan->points[i].state.pos.x * ZOOM_FACTOR + offset_x,
-					  global_plan->points[i].state.pos.y * ZOOM_FACTOR + offset_y );
+    for( int i = 0; i < traj_in->points.size(); i++ ){
+	lines[i].position = sf::Vector2f( traj_in->points[i].state.pos.x * ZOOM_FACTOR + offset_x,
+					  traj_in->points[i].state.pos.y * ZOOM_FACTOR + offset_y );
 
-	lines[i].color = sf::Color::Blue;
+	lines[i].color = color_in;
     }
     window.draw(lines);
 }
+
+// Too many divisions bro... clean this up when sober :/
+void World::render_global_tree( sf::RenderWindow& window ){
+    draw_tree( window, global_tree, sf::Color(0,255,255) );
+}
+
+void World::render_global_plan( sf::RenderWindow& window ){
+    draw_traj( window, global_plan, sf::Color(0,0,255) );
+}
+
 
 void World::render_meter_line( sf::RenderWindow& window ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
@@ -175,6 +188,17 @@ void World::render_meter_line( sf::RenderWindow& window ){
     window.draw( render_rect_meter_line );
 
 }
+
+// Too many divisions bro... clean this up when sober :/
+void World::render_local_tree( sf::RenderWindow& window ){
+    draw_tree( window, local_tree, sf::Color(255, 0, 255) );
+}
+
+void World::render_local_plan( sf::RenderWindow& window ){
+    draw_traj( window, local_plan, sf::Color(0, 255, 0) );
+}
+
+
 
 void World::teleport( int x, int y, float angle ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
@@ -381,5 +405,7 @@ void World::render( sf::RenderWindow& window ){
     render_end_goal( window );
     render_global_tree( window );
     render_global_plan( window );
+    render_local_tree( window );
+    render_local_plan( window );
 }
 

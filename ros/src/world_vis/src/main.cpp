@@ -30,6 +30,8 @@ BaseVehicle vehicle;
 world_vis::Waypoint wpt_tracking_goal;
 world_vis::Trajectory global_plan;
 world_vis::RenderTree global_tree;
+world_vis::Trajectory local_plan;
+world_vis::RenderTree local_tree;
 
 BaseVehicle wpt_tracking_goal_state;
 int mouse_drag_x_press = 0;
@@ -62,6 +64,15 @@ void global_plan_callback( world_vis::Trajectory plan_in ){
 void global_tree_callback( world_vis::RenderTree tree_in ){
     std::cout << "Got a GLobal Planner Tree\n";
     global_tree = tree_in;
+}
+
+
+void local_plan_callback( world_vis::Trajectory plan_in ){
+    local_plan = plan_in;
+}
+
+void local_tree_callback( world_vis::RenderTree tree_in ){
+    local_tree = tree_in;
 }
 
 
@@ -103,11 +114,15 @@ int main( int argc, char** argv ){
     ros::Subscriber sub_end = node_handle.subscribe("end_goal", 1, end_goal_callback);
     ros::Subscriber sub_global_plan = node_handle.subscribe("global_plan", 1, global_plan_callback);
     ros::Subscriber sub_global_tree = node_handle.subscribe("global_tree", 1, global_tree_callback);
+    ros::Subscriber sub_local_plan = node_handle.subscribe("local_plan", 1, local_plan_callback);
+    ros::Subscriber sub_local_tree = node_handle.subscribe("local_tree", 1, local_tree_callback);
 
     world = World(&node_handle);
     world.set_vehicle( &vehicle );
     world.set_global_plan( &global_plan );
     world.set_global_tree( &global_tree );
+    world.set_local_plan( &local_plan );
+    world.set_local_tree( &local_tree );
     world.set_tracked_wpt( &wpt_tracking_goal );
 
     ros::Rate rate(60);
