@@ -97,9 +97,10 @@ bool plan_for( float time_alotted ){
 
 	Node* out_tree = rrt.get_tree();
 	pub_local_tree.publish( out_tree->create_render_tree() );
+	Node* best_node = rrt.find_cheapest_node();
 
 	local_planner::Trajectory out;
-	out = out_tree->dfs_traj( rrt.goal );
+	out = out_tree->dfs_traj( best_node );
 	pub_local_plan.publish(out);
 
 	std::cout << "[Local Planner] ran for: " << total_time << "\n";
@@ -158,9 +159,9 @@ int main( int argc, char** argv){
     while( ros::ok() ){
 
 	if( is_running && goal_index >= 0 ){
-	    plan_for( 1.0/RATE );
-	    send_move_command();
-	    check_pos();
+	    plan_for( (1.0/RATE) * 0.8 );
+	    //send_move_command();
+	    //check_pos();
 	}
 
 	ros::spinOnce();

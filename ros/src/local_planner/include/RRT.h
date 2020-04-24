@@ -42,7 +42,7 @@ public:
 	srand (time(NULL));
 	cost_map_w = cost_map.cell_num_x * cost_map.cell_dimension;
 	cost_map_h = cost_map.cell_num_y * cost_map.cell_dimension;
-	radius_of_influence = 5*5;
+	radius_of_influence = 25;
 	MAX_KIN_ANGLE = 10.0;
 
     }
@@ -183,6 +183,26 @@ public:
     }
 
 
+    Node* find_cheapest_node(){
+	Node* out = root;
+
+	// look through the node and use a heuristic to calculate the cost to go
+	float min_cost = 999999;
+	for( int i = 0; i < all_tree_nodes.size(); i++ ){
+	    float new_cost = node_cost( all_tree_nodes[i] );
+	    if( new_cost < min_cost ){
+		min_cost = new_cost;
+		out = all_tree_nodes[i];
+	    }
+	}
+
+	return out;
+    }
+
+    float node_cost( Node* node ){
+	return dist_between( node, goal );
+    }
+    
     Node* get_tree(){
 	return root;
     }

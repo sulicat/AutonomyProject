@@ -179,7 +179,7 @@ void World::draw_traj( sf::RenderWindow& window, world_vis::Trajectory* traj_in,
 
 // Too many divisions bro... clean this up when sober :/
 void World::render_global_tree( sf::RenderWindow& window ){
-    draw_tree( window, global_tree, sf::Color(0,255,255) );
+    draw_tree( window, global_tree, sf::Color(0,255,255, 100) );
 }
 
 void World::render_global_plan( sf::RenderWindow& window ){
@@ -203,11 +203,11 @@ void World::render_meter_line( sf::RenderWindow& window ){
 
 // Too many divisions bro... clean this up when sober :/
 void World::render_local_tree( sf::RenderWindow& window ){
-    draw_tree( window, local_tree, sf::Color(255, 0, 255) );
+    draw_tree( window, local_tree, sf::Color(0, 0, 0, 20) );
 }
 
 void World::render_local_plan( sf::RenderWindow& window ){
-    draw_traj( window, local_plan, sf::Color(0, 255, 0) );
+    draw_traj( window, local_plan, sf::Color(255, 0, 0) );
 }
 
 
@@ -377,11 +377,6 @@ void World::render_vehicle( sf::RenderWindow& window,
     window.draw(render_v_wheel_br, veh_rotation);
     window.draw(render_v_wheel_fl, steering_angle_rotation_l);
     window.draw(render_v_wheel_fr, steering_angle_rotation_r);
-
-///////////////////////////////////////////////////
-
-//////////////////////////////////////////////////
-
 
 }
 
