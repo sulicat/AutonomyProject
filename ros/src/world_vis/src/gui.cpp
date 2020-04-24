@@ -70,6 +70,7 @@ void GUI::render(){
 		}
 
 		if( ImGui::Button("Run Local Planner") ){
+		    world->publish_local_plan_start();
 		}
 
 		ImGui::EndTabItem();

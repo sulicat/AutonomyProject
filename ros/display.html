@@ -1,12 +1,23 @@
 <html>
 
-<h3>Global Cost Map</h3>
-<img style="border: 1px solid #000" id="global_cost_map" width="1200px"></img>
+<span style="display: inline;">
+<p>Local Cost Map</p>
+<img style="border: 1px solid #000" id="local_cost_map" width="40%"></img>
+</span>
+
+<span style="display: inline;">
+<p>Global Cost Map</p>
+<img style="border: 1px solid #000" id="global_cost_map" width="40%"></img>
+</span>
 
 <script>
   setInterval( function(){
       var global_cost_img = document.getElementById("global_cost_map");
       global_cost_img.src = "resources/global_cost_map.bmp?" + Date.now();
+
+      var local_cost_img = document.getElementById("local_cost_map");
+      local_cost_img.src = "resources/local_cost_map.bmp?" + Date.now();
+
   }, 1000);
 </script>
 

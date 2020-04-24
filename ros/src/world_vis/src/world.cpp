@@ -27,6 +27,7 @@ World::World( ros::NodeHandle* node_handle ){
     teleport_pub = node_handle->advertise<world_vis::VehicleState>( "vehicle_teleport", 1 );
     end_state_pub = node_handle->advertise<world_vis::VehicleState>( "end_goal", 1 );
     global_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "global_start_command", 1 );
+    local_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "local_start_command", 1 );
     tracked_pub = node_handle->advertise<world_vis::Waypoint>( "tracked_goal", 1 );
 
     WINDOW_WIDTH = 1080;
@@ -38,6 +39,14 @@ World::World( ros::NodeHandle* node_handle ){
     render_circle_current_pos = sf::CircleShape(2);
     render_circle_current_pos.setFillColor( sf::Color(255, 0, 0) );
 
+
+    render_circle_local_goal = sf::CircleShape(5);
+    render_circle_local_goal.setFillColor( sf::Color(255, 0, 0) );
+
+}
+
+void World::set_local_goal( world_vis::VehicleState* wp ){
+    local_goal = wp;
 }
 
 void World::set_vehicle( BaseVehicle* new_vehicle ){
@@ -49,6 +58,10 @@ void World::set_global_tree( world_vis::RenderTree* tree_in ){
     global_tree = tree_in;
 }
 
+void World::set_local_tree( world_vis::RenderTree* tree_in ){
+    local_tree = tree_in;
+}
+
 
 void World::set_tracked_wpt( world_vis::Waypoint* wpt ){
     wpt_tracking = wpt;
@@ -57,6 +70,10 @@ void World::set_tracked_wpt( world_vis::Waypoint* wpt ){
 
 void World::set_global_plan( world_vis::Trajectory* plan_in ){
     global_plan = plan_in;
+}
+
+void World::set_local_plan( world_vis::Trajectory* plan_in ){
+    local_plan = plan_in;
 }
 
 void World::add_obstacle( int type, float x, float y, float w, float h ){
@@ -78,6 +95,10 @@ void World::add_obstacle( int type, float x, float y, float w, float h ){
 
 void World::publish_global_plan_start(){
     global_plan_start_pub.publish( std_msgs::Empty() );
+}
+
+void World::publish_local_plan_start(){
+    local_plan_start_pub.publish( std_msgs::Empty() );
 }
 
 void World::publish_obstacles(){
@@ -126,50 +147,59 @@ void World::load_obstacles( std::string path ){
     publish_obstacles();
 }
 
-// Too many divisions bro... clean this up when sober :/
-void World::render_global_tree( sf::RenderWindow& window ){
-
+void World::draw_tree( sf::RenderWindow& window, world_vis::RenderTree* tree_in, sf::Color color_in ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
     int offset_x = pan_x;
     int offset_y = pan_y;
 
-    sf::VertexArray lines(sf::Lines, global_tree->edges.size()*2);
+    sf::VertexArray lines(sf::Lines, tree_in->edges.size()*2);
 
     int counter = 0;
-    for( int i = 0; i < global_tree->edges.size()*2; i+=2 ){
+    for( int i = 0; i < tree_in->edges.size()*2; i+=2 ){
 
-	lines[i].position = sf::Vector2f( global_tree->edges[counter].x1 * ZOOM_FACTOR + offset_x,
-					  global_tree->edges[counter].y1 * ZOOM_FACTOR + offset_y );
+	lines[i].position = sf::Vector2f( tree_in->edges[counter].x1 * ZOOM_FACTOR + offset_x,
+					  tree_in->edges[counter].y1 * ZOOM_FACTOR + offset_y );
 
-	lines[i+1].position = sf::Vector2f( global_tree->edges[counter].x2 * ZOOM_FACTOR + offset_x,
-					    global_tree->edges[counter].y2 * ZOOM_FACTOR + offset_y );
+	lines[i+1].position = sf::Vector2f( tree_in->edges[counter].x2 * ZOOM_FACTOR + offset_x,
+					    tree_in->edges[counter].y2 * ZOOM_FACTOR + offset_y );
 
-	lines[i].color = sf::Color(0, 255,255);
-	lines[i+1].color = sf::Color(0, 255,255);
+	lines[i].color = color_in;
+	lines[i+1].color = color_in;
 
 	counter++;
     }
     window.draw(lines);
-
 }
-
-void World::render_global_plan( sf::RenderWindow& window ){
-
+void World::draw_traj( sf::RenderWindow& window, world_vis::Trajectory* traj_in, sf::Color color_in ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
     int offset_x = pan_x;
     int offset_y = pan_y;
 
-    sf::VertexArray lines(sf::LinesStrip, global_plan->points.size());
-    std::cout << "    x     y\n";
-    for( int i = 0; i < global_plan->points.size(); i++ ){
-	lines[i].position = sf::Vector2f( global_plan->points[i].state.pos.x * ZOOM_FACTOR + offset_x,
-					  global_plan->points[i].state.pos.y * ZOOM_FACTOR + offset_y );
 
-	lines[i].color = sf::Color::Blue;
+
+    sf::VertexArray lines(sf::LinesStrip, traj_in->points.size());
+    std::cout << "    x     y\n";
+    for( int i = 0; i < traj_in->points.size(); i++ ){
+	lines[i].position = sf::Vector2f( traj_in->points[i].state.pos.x * ZOOM_FACTOR + offset_x,
+					  traj_in->points[i].state.pos.y * ZOOM_FACTOR + offset_y );
+
+	lines[i].color = color_in;
+
     std::cout << "   " <<global_plan->points[i].state.pos.x << ", " << global_plan->points[i].state.pos.y << "\n";
+
     }
     window.draw(lines);
 }
+
+// Too many divisions bro... clean this up when sober :/
+void World::render_global_tree( sf::RenderWindow& window ){
+    draw_tree( window, global_tree, sf::Color(0,255,255) );
+}
+
+void World::render_global_plan( sf::RenderWindow& window ){
+    draw_traj( window, global_plan, sf::Color(0,0,255) );
+}
+
 
 void World::render_meter_line( sf::RenderWindow& window ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
@@ -184,6 +214,17 @@ void World::render_meter_line( sf::RenderWindow& window ){
     window.draw( render_rect_meter_line );
 
 }
+
+// Too many divisions bro... clean this up when sober :/
+void World::render_local_tree( sf::RenderWindow& window ){
+    draw_tree( window, local_tree, sf::Color(255, 0, 255) );
+}
+
+void World::render_local_plan( sf::RenderWindow& window ){
+    draw_traj( window, local_plan, sf::Color(0, 255, 0) );
+}
+
+
 
 void World::teleport( int x, int y, float angle ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
@@ -258,6 +299,18 @@ void World::render_end_goal( sf::RenderWindow& window ){
 
 
 }
+
+void World::render_local_goal( sf::RenderWindow& window ){
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+    int offset_x = pan_x;
+    int offset_y = pan_y;
+
+    render_circle_local_goal.setPosition( local_goal->pos.x * ZOOM_FACTOR + offset_x,
+					  local_goal->pos.y * ZOOM_FACTOR + offset_y );
+
+    window.draw( render_circle_local_goal );
+}
+
 
 void World::render_vehicle( sf::RenderWindow& window,
 			    BaseVehicle* input_vehicle,
@@ -391,12 +444,15 @@ void World::render_current_tracked_point( sf::RenderWindow& window ){
 }
 
 void World::render( sf::RenderWindow& window ){
-    render_vehicle( window, vehicle );
     render_current_tracked_point( window );
     render_obstacles( window );
     render_meter_line( window );
     render_end_goal( window );
     render_global_tree( window );
     render_global_plan( window );
+    render_local_tree( window );
+    render_local_plan( window );
+    render_local_goal( window );
+    render_vehicle( window, vehicle );
 }
 

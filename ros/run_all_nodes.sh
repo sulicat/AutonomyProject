@@ -6,7 +6,8 @@ nodes=( "simple_car_model"
 	"vehicle_controller"
 	"world_vis"
 	"global_planner"
-	"cost_map_generator")
+	"cost_map_generator"
+	"local_planner")
 
 kill_nodes () {
     rosnode kill --all

@@ -46,8 +46,8 @@ std::vector<Node*> Node::get_all(){
 }
 
 
-global_planner::RenderTree Node::create_render_tree(){
-    global_planner::RenderTree out_tree;
+local_planner::RenderTree Node::create_render_tree(){
+    local_planner::RenderTree out_tree;
 
     std::vector<Node*> stack;
     std::map<Node*, Node*> parent_map;
@@ -66,7 +66,7 @@ global_planner::RenderTree Node::create_render_tree(){
 	    if( parent_map.find( current->children[i] ) == parent_map.end() ){
 		stack.push_back( (current->children[i]) );
 
-		global_planner::Line line;
+		local_planner::Line line;
 		line.x1 = current->x;
 		line.y1 = current->y;
 		line.x2 = current->children[i]->x;
@@ -81,8 +81,8 @@ global_planner::RenderTree Node::create_render_tree(){
 }
 
 
-global_planner::Trajectory Node::bfs_traj( Node* end ){
-    global_planner::Trajectory out;
+local_planner::Trajectory Node::bfs_traj( Node* end ){
+    local_planner::Trajectory out;
     std::vector<Node*> stack;
     std::map<Node*, Node*> parent_map;
     stack.push_back(this);
@@ -113,7 +113,7 @@ global_planner::Trajectory Node::bfs_traj( Node* end ){
 	    break;
 	}
 
-	global_planner::Waypoint wp;
+	local_planner::Waypoint wp;
 	wp.state.pos.x = parent_map[current]->x;
 	wp.state.pos.y = parent_map[current]->y;
 	out.points.push_back( wp );
@@ -123,8 +123,8 @@ global_planner::Trajectory Node::bfs_traj( Node* end ){
 }
 
 
-global_planner::Trajectory Node::dfs_traj( Node* end ){
-    global_planner::Trajectory out;
+local_planner::Trajectory Node::dfs_traj( Node* end ){
+    local_planner::Trajectory out;
     std::queue<Node*> queue;
     std::map<Node*, Node*> parent_map;
     queue.push(this);
@@ -147,7 +147,7 @@ global_planner::Trajectory Node::dfs_traj( Node* end ){
     parent_map[this] = NULL;
 
     current = end;
-    global_planner::Waypoint wp;
+    local_planner::Waypoint wp;
     wp.state.pos.x = current->x;
     wp.state.pos.y = current->y;
     out.points.insert( out.points.begin(), wp );
@@ -162,7 +162,6 @@ global_planner::Trajectory Node::dfs_traj( Node* end ){
 
 	wp.state.pos.x = parent_map[current]->x;
 	wp.state.pos.y = parent_map[current]->y;
-	wp.state.vehicle_angle = parent_map[current]->angle;
 	out.points.insert( out.points.begin(), wp );
     }
 
