@@ -173,8 +173,8 @@ public:
         cost_map_h = cost_map.cell_num_y * cost_map.cell_dimension;
 
 	// add the root to all the nodes
-	float _start_x = start.pos.x + start.vehicle_length + 1;
-	float _start_y = start.pos.y + start.vehicle_width/2;
+	float _start_x = start.pos.x;
+	float _start_y = start.pos.y;
 	root = new Node( _start_x, _start_y );
 	all_tree_nodes.push_back(root);
 
@@ -202,7 +202,7 @@ public:
     float node_cost( Node* node ){
 	return dist_between( node, goal );
     }
-    
+
     Node* get_tree(){
 	return root;
     }
@@ -210,3 +210,4 @@ public:
 };
 
 #endif
+

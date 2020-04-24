@@ -55,7 +55,7 @@ int main( int argc, char** argv){
     ros::Subscriber sub_end_goal = node_handle.subscribe("end_goal", 1, end_goal_callback);
     ros::Subscriber sub_cost_map = node_handle.subscribe("cost_map_global", 1, cost_map_callback);
     ros::Subscriber sub_start = node_handle.subscribe("global_start_command", 1, start_plan_callback);
-    pub_global_plan = node_handle.advertise<global_planner::Trajectory>( "global_plan", 1 );
+    pub_global_plan = node_handle.advertise<global_planner::Trajectory>( "global_plan", 100 );
     pub_global_tree = node_handle.advertise<global_planner::RenderTree>( "global_tree", 1 );
 
 

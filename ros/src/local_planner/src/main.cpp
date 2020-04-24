@@ -85,7 +85,6 @@ bool plan_for( float time_alotted ){
 	int step_count = 0;
 
 	while( total_time < time_alotted ){
-
 	    // keep stepping the tree
 	    rrt.step( step_count % 5 == 0 );
 
@@ -97,10 +96,11 @@ bool plan_for( float time_alotted ){
 
 	Node* out_tree = rrt.get_tree();
 	pub_local_tree.publish( out_tree->create_render_tree() );
-	Node* best_node = rrt.find_cheapest_node();
+	//Node* best_node = rrt.find_cheapest_node();
 
 	local_planner::Trajectory out;
-	out = out_tree->dfs_traj( best_node );
+	//out = out_tree->dfs_traj( best_node );
+	out = out_tree->dfs_traj( rrt.goal );
 	pub_local_plan.publish(out);
 
 	std::cout << "[Local Planner] ran for: " << total_time << "\n";
@@ -132,8 +132,6 @@ void send_move_command(){
     cmd.state.vehicle_angle = local_goal.vehicle_angle;
     cmd.state.vehicle_width = 1.7;
     cmd.state.vehicle_length = 4.0;
-    cmd.state.pos.x -= cmd.state.vehicle_length / 2;
-    cmd.state.pos.y -= cmd.state.vehicle_width / 2;
 
     pub_move_command.publish( cmd );
 }
@@ -159,9 +157,9 @@ int main( int argc, char** argv){
     while( ros::ok() ){
 
 	if( is_running && goal_index >= 0 ){
-	    plan_for( (1.0/RATE) * 0.8 );
-	    //send_move_command();
-	    //check_pos();
+	    plan_for( (1.0/RATE) * 0.5 );
+	    send_move_command();
+	    check_pos();
 	}
 
 	ros::spinOnce();

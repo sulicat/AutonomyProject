@@ -84,7 +84,9 @@ private:
     sf::RectangleShape render_v_wheel_fr;
     sf::RectangleShape render_rect_meter_line;
     sf::CircleShape render_circle_end_goal;
+    sf::CircleShape render_circle_current_pos;
     sf::CircleShape render_circle_local_goal;
+
 
     ros::Publisher obstacles_static_pub;
     ros::Publisher obstacles_dynamic_pub;

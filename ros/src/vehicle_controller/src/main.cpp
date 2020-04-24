@@ -4,6 +4,7 @@
 #include "ros/ros.h"
 #include "ros_to_system.h"
 #include "BaseVehicle.h"
+#include "vehicle_controller/VehicleState.h"
 #include "vehicle_controller/VehicleMoveCommand.h"
 #include "vehicle_controller/Waypoint.h"
 #include "vehicle_controller/Trajectory.h"
@@ -12,7 +13,7 @@
 #define RAD_TO_DEG (180.0/PI)
 #define DEG_TO_RAD (PI/180.0)
 
-#define RATE (10)
+#define RATE (100)
 
 float x_error = 0.0;
 float y_error = 0.0;
@@ -23,20 +24,25 @@ float velocity_error_prev = 0.0;
 float angle_error = 0.0;
 float angle_error_prev = 0.0;
 
-float Kp_lin_vel = 0.5;
-float Kp_ang_vel = 0.5;
+float Kp_lin_vel_direction = 0.5;
+float Kp_lin_vel_heading = 0.5;
+float Kp_lin_vel = 1.0;
+float Kp_ang_vel = 4.0;
 
 float Ki_lin_vel = 0.7;
-float Ki_ang_vel = 0.0;
+float Ki_ang_vel = 0.5;
 
 float Kd_lin_vel = 0.5;
 float Kd_ang_vel = 0.0;
 
 float prev_angle = 0.0;
 
+int i = 0;
+bool got_global_plan = false;
 BaseVehicle vehicle;
 //BaseVehicle* vehicle_state;
 vehicle_controller::Waypoint wpt_tracking_goal;
+vehicle_controller::Trajectory global_plan;
 BaseVehicle wpt_tracking_goal_state;
 BaseVehicle* wpt_tracking_vehicle;
 //float wpt_tracking_goal = 0.0;
@@ -54,11 +60,16 @@ void veh_state_callback( vehicle_controller::VehicleState veh_state ){
 }
 
 void tracked_goal_callback( vehicle_controller::Waypoint wpnt ){
-    std::cout << "Got tracked goal\n";
+    std::cout << "Got tracked goal\n ATT the Vehicle Controller\n";
     wpt_tracking_goal = wpnt;
     //simple_car::state_to_model( *wpt_tracking_vehicle, wpt_tracking_goal->state );
 }
 
+void global_plan_callback( vehicle_controller::Trajectory plan_in ){
+    std::cout << "Got global_plan\n ATT the Vehicle Controller\n";
+    global_plan = plan_in;
+    got_global_plan = true;
+}
 
 int main( int argc, char** argv){
 
@@ -68,7 +79,7 @@ int main( int argc, char** argv){
     ros::Publisher move_command_pub = node_handle.advertise<vehicle_controller::VehicleMoveCommand>( "vehicle_move_command", 1 );
     ros::Subscriber sub = node_handle.subscribe("vehicle_state", 1, veh_state_callback);
     ros::Subscriber sub_tracked = node_handle.subscribe("tracked_goal", 1, tracked_goal_callback);
-
+    ros::Subscriber sub_global_plan = node_handle.subscribe("global_plan", 1, global_plan_callback);
 
 
     ros::Rate rate(RATE);
@@ -84,10 +95,9 @@ int main( int argc, char** argv){
                 x_error = wpt_tracking_goal.state.pos.x - vehicle.pos.x;
                 y_error = wpt_tracking_goal.state.pos.y - vehicle.pos.y;
                 velocity_error = sqrt( pow( x_error , 2.0 ) + pow( y_error , 2.0 ) );
-                move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
+                //move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
                 // if (abs(prev_angle - atan2( y_error , x_error ) * RAD_TO_DEG )>=90){
                 //     move_command.linear_vel = Kp_lin_vel * - velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
-
                 // } else{
                 //     move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
                 // }
@@ -167,6 +177,11 @@ int main( int argc, char** argv){
                 //     }
                 // }
 
+
+
+
+
+
                 move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
                 if (velocity_error <= 0.5){
                      move_command.linear_vel = 0.0;
@@ -180,7 +195,65 @@ int main( int argc, char** argv){
 
                 move_command_pub.publish( move_command );
 
-                prev_angle = atan2( y_error , x_error ) * RAD_TO_DEG ;
+                //prev_angle = atan2( y_error , x_error ) * RAD_TO_DEG ;
+            } else if ( false && got_global_plan){
+                const int max =  global_plan.points.size();
+                std::cout << "Got Inside!! ATT the Vehicle Controller\n";
+                if ( i < max){
+                    // lines[i].position = sf::Vector2f( global_plan->points[i].state.pos.x * ZOOM_FACTOR,
+                    //                   global_plan->points[i].state.pos.y * ZOOM_FACTOR );
+                    vehicle_controller::VehicleMoveCommand move_command;
+                    velocity_error_prev = velocity_error;
+                    angle_error_prev = angle_error;
+
+                    x_error = global_plan.points[i].state.pos.x - vehicle.pos.x;
+                    y_error = global_plan.points[i].state.pos.y - vehicle.pos.y;
+                    velocity_error = sqrt( pow( x_error , 2.0 ) + pow( y_error , 2.0 ) );
+
+                    if (velocity_error <= 4.0){
+                        move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
+
+                        angle_error = atan2( y_error , x_error ) * RAD_TO_DEG - vehicle.vehicle_angle;
+                        move_command.steering_angle_vel = Kp_ang_vel * angle_error - Kd_ang_vel * vehicle.steering_angle_vel + Ki_ang_vel *  angle_error_prev;
+                        std::cout << "\n\n\n\nVelocity error: " << velocity_error << "\n";
+                        std::cout << "Current x Position: " << vehicle.pos.x << "\n";
+                        std::cout << "Current y Position: " << vehicle.pos.y << "\n";
+                        std::cout << "Current angle: " << vehicle.vehicle_angle << "\n";
+
+                        move_command_pub.publish( move_command );
+
+                        i++;
+                    } else {
+                        x_error = global_plan.points[i-1].state.pos.x - vehicle.pos.x;
+                        y_error = global_plan.points[i-1].state.pos.y - vehicle.pos.y;
+                        velocity_error = sqrt( pow( x_error , 2.0 ) + pow( y_error , 2.0 ) );
+                        move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
+
+                        angle_error = atan2( y_error , x_error ) * RAD_TO_DEG - vehicle.vehicle_angle;
+                        move_command.steering_angle_vel = Kp_ang_vel * angle_error - Kd_ang_vel * vehicle.steering_angle_vel + Ki_ang_vel *  angle_error_prev;
+                        std::cout << "\n\n\n\nVelocity error: " << velocity_error << "\n";
+                        std::cout << "Current x Position: " << vehicle.pos.x << "\n";
+                        std::cout << "Current y Position: " << vehicle.pos.y << "\n";
+                        std::cout << "Current angle: " << vehicle.vehicle_angle << "\n";
+
+                        move_command_pub.publish( move_command );
+
+
+
+                    }
+
+
+
+                } else if (i == max){
+                    vehicle_controller::VehicleMoveCommand move_command;
+                    move_command.linear_vel = 0.0;
+                    move_command_pub.publish( move_command );
+                    got_global_plan = false;
+                    i = 0;
+
+                }
+
+
             }
 
 //es(1).x1 = error(1);

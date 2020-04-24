@@ -152,6 +152,8 @@ local_planner::Trajectory Node::dfs_traj( Node* end ){
     wp.state.pos.y = current->y;
     out.points.insert( out.points.begin(), wp );
 
+    if( current == this ){ return out; }
+
     while( current != NULL &&
 	   parent_map.find( current ) != parent_map.end() ){
 

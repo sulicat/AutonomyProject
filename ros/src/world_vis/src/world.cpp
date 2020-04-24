@@ -5,6 +5,9 @@
 #include "world.h"
 #include "json.hpp"
 
+#define RAD_TO_DEG (180.0/PI)
+#define DEG_TO_RAD (PI/180.0)
+
 World::World(){
     WINDOW_WIDTH = 1080;
     WINDOW_HEIGHT = 720;
@@ -12,6 +15,8 @@ World::World(){
 }
 
 World::World( ros::NodeHandle* node_handle ){
+    float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+
     vehicle_set = false;
     window_width_m = 100;// adjust to 100 for 1080x720 screen
     wpt_tracking_vehicle = new BaseVehicle();
@@ -30,6 +35,10 @@ World::World( ros::NodeHandle* node_handle ){
 
     render_circle_end_goal = sf::CircleShape(5);
     render_circle_end_goal.setFillColor( sf::Color(0, 180, 180) );
+
+    render_circle_current_pos = sf::CircleShape(2);
+    render_circle_current_pos.setFillColor( sf::Color(255, 0, 0) );
+
 
     render_circle_local_goal = sf::CircleShape(5);
     render_circle_local_goal.setFillColor( sf::Color(255, 0, 0) );
@@ -166,13 +175,18 @@ void World::draw_traj( sf::RenderWindow& window, world_vis::Trajectory* traj_in,
     int offset_x = pan_x;
     int offset_y = pan_y;
 
-    sf::VertexArray lines(sf::LinesStrip, traj_in->points.size());
 
+
+    sf::VertexArray lines(sf::LinesStrip, traj_in->points.size());
+    //std::cout << "    x     y\n";
     for( int i = 0; i < traj_in->points.size(); i++ ){
 	lines[i].position = sf::Vector2f( traj_in->points[i].state.pos.x * ZOOM_FACTOR + offset_x,
 					  traj_in->points[i].state.pos.y * ZOOM_FACTOR + offset_y );
 
 	lines[i].color = color_in;
+
+    //std::cout << "   " <<global_plan->points[i].state.pos.x << ", " << global_plan->points[i].state.pos.y << "\n";
+
     }
     window.draw(lines);
 }
@@ -278,10 +292,12 @@ void World::render_end_goal( sf::RenderWindow& window ){
     int offset_x = pan_x;
     int offset_y = pan_y;
 
-    render_circle_end_goal.setPosition( end_goal_x * ZOOM_FACTOR + offset_x,
-					end_goal_y * ZOOM_FACTOR + offset_y );
+    render_circle_end_goal.setPosition( end_goal_x * ZOOM_FACTOR + offset_x - 5,
+					end_goal_y * ZOOM_FACTOR + offset_y - 5);
 
     window.draw( render_circle_end_goal );
+
+
 }
 
 void World::render_local_goal( sf::RenderWindow& window ){
@@ -308,16 +324,16 @@ void World::render_vehicle( sf::RenderWindow& window,
     render_v_chassis = sf::RectangleShape( sf::Vector2f(input_vehicle->length * ZOOM_FACTOR,
 							input_vehicle->width * ZOOM_FACTOR) );
 
-    render_v_chassis.move( input_vehicle->pos.x * ZOOM_FACTOR + offset_x,
-			   input_vehicle->pos.y * ZOOM_FACTOR + offset_y );
+    render_v_chassis.move( input_vehicle->pos.x * ZOOM_FACTOR + offset_x - render_v_chassis.getSize().y/2  * sin(-input_vehicle->vehicle_angle * DEG_TO_RAD),
+			   input_vehicle->pos.y * ZOOM_FACTOR + offset_y  - render_v_chassis.getSize().y/2  * cos(-input_vehicle->vehicle_angle * DEG_TO_RAD));
 
     render_v_chassis.setFillColor( sf::Color(0, 0, 0, 0) );
     render_v_chassis.setOutlineColor( sf::Color(0, 0, 0, alpha) );
     render_v_chassis.setOutlineThickness(1.0);
 
 
-    sf::Vector2f veh_center = sf::Vector2f(render_v_chassis.getPosition().x + render_v_chassis.getSize().x/2,
-					   render_v_chassis.getPosition().y + render_v_chassis.getSize().y/2);
+    sf::Vector2f veh_center = sf::Vector2f(render_v_chassis.getPosition().x,// + render_v_chassis.getSize().x/2  * sin(-input_vehicle->vehicle_angle * DEG_TO_RAD),// + render_v_chassis.getSize().x/2,
+					   render_v_chassis.getPosition().y);// - render_v_chassis.getSize().y/2  * cos(-input_vehicle->vehicle_angle * DEG_TO_RAD));
 
     sf::Transform veh_rotation;
     sf::Transform steering_angle_rotation_l;
@@ -349,17 +365,17 @@ void World::render_vehicle( sf::RenderWindow& window,
     render_v_wheel_fl.setFillColor( sf::Color(0, 0, 255, alpha) );
     render_v_wheel_fr.setFillColor( sf::Color(0, 0, 255, alpha) );
 
-    render_v_wheel_bl.move( (input_vehicle->pos.x) * ZOOM_FACTOR + offset_x,
-			    (input_vehicle->pos.y + input_vehicle->width - wheel_width) * ZOOM_FACTOR + offset_y);
+    render_v_wheel_bl.move( (input_vehicle->pos.x) * ZOOM_FACTOR + offset_x - render_v_chassis.getSize().y/2  * sin(-input_vehicle->vehicle_angle * DEG_TO_RAD),
+			    (input_vehicle->pos.y + input_vehicle->width - wheel_width) * ZOOM_FACTOR + offset_y  - render_v_chassis.getSize().y/2  * cos(-input_vehicle->vehicle_angle * DEG_TO_RAD));
 
-    render_v_wheel_br.move( (input_vehicle->pos.x) * ZOOM_FACTOR  + offset_x,
-			    (input_vehicle->pos.y) * ZOOM_FACTOR  + offset_y);
+    render_v_wheel_br.move( (input_vehicle->pos.x) * ZOOM_FACTOR  + offset_x - render_v_chassis.getSize().y/2  * sin(-input_vehicle->vehicle_angle * DEG_TO_RAD),
+			    (input_vehicle->pos.y) * ZOOM_FACTOR  + offset_y  - render_v_chassis.getSize().y/2  * cos(-input_vehicle->vehicle_angle * DEG_TO_RAD));
 
-    render_v_wheel_fl.move( (input_vehicle->pos.x + input_vehicle->length - wheel_length) * ZOOM_FACTOR  + offset_x,
-			    (input_vehicle->pos.y + input_vehicle->width - wheel_width) * ZOOM_FACTOR  + offset_y);
+    render_v_wheel_fl.move( (input_vehicle->pos.x + input_vehicle->length - wheel_length) * ZOOM_FACTOR  + offset_x - render_v_chassis.getSize().y/2  * sin(-input_vehicle->vehicle_angle * DEG_TO_RAD),
+			    (input_vehicle->pos.y + input_vehicle->width - wheel_width) * ZOOM_FACTOR  + offset_y  - render_v_chassis.getSize().y/2  * cos(-input_vehicle->vehicle_angle * DEG_TO_RAD));
 
-    render_v_wheel_fr.move( (input_vehicle->pos.x + input_vehicle->length - wheel_length) * ZOOM_FACTOR  + offset_x,
-			    (input_vehicle->pos.y) * ZOOM_FACTOR  + offset_y);
+    render_v_wheel_fr.move( (input_vehicle->pos.x + input_vehicle->length - wheel_length) * ZOOM_FACTOR  + offset_x - render_v_chassis.getSize().y/2  * sin(-input_vehicle->vehicle_angle * DEG_TO_RAD),
+			    (input_vehicle->pos.y) * ZOOM_FACTOR  + offset_y  - render_v_chassis.getSize().y/2  * cos(-input_vehicle->vehicle_angle * DEG_TO_RAD));
 
 
     sf::Vector2f center_wheel_l = sf::Vector2f( render_v_wheel_fl.getPosition().x + render_v_wheel_fl.getSize().x/2,
@@ -377,6 +393,11 @@ void World::render_vehicle( sf::RenderWindow& window,
     window.draw(render_v_wheel_br, veh_rotation);
     window.draw(render_v_wheel_fl, steering_angle_rotation_l);
     window.draw(render_v_wheel_fr, steering_angle_rotation_r);
+
+    render_circle_current_pos.setPosition( input_vehicle->pos.x * ZOOM_FACTOR + offset_x - 2,
+					   input_vehicle->pos.y * ZOOM_FACTOR + offset_y - 2);
+
+    window.draw( render_circle_current_pos );
 
 }
 

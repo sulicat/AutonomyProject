@@ -15,7 +15,8 @@
 
 #define RAD_TO_DEG (180.0 / 3.1415)
 #define DEG_TO_RAD (3.1415 / 180.0)
-#define MAX_KIN_ANGLE (20)
+
+#define MAX_KIN_ANGLE (15)
 
 class RRT{
 public:
@@ -40,7 +41,7 @@ public:
 	srand (time(NULL));
 	cost_map_w = cost_map.cell_num_x * cost_map.cell_dimension;
 	cost_map_h = cost_map.cell_num_y * cost_map.cell_dimension;
-	radius_of_influence = 5*5;
+	radius_of_influence = 7*7;
 
     }
 
@@ -84,7 +85,9 @@ public:
 	return closest;
     }
 
+
     Node* project_towards( Node* from, Node* to, float dt = 8 ){
+
 	float edge_len = sqrt( dist_between(from, to) );
 	float normal_x = (to->x - from->x) / edge_len;
 	float normal_y = (to->y - from->y) / edge_len;
@@ -94,7 +97,7 @@ public:
 	return out;
     }
 
-    Node* project_towards_using_kin( bool& add, Node* from, Node* to, float dt = 3 ){
+    Node* project_towards_using_kin( bool& add, Node* from, Node* to, float dt = 4 ){
 	//asd
 	float x_dist = to->x - from->x;
 	float y_dist = to->y - from->y;
@@ -179,8 +182,8 @@ public:
         cost_map_h = cost_map.cell_num_y * cost_map.cell_dimension;
 
 	// add the root to all the nodes
-	float _start_x = start.pos.x + start.vehicle_length + 1;
-	float _start_y = start.pos.y + start.vehicle_width/2;
+	float _start_x = start.pos.x;// + start.vehicle_length/2*cos(start.vehicle_angle);
+	float _start_y = start.pos.y;// - start.vehicle_width/2*cos(start.vehicle_angle);
 	root = new Node( _start_x, _start_y );
 	all_tree_nodes.push_back(root);
 
@@ -190,7 +193,7 @@ public:
 	int i = 0;
 	int i_max = itter * 100;
 	while( i < itter && i_max > 0 && !reached ){
-	    bool added = step( i_max % 20 == 0 );
+	    bool added = step( i_max % 2 == 0 );
 
 	    i_max--;
 	    if( added )
