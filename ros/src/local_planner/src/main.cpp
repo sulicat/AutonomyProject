@@ -103,11 +103,11 @@ bool plan_for( float time_alotted ){
 
 	Node* out_tree = rrt.get_tree();
 	pub_local_tree.publish( out_tree->create_render_tree() );
-	//Node* best_node = rrt.find_cheapest_node();
+	Node* best_node = rrt.find_cheapest_node();
 
 	local_planner::Trajectory out;
-	//out = out_tree->dfs_traj( best_node );
-	out = out_tree->dfs_traj( rrt.goal );
+	out = out_tree->dfs_traj( best_node );
+	//out = out_tree->dfs_traj( rrt.goal );
 	pub_local_plan.publish(out);
 
 	std::cout << "[Local Planner] ran for: " << total_time << "\n";
