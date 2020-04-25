@@ -15,6 +15,7 @@
 #include "world_vis/VehicleState.h"
 #include "world_vis/VehicleMoveCommand.h"
 #include "world_vis/Waypoint.h"
+#include "world_vis/PID_Gains.h"
 #include "world_vis/Trajectory.h"
 #include "world_vis/Line.h"
 #include "world_vis/RenderTree.h"
@@ -33,6 +34,9 @@ world_vis::Trajectory global_plan;
 world_vis::RenderTree global_tree;
 world_vis::Trajectory local_plan;
 world_vis::RenderTree local_tree;
+world_vis::PID_Gains pid_Ks;
+
+
 
 BaseVehicle wpt_tracking_goal_state;
 int mouse_drag_x_press = 0;
@@ -107,6 +111,7 @@ int main( int argc, char** argv ){
     GUI::Instance()->setStatus( &status );
     GUI::Instance()->setTeleAngle( &tele_angle );
     GUI::Instance()->setTrackedAngle( &tracked_angle );
+    GUI::Instance()->updatePID_Gains( pid_Ks );
 
     ImGui::SFML::Init(window);
 
@@ -114,6 +119,7 @@ int main( int argc, char** argv ){
     ros::NodeHandle node_handle;
 
     ros::Publisher move_command_pub = node_handle.advertise<world_vis::VehicleMoveCommand>( "vehicle_move_command", 1 );
+    ros::Publisher pid_gains = node_handle.advertise<world_vis::PID_Gains>( "pid_gains", 1 );
     ros::Subscriber sub = node_handle.subscribe("vehicle_state", 1, veh_state_callback);
     ros::Subscriber sub_tracked = node_handle.subscribe("tracked_goal", 1, tracked_goal_callback);
     ros::Subscriber sub_end = node_handle.subscribe("end_goal", 1, end_goal_callback);
@@ -145,6 +151,7 @@ int main( int argc, char** argv ){
 
 	    bool publish_move_command = false;
 	    world_vis::VehicleMoveCommand move_command;
+
 	    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ){
 		publish_move_command = true;
 		move_command.linear_vel = vehicle.linear_vel;
@@ -211,8 +218,9 @@ int main( int argc, char** argv ){
 					 event.mouseButton.y,
 					 tracked_angle );
 
-		    }
-
+		    }else if( status == "gains"){
+            pid_gains.publish(pid_Ks);
+            }
 		    status = "none";
 		}
 

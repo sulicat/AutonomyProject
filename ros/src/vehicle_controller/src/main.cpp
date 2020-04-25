@@ -8,6 +8,7 @@
 #include "vehicle_controller/VehicleMoveCommand.h"
 #include "vehicle_controller/Waypoint.h"
 #include "vehicle_controller/Trajectory.h"
+#include "vehicle_controller/PID_Gains.h"
 
 #define PI 3.141592653589793
 #define RAD_TO_DEG (180.0/PI)
@@ -23,17 +24,18 @@ float velocity_error_prev = 0.0;
 
 float angle_error = 0.0;
 float angle_error_prev = 0.0;
+float heading_error = 0.0;
 
-float Kp_lin_vel_direction = 0.5;
-float Kp_lin_vel_heading = 0.5;
+float Kp_ang_vel_direction = 0.0;
+float Kp_ang_vel_heading = 0.0;
 float Kp_lin_vel = 1.0;
-float Kp_ang_vel = 4.0;
+float Kp_ang_vel = 0.0;
 
 float Ki_lin_vel = 0.7;
-float Ki_ang_vel = 0.5;
+float Ki_ang_vel = 0.0;
 
 float Kd_lin_vel = 0.5;
-float Kd_ang_vel = 0.0;
+float Kd_ang_vel = 10000.0;
 
 float prev_angle = 0.0;
 
@@ -43,6 +45,8 @@ BaseVehicle vehicle;
 //BaseVehicle* vehicle_state;
 vehicle_controller::Waypoint wpt_tracking_goal;
 vehicle_controller::Trajectory global_plan;
+vehicle_controller::PID_Gains pid_gains;
+
 BaseVehicle wpt_tracking_goal_state;
 BaseVehicle* wpt_tracking_vehicle;
 //float wpt_tracking_goal = 0.0;
@@ -71,6 +75,11 @@ void global_plan_callback( vehicle_controller::Trajectory plan_in ){
     got_global_plan = true;
 }
 
+void pid_gains_callback( vehicle_controller::PID_Gains _gains ){
+pid_gains = _gains;
+ std::cout << "Got the gains!\n";
+}
+
 int main( int argc, char** argv){
 
     ros::init(argc, argv, "vehicle_controller");
@@ -80,7 +89,7 @@ int main( int argc, char** argv){
     ros::Subscriber sub = node_handle.subscribe("vehicle_state", 1, veh_state_callback);
     ros::Subscriber sub_tracked = node_handle.subscribe("tracked_goal", 1, tracked_goal_callback);
     ros::Subscriber sub_global_plan = node_handle.subscribe("global_plan", 1, global_plan_callback);
-
+    ros::Subscriber sub_pid_gains = node_handle.subscribe("pid_gains", 1, pid_gains_callback);
 
     ros::Rate rate(RATE);
 
@@ -95,103 +104,21 @@ int main( int argc, char** argv){
                 x_error = wpt_tracking_goal.state.pos.x - vehicle.pos.x;
                 y_error = wpt_tracking_goal.state.pos.y - vehicle.pos.y;
                 velocity_error = sqrt( pow( x_error , 2.0 ) + pow( y_error , 2.0 ) );
-                //move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
-                // if (abs(prev_angle - atan2( y_error , x_error ) * RAD_TO_DEG )>=90){
-                //     move_command.linear_vel = Kp_lin_vel * - velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
-                // } else{
-                //     move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
-                // }
-                // if ((-vehicle.vehicle_angle > -180) & (-vehicle.vehicle_angle <= -90)){
-                //     if (abs(y_error) >= 0.00001){
-                //         if (vehicle.pos.y >= wpt_tracking_goal.state.pos.y){
-                //             velocity_error = -velocity_error;
-                //         }
-                //         else{
-                //             velocity_error = velocity_error;
-                //         }
-                //     }
-                //     else{
-                //         if (-vehicle.pos.x >= -wpt_tracking_goal.state.pos.x){
-                //             velocity_error = velocity_error;
-                //         }
-                //         else {
-                //             velocity_error = -velocity_error;
-                //         }
-                //     }
-                // }
 
-                // if ((-vehicle.vehicle_angle > -90) & (-vehicle.vehicle_angle <= 0)){
-                //     if (abs(y_error) >= 0.00001){
-                //         if (vehicle.pos.y >= wpt_tracking_goal.state.pos.y){
-                //             velocity_error = velocity_error;
-                //         }
-                //         else{
-                //             velocity_error = -velocity_error;
-                //         }
-                //     }
-                //     else{
-                //         if (-vehicle.pos.x >= -wpt_tracking_goal.state.pos.x){
-                //             velocity_error = velocity_error;
-                //         }
-                //         else {
-                //             velocity_error = -velocity_error;
-                //         }
-                //     }
-                // }
+                move_command.linear_vel = pid_gains.kp_lin_vel * velocity_error - pid_gains.kd_lin_vel * vehicle.linear_vel + pid_gains.ki_lin_vel *  velocity_error_prev;
+                angle_error = atan2( y_error , x_error ) * RAD_TO_DEG - vehicle.vehicle_angle;
+                heading_error = wpt_tracking_goal.state.vehicle_angle - vehicle.vehicle_angle;
+                //move_command.steering_angle_vel = Kp_ang_vel * angle_error - Kd_ang_vel * vehicle.steering_angle_vel + Ki_ang_vel *  angle_error_prev;
+                move_command.steering_angle_vel = pid_gains.kp_ang_vel_direction * angle_error + pid_gains.kp_ang_vel_heading * heading_error - pid_gains.kd_ang_vel * vehicle.steering_angle_vel + pid_gains.ki_ang_vel *  angle_error_prev;
 
-                // if ((-vehicle.vehicle_angle > 0) & (-vehicle.vehicle_angle <= 90)){
-                //     if (abs(y_error) >= 0.00001){
-                //         if (vehicle.pos.y >= wpt_tracking_goal.state.pos.y){
-                //             velocity_error = velocity_error;
-                //         }
-                //         else{
-                //             velocity_error = -velocity_error;
-                //         }
-                //     }
-                //     else{
-                //         if (-vehicle.pos.x >= -wpt_tracking_goal.state.pos.x){
-                //             velocity_error = -velocity_error;
-                //         }
-                //         else {
-                //             velocity_error = velocity_error;
-                //         }
-                //     }
-                // }
-
-                // if ((-vehicle.vehicle_angle > 90) & (-vehicle.vehicle_angle <= 180)){
-                //     if (abs(y_error) >= 0.00001){
-                //         if (vehicle.pos.y >= wpt_tracking_goal.state.pos.y){
-                //             velocity_error = -velocity_error;
-                //         }
-                //         else{
-                //             velocity_error = velocity_error;
-                //         }
-                //     }
-                //     else{
-                //         if (-vehicle.pos.x >= -wpt_tracking_goal.state.pos.x){
-                //             velocity_error = -velocity_error;
-                //         }
-                //         else {
-                //             velocity_error = velocity_error;
-                //         }
-                //     }
-                // }
-
-
-
-
-
-
-                move_command.linear_vel = Kp_lin_vel * velocity_error - Kd_lin_vel * vehicle.linear_vel + Ki_lin_vel *  velocity_error_prev;
                 if (velocity_error <= 0.5){
                      move_command.linear_vel = 0.0;
+                     move_command.steering_angle_vel = 0.0;
                 }
-                angle_error = atan2( y_error , x_error ) * RAD_TO_DEG - vehicle.vehicle_angle;
-                move_command.steering_angle_vel = Kp_ang_vel * angle_error - Kd_ang_vel * vehicle.steering_angle_vel + Ki_ang_vel *  angle_error_prev;
-                std::cout << "\n\n\n\nVelocity error: " << velocity_error << "\n";
-                std::cout << "Current x Position: " << vehicle.pos.x << "\n";
-                std::cout << "Current y Position: " << vehicle.pos.y << "\n";
-                std::cout << "Current angle: " << vehicle.vehicle_angle << "\n";
+                // std::cout << "\n\n\n\nVelocity error: " << velocity_error << "\n";
+                // std::cout << "Current x Position: " << vehicle.pos.x << "\n";
+                // std::cout << "Current y Position: " << vehicle.pos.y << "\n";
+                // std::cout << "Current angle: " << vehicle.vehicle_angle << "\n";
 
                 move_command_pub.publish( move_command );
 
@@ -252,8 +179,6 @@ int main( int argc, char** argv){
                     i = 0;
 
                 }
-
-
             }
 
 //es(1).x1 = error(1);

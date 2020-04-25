@@ -74,7 +74,12 @@ bool plan_for( float time_alotted ){
 
 	global_goal.pos.x = global_plan.points[ goal_index ].state.pos.x;
 	global_goal.pos.y = global_plan.points[ goal_index ].state.pos.y;
-	global_goal.vehicle_angle = global_plan.points[ goal_index ].state.vehicle_angle;
+    if (goal_index == global_plan.points.size()){
+        global_goal.vehicle_angle = global_plan.points[ goal_index ].state.vehicle_angle;
+    } else {
+        global_goal.vehicle_angle = global_plan.points[ goal_index + 1].state.vehicle_angle;
+    }
+
 
 	local_goal = global_goal; //for now
 	pub_local_goal.publish( local_goal );

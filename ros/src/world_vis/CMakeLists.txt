@@ -31,6 +31,7 @@ add_message_files(
   CostMap.msg
   Line.msg
   RenderTree.msg
+  PID_Gains.msg
   )
 
 ## Generate services in the 'srv' folder
