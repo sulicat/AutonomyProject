@@ -13,6 +13,7 @@
 #include "local_planner/Line.h"
 #include "local_planner/RenderTree.h"
 #include <std_msgs/Empty.h>
+#include <std_msgs/Bool.h>
 
 #include "node.h"
 #include "RRT.h"
@@ -36,8 +37,8 @@ int goal_index = 0;
 bool is_running = false;
 float REACHED_RADIUS = 15;
 
-void local_plan_start_callback( std_msgs::Empty e ){
-    is_running = true;
+void local_plan_start_callback( std_msgs::Bool e ){
+    is_running = e.data;
 }
 
 void vehicle_state_callback( local_planner::VehicleState _vs ){
@@ -74,11 +75,12 @@ bool plan_for( float time_alotted ){
 
 	global_goal.pos.x = global_plan.points[ goal_index ].state.pos.x;
 	global_goal.pos.y = global_plan.points[ goal_index ].state.pos.y;
-    if (goal_index == global_plan.points.size()){
-        global_goal.vehicle_angle = global_plan.points[ goal_index ].state.vehicle_angle;
-    } else {
-        global_goal.vehicle_angle = global_plan.points[ goal_index + 1].state.vehicle_angle;
-    }
+
+	if (goal_index == global_plan.points.size()){
+	    global_goal.vehicle_angle = global_plan.points[ goal_index ].state.vehicle_angle;
+	} else {
+	    global_goal.vehicle_angle = global_plan.points[ goal_index + 1].state.vehicle_angle;
+	}
 
 
 	local_goal = global_goal; //for now
@@ -161,7 +163,7 @@ int main( int argc, char** argv){
 
     while( ros::ok() ){
 
-	if( is_running && goal_index >= 0 ){
+	if( is_running && goal_index >= 0 && goal_index < global_plan.points.size()){
 	    plan_for( (1.0/RATE) * 0.5 );
 	    send_move_command();
 	    check_pos();

@@ -27,7 +27,7 @@ World::World( ros::NodeHandle* node_handle ){
     teleport_pub = node_handle->advertise<world_vis::VehicleState>( "vehicle_teleport", 1 );
     end_state_pub = node_handle->advertise<world_vis::VehicleState>( "end_goal", 1 );
     global_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "global_start_command", 1 );
-    local_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "local_start_command", 1 );
+    local_plan_start_pub = node_handle->advertise<std_msgs::Bool>( "local_start_command", 1 );
     tracked_pub = node_handle->advertise<world_vis::Waypoint>( "tracked_goal", 1 );
     pid_gains_pub = node_handle->advertise<world_vis::PID_Gains>( "pid_gains", 1 );
 
@@ -41,8 +41,13 @@ World::World( ros::NodeHandle* node_handle ){
     render_circle_current_pos.setFillColor( sf::Color(255, 0, 0) );
 
 
-    render_circle_local_goal = sf::CircleShape(5);
+    render_circle_local_goal = sf::CircleShape(3);
     render_circle_local_goal.setFillColor( sf::Color(255, 0, 0) );
+
+    show_global_rrt = true;
+    show_global_plan = true;
+    show_local_rrt = true;
+    show_local_plan = true;
 
 }
 
@@ -98,8 +103,10 @@ void World::publish_global_plan_start(){
     global_plan_start_pub.publish( std_msgs::Empty() );
 }
 
-void World::publish_local_plan_start(){
-    local_plan_start_pub.publish( std_msgs::Empty() );
+void World::publish_local_plan_start( bool t ){
+    std_msgs::Bool comm;
+    comm.data = t;
+    local_plan_start_pub.publish( comm );
 }
 
 void World::publish_pid_gains( world_vis::PID_Gains gains ){
@@ -224,7 +231,7 @@ void World::render_meter_line( sf::RenderWindow& window ){
 
 // Too many divisions bro... clean this up when sober :/
 void World::render_local_tree( sf::RenderWindow& window ){
-    draw_tree( window, local_tree, sf::Color(0, 0, 0, 20) );
+    draw_tree( window, local_tree, sf::Color(0, 0, 0, 200) );
 }
 
 void World::render_local_plan( sf::RenderWindow& window ){
@@ -247,7 +254,18 @@ void World::teleport( int x, int y, float angle ){
     tele_state.steering_angle = 0.0;
     tele_state.vehicle_angle = angle;
 
+    last_tele_state = tele_state;
+
     teleport_pub.publish( tele_state );
+}
+
+void World::reset(  ){
+    // tracked goal to 00
+    set_track( 0, 0, 0 );
+    // local planner off
+    publish_local_plan_start( false );
+    // teleport to the last teleported state
+    teleport( last_tele_state.pos.x, last_tele_state.pos.y, last_tele_state.vehicle_angle );
 }
 
 void World::set_track( int x, int y, float angle ){
@@ -449,10 +467,19 @@ void World::render( sf::RenderWindow& window ){
     render_obstacles( window );
     render_meter_line( window );
     render_end_goal( window );
-    render_global_tree( window );
-    render_global_plan( window );
-    render_local_tree( window );
-    render_local_plan( window );
+
+    if( show_global_rrt )
+	render_global_tree( window );
+
+    if( show_global_plan )
+	render_global_plan( window );
+
+    if( show_local_rrt )
+	render_local_tree( window );
+
+    if( show_local_plan )
+	render_local_plan( window );
+
     render_local_goal( window );
     render_vehicle( window, vehicle );
 }

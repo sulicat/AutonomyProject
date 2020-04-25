@@ -65,6 +65,11 @@ void GUI::render(){
 		if( ImGui::Button("Clear Tracked") ){
 		    world->clear_track();
 		}
+
+		if( ImGui::Button("RESET") ){
+		    world->reset();
+		}
+
 		ImGui::EndTabItem();
 	    }
 
@@ -80,7 +85,11 @@ void GUI::render(){
 		}
 
 		if( ImGui::Button("Run Local Planner") ){
-		    world->publish_local_plan_start();
+		    world->publish_local_plan_start( true );
+		}
+
+		if( ImGui::Button("Stop Local Planner") ){
+		    world->publish_local_plan_start( false );
 		}
 
 		ImGui::EndTabItem();
@@ -107,13 +116,16 @@ void GUI::render(){
 
 
 		if( ImGui::Button("Set Gains") ){
-		    //pid_gains_pub.publish(pid_gains);
 		    world->publish_pid_gains(pid_gains);
 		}
 		ImGui::EndTabItem();
 	    }
 	    // --------------------------------------------------------------------------------
 	    if (ImGui::BeginTabItem("Show/Hide")){
+		ImGui::Checkbox("global plan", &(world->show_global_plan) );
+		ImGui::Checkbox("local plan", &(world->show_local_plan) );
+		ImGui::Checkbox("global rrt", &(world->show_global_rrt) );
+		ImGui::Checkbox("local rrt", &(world->show_local_rrt) );
 
 		ImGui::EndTabItem();
 	    }

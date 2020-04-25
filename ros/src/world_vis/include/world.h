@@ -16,6 +16,7 @@
 #include "world_vis/RenderTree.h"
 #include "world_vis/PID_Gains.h"
 #include <std_msgs/Empty.h>
+#include <std_msgs/Bool.h>
 #include <iostream>
 
 
@@ -39,6 +40,11 @@ public:
     int WINDOW_WIDTH;
     int WINDOW_HEIGHT;
 
+    bool show_global_rrt;
+    bool show_global_plan;
+    bool show_local_rrt;
+    bool show_local_plan;
+
     std::vector< world_vis::Obstacle > obstacles_static;
     std::vector< world_vis::Obstacle > obstacles_dynamic;
 
@@ -57,12 +63,13 @@ public:
     void add_obstacle( int type, float x, float y, float w, float h );
     void load_obstacles( std::string path );
     void publish_obstacles();
-    void publish_global_plan_start();
-    void publish_local_plan_start();
+    void publish_global_plan_start( );
+    void publish_local_plan_start( bool data );
     void publish_pid_gains( world_vis::PID_Gains gains );
     void teleport( int x, int y, float angle );
     void set_track( int x, int y, float angle );
     void clear_track();
+    void reset();
     void set_end_goal( int x, int y );
     void update_end_goal( int x, int y );
     void render_global_plan( sf::RenderWindow& window );
@@ -98,6 +105,8 @@ private:
     ros::Publisher local_plan_start_pub;
     ros::Publisher tracked_pub;
     ros::Publisher pid_gains_pub;
+
+    world_vis::VehicleState last_tele_state;
 
     float end_goal_x;
     float end_goal_y;
