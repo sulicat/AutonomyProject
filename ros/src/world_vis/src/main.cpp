@@ -34,7 +34,6 @@ world_vis::Trajectory global_plan;
 world_vis::RenderTree global_tree;
 world_vis::Trajectory local_plan;
 world_vis::RenderTree local_tree;
-world_vis::PID_Gains pid_Ks;
 
 
 
@@ -111,7 +110,6 @@ int main( int argc, char** argv ){
     GUI::Instance()->setStatus( &status );
     GUI::Instance()->setTeleAngle( &tele_angle );
     GUI::Instance()->setTrackedAngle( &tracked_angle );
-    GUI::Instance()->updatePID_Gains( pid_Ks );
 
     ImGui::SFML::Init(window);
 
@@ -119,7 +117,6 @@ int main( int argc, char** argv ){
     ros::NodeHandle node_handle;
 
     ros::Publisher move_command_pub = node_handle.advertise<world_vis::VehicleMoveCommand>( "vehicle_move_command", 1 );
-    ros::Publisher pid_gains = node_handle.advertise<world_vis::PID_Gains>( "pid_gains", 1 );
     ros::Subscriber sub = node_handle.subscribe("vehicle_state", 1, veh_state_callback);
     ros::Subscriber sub_tracked = node_handle.subscribe("tracked_goal", 1, tracked_goal_callback);
     ros::Subscriber sub_end = node_handle.subscribe("end_goal", 1, end_goal_callback);
@@ -217,10 +214,8 @@ int main( int argc, char** argv ){
 			world.set_track( event.mouseButton.x,
 					 event.mouseButton.y,
 					 tracked_angle );
+		    }
 
-		    }else if( status == "gains"){
-            pid_gains.publish(pid_Ks);
-            }
 		    status = "none";
 		}
 

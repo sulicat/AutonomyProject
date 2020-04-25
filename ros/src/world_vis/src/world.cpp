@@ -29,6 +29,7 @@ World::World( ros::NodeHandle* node_handle ){
     global_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "global_start_command", 1 );
     local_plan_start_pub = node_handle->advertise<std_msgs::Empty>( "local_start_command", 1 );
     tracked_pub = node_handle->advertise<world_vis::Waypoint>( "tracked_goal", 1 );
+    pid_gains_pub = node_handle->advertise<world_vis::PID_Gains>( "pid_gains", 1 );
 
     WINDOW_WIDTH = 1080;
     WINDOW_HEIGHT = 720;
@@ -99,6 +100,10 @@ void World::publish_global_plan_start(){
 
 void World::publish_local_plan_start(){
     local_plan_start_pub.publish( std_msgs::Empty() );
+}
+
+void World::publish_pid_gains( world_vis::PID_Gains gains ){
+    pid_gains_pub.publish(gains);
 }
 
 void World::publish_obstacles(){

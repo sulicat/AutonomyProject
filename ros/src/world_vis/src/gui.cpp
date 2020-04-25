@@ -1,20 +1,6 @@
 #include "gui.h"
-//#include "world_vis/PID_Gains.h"
-//#include "ros/ros.h"
-
 
 GUI* GUI::instance = NULL;
-// int* kp_ang_vel_direction;
-// int* kp_ang_vel_heading;
-// int* kp_lin_vel;
-// int* kp_ang_vel;
-// int* ki_lin_vel;
-// int* ki_ang_vel;
-// int* kd_lin_vel;
-// int* kd_ang_vel;
-
-
-
 
 // singleton
 GUI::GUI(){
@@ -31,8 +17,6 @@ GUI::GUI(){
     pid_gains.ki_ang_vel = 0.0;
     pid_gains.kd_ang_vel = 0.0;
     //pid_gains.kp_ang_vel = 0.0;
-    *status = "gains";
-
 }
 
 GUI* GUI::Instance(){
@@ -41,17 +25,7 @@ GUI* GUI::Instance(){
 
     return instance;
 }
-
-
-	//world_vis::PID_Gains pid_gains;
-	//ros::init();
-	 //ros::init(argc, argv, "gui");
-
-
-	// ros::NodeHandle node_handle;
-	// ros::Publisher pid_gains_pub = node_handle.advertise<world_vis::PID_Gains>( "pid_gains", 1 );
 void GUI::render(){
-
 
     // draw the main window
     {
@@ -114,33 +88,26 @@ void GUI::render(){
 	    // --------------------------------------------------------------------------------
 	    if (ImGui::BeginTabItem("PID Tuning")){
 
-    	ImGui::InputFloat("kp_lin_vel",  &(pid_gains.kp_lin_vel) , 0.01);
-    	//pid_gains.kp_lin_vel = &kp_lin_vel;//x / 100.0;
+		ImGui::InputFloat("kp_lin_vel",  &(pid_gains.kp_lin_vel) , 0.01);
 
-    	ImGui::InputFloat("ki_lin_vel", &(pid_gains.ki_lin_vel), 0.01);
-    	//pid_gains.ki_lin_vel = &ki_lin_vel;//x / 100.0;
+		ImGui::InputFloat("ki_lin_vel", &(pid_gains.ki_lin_vel), 0.01);
 
-    	ImGui::InputFloat("kd_lin_vel", &(pid_gains.kd_lin_vel), 0.01);
-    	//pid_gains.kd_lin_vel = &kd_lin_vel;//x / 100.0;
+		ImGui::InputFloat("kd_lin_vel", &(pid_gains.kd_lin_vel), 0.01);
 
-    	//ImGui::InputFloat("kp_ang_vel", pid_gains.kp_ang_vel);
+		//ImGui::InputFloat("kp_ang_vel", pid_gains.kp_ang_vel);
 
-    	ImGui::InputFloat("kp_ang_vel_direction", &(pid_gains.kp_ang_vel_direction), 0.01);
-    	//pid_gains.kp_ang_vel_direction = &kp_ang_vel_direction;//x / 100.0;
+		ImGui::InputFloat("kp_ang_vel_direction", &(pid_gains.kp_ang_vel_direction), 0.01);
 
 		ImGui::InputFloat("kp_ang_vel_heading", &(pid_gains.kp_ang_vel_heading), 0.01);
-		//pid_gains.kp_ang_vel_heading = &kp_ang_vel_heading;//x / 100.0;
 
 		ImGui::InputFloat("ki_ang_vel", &(pid_gains.ki_ang_vel), 0.01);
-		//pid_gains.ki_ang_vel = &ki_ang_vel;//x / 100.0;
 
 		ImGui::InputFloat("kd_ang_vel", &(pid_gains.kd_ang_vel), 0.01);
-		//pid_gains.kd_ang_vel = &kd_ang_vel;//x / 100.0;
 
 
 		if( ImGui::Button("Set Gains") ){
 		    //pid_gains_pub.publish(pid_gains);
-		    *status = "gains";
+		    world->publish_pid_gains(pid_gains);
 		}
 		ImGui::EndTabItem();
 	    }

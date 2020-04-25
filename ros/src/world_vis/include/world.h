@@ -14,6 +14,7 @@
 #include "world_vis/ObstacleList.h"
 #include "world_vis/Line.h"
 #include "world_vis/RenderTree.h"
+#include "world_vis/PID_Gains.h"
 #include <std_msgs/Empty.h>
 #include <iostream>
 
@@ -58,6 +59,7 @@ public:
     void publish_obstacles();
     void publish_global_plan_start();
     void publish_local_plan_start();
+    void publish_pid_gains( world_vis::PID_Gains gains );
     void teleport( int x, int y, float angle );
     void set_track( int x, int y, float angle );
     void clear_track();
@@ -95,6 +97,7 @@ private:
     ros::Publisher global_plan_start_pub;
     ros::Publisher local_plan_start_pub;
     ros::Publisher tracked_pub;
+    ros::Publisher pid_gains_pub;
 
     float end_goal_x;
     float end_goal_y;

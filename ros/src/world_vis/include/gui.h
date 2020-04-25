@@ -23,7 +23,7 @@ public:
     }
 
     void updatePID_Gains( world_vis::PID_Gains _gains ){
-    pid_gains = _gains;
+	pid_gains = _gains;
     }
 
     void setStatus( std::string* _stat ){
@@ -41,7 +41,6 @@ public:
     world_vis::VehicleState veh_state;
     world_vis::PID_Gains pid_gains;
 
-    //world_vis::PID_Gains pid_gains;
 private:
     GUI();
     static GUI* instance;
@@ -50,14 +49,6 @@ private:
     std::string* status;
     int* tele_angle;
     int* tracked_angle;
-    // int kp_ang_vel_direction;
-    // int kp_ang_vel_heading;
-    // int kp_lin_vel;
-    // int kp_ang_vel;
-    // int ki_lin_vel;
-    // int ki_ang_vel;
-    // int kd_lin_vel;
-    // int kd_ang_vel;
 };
 
 #endif
