@@ -106,15 +106,18 @@ int main( int argc, char** argv){
                 velocity_error = sqrt( pow( x_error , 2.0 ) + pow( y_error , 2.0 ) );
 
                 move_command.linear_vel = pid_gains.kp_lin_vel * velocity_error - pid_gains.kd_lin_vel * vehicle.linear_vel + pid_gains.ki_lin_vel *  velocity_error_prev;
-                angle_error = atan2( y_error , x_error ) * RAD_TO_DEG - vehicle.vehicle_angle;
-                heading_error = wpt_tracking_goal.state.vehicle_angle - vehicle.vehicle_angle;
+                angle_error = atan2( y_error , x_error ) * RAD_TO_DEG - vehicle.steering_angle;// - vehicle.vehicle_angle;
+                std::cout << "current angle: " << atan2( y_error , x_error ) * RAD_TO_DEG << "\n\n\n\n\n\n\n";
+                heading_error = wpt_tracking_goal.state.vehicle_angle - vehicle.vehicle_angle;//- vehicle.vehicle_angle;
                 //move_command.steering_angle_vel = Kp_ang_vel * angle_error - Kd_ang_vel * vehicle.steering_angle_vel + Ki_ang_vel *  angle_error_prev;
-                move_command.steering_angle_vel = pid_gains.kp_ang_vel_direction * angle_error + pid_gains.kp_ang_vel_heading * heading_error - pid_gains.kd_ang_vel * vehicle.steering_angle_vel + pid_gains.ki_ang_vel *  angle_error_prev;
+                move_command.steering_angle_vel = pid_gains.kp_ang_vel_direction * angle_error + pid_gains.kp_ang_vel_heading * heading_error;// - pid_gains.kd_ang_vel * vehicle.steering_angle_vel + pid_gains.ki_ang_vel *  angle_error_prev;
 
                 if (velocity_error <= 0.5){
                      move_command.linear_vel = 0.0;
                      move_command.steering_angle_vel = 0.0;
                 }
+
+
                 // std::cout << "\n\n\n\nVelocity error: " << velocity_error << "\n";
                 // std::cout << "Current x Position: " << vehicle.pos.x << "\n";
                 // std::cout << "Current y Position: " << vehicle.pos.y << "\n";

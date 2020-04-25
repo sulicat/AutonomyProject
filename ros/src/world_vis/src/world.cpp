@@ -177,9 +177,11 @@ void World::draw_tree( sf::RenderWindow& window, world_vis::RenderTree* tree_in,
 }
 void World::draw_traj( sf::RenderWindow& window, world_vis::Trajectory* traj_in, sf::Color color_in ){
     float ZOOM_FACTOR = (float)WINDOW_WIDTH / window_width_m;
+    //simple_car::state_to_model( *wpt_tracking_vehicle, wpt_tracking->state );
+    //float offset_x =  //-wpt_tracking_vehicle->length / 2 * ZOOM_FACTOR  * sin(-wpt_tracking_vehicle->vehicle_angle * DEG_TO_RAD);
+    //float offset_y =  //-wpt_tracking_vehicle->width / 2 * ZOOM_FACTOR   * cos(-wpt_tracking_vehicle->vehicle_angle * DEG_TO_RAD);
     int offset_x = pan_x;
     int offset_y = pan_y;
-
 
 
     sf::VertexArray lines(sf::LinesStrip, traj_in->points.size());
@@ -297,8 +299,8 @@ void World::render_end_goal( sf::RenderWindow& window ){
     int offset_x = pan_x;
     int offset_y = pan_y;
 
-    render_circle_end_goal.setPosition( end_goal_x * ZOOM_FACTOR + offset_x - 5,
-					end_goal_y * ZOOM_FACTOR + offset_y - 5);
+    render_circle_end_goal.setPosition( end_goal_x * ZOOM_FACTOR + offset_x,
+					end_goal_y * ZOOM_FACTOR + offset_y);
 
     window.draw( render_circle_end_goal );
 
@@ -310,8 +312,8 @@ void World::render_local_goal( sf::RenderWindow& window ){
     int offset_x = pan_x;
     int offset_y = pan_y;
 
-    render_circle_local_goal.setPosition( local_goal->pos.x * ZOOM_FACTOR + offset_x,
-					  local_goal->pos.y * ZOOM_FACTOR + offset_y );
+    render_circle_local_goal.setPosition( local_goal->pos.x * ZOOM_FACTOR + offset_x -5,
+					  local_goal->pos.y * ZOOM_FACTOR + offset_y -5);
 
     window.draw( render_circle_local_goal );
 }

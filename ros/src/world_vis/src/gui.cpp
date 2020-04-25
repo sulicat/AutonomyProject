@@ -8,15 +8,16 @@ GUI::GUI(){
     status = new std::string;
     tele_angle = new int;
 
-    pid_gains.kp_lin_vel = 1.0;
+    pid_gains.kp_lin_vel = 3.0;
     pid_gains.ki_lin_vel = 0.7;
     pid_gains.kd_lin_vel = 0.5;
 
-    pid_gains.kp_ang_vel_direction = 10.0;
-    pid_gains.kp_ang_vel_heading = 10.0;
+    pid_gains.kp_ang_vel_direction = 20.0;
+    pid_gains.kp_ang_vel_heading = 20.0;
     pid_gains.ki_ang_vel = 0.0;
     pid_gains.kd_ang_vel = 0.0;
     //pid_gains.kp_ang_vel = 0.0;
+    //world->publish_pid_gains(pid_gains);
 }
 
 GUI* GUI::Instance(){

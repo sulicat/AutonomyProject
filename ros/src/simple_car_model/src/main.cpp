@@ -15,7 +15,7 @@
 #include "BaseVehicle.h"
 #include "ros_to_system.h"
 
-#define RATE (20)
+#define RATE (100)
 
 BaseVehicle vehicle_model;
 
