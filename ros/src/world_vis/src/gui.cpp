@@ -4,7 +4,8 @@ GUI* GUI::instance = NULL;
 
 // singleton
 GUI::GUI(){
-    strcpy(path_obstacles, "../obstacle_files/obstacles_300.json");
+    //strcpy(path_obstacles, "../obstacle_files/obstacles_city_0.json");
+    strcpy(path_obstacles, "../obstacle_files/obstacles_single.json");
     status = new std::string;
     tele_angle = new int;
 
@@ -44,7 +45,7 @@ void GUI::render(){
 		}
 
 		if( ImGui::Button("Load Empty") ){
-		    world->load_obstacles("../obstacle_files/empty.json");
+		    world->load_obstacles("../obstacle_files/obstacles_300.json");
 		}
 
 		ImGui::EndTabItem();

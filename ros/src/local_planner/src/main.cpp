@@ -36,6 +36,7 @@ local_planner::VehicleState local_goal;
 int goal_index = 0;
 bool is_running = false;
 float REACHED_RADIUS = 15;
+float plan_fetch_radius = 200;
 
 void local_plan_start_callback( std_msgs::Bool e ){
     is_running = e.data;
@@ -58,7 +59,7 @@ void global_plan_callback( local_planner::Trajectory _gp ){
     is_running = false;
 
     if( global_plan.points.size() > 1 ){
-	goal_index = 1;
+	goal_index = 2;
 
     }else{
 	goal_index = -1;
@@ -116,6 +117,7 @@ bool plan_for( float time_alotted ){
 	std::cout << "[Local Planner]   tracking wpt: " << goal_index << "\n";
 }
 
+/* // increment based on reached status
 void check_pos(){
     float v1[2] = {vehicle_state.pos.x, vehicle_state.pos.y};
     float v2[2] = {local_goal.pos.x, local_goal.pos.y};
@@ -126,6 +128,29 @@ void check_pos(){
 	    goal_index += 1;
 	}
     }
+
+    std::cout << "dist between: " << dist_between( v2, v1 ) << "\n";
+    std::cout << "goal index: " << goal_index << "\n";
+
+}
+*/
+
+// increment based on distance from vehicle
+void check_pos(){
+    float v1[2] = {vehicle_state.pos.x, vehicle_state.pos.y};
+    float v2[2] = {local_goal.pos.x, local_goal.pos.y};
+
+    int max_index = goal_index;
+    for( int i = goal_index; i < global_plan.points.size(); i++ ){
+	v2[0] = global_plan.points[i].state.pos.x;
+	v2[1] = global_plan.points[i].state.pos.y;
+
+	if( dist_between( v2, v1 ) < plan_fetch_radius ){
+	    max_index = i;
+	}
+    }
+
+    goal_index = max_index;
 
     std::cout << "dist between: " << dist_between( v2, v1 ) << "\n";
     std::cout << "goal index: " << goal_index << "\n";
