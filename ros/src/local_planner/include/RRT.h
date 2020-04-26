@@ -43,7 +43,7 @@ public:
 	cost_map_w = cost_map.cell_num_x * cost_map.cell_dimension;
 	cost_map_h = cost_map.cell_num_y * cost_map.cell_dimension;
 	radius_of_influence = 25;
-	MAX_KIN_ANGLE = 10.0;
+	MAX_KIN_ANGLE = 20.0;
 
     }
 

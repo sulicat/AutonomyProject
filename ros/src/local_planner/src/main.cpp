@@ -36,7 +36,7 @@ local_planner::VehicleState local_goal;
 int goal_index = 0;
 bool is_running = false;
 float REACHED_RADIUS = 15;
-float plan_fetch_radius = 200;
+float plan_fetch_radius = 500;
 
 void local_plan_start_callback( std_msgs::Bool e ){
     is_running = e.data;
@@ -83,9 +83,7 @@ bool plan_for( float time_alotted ){
 	    global_goal.vehicle_angle = global_plan.points[ goal_index + 1].state.vehicle_angle;
 	}
 
-
-	local_goal = global_goal; //for now
-	pub_local_goal.publish( local_goal );
+	pub_local_goal.publish( global_goal );
 
 	// create a tree at ther start
 	RRT rrt( cost_map, vehicle_state, global_goal );
@@ -94,7 +92,7 @@ bool plan_for( float time_alotted ){
 
 	while( total_time < time_alotted ){
 	    // keep stepping the tree
-	    rrt.step( step_count % 5 == 0 );
+	    rrt.step( step_count % 2 == 0 );
 
 	    step_count += 1;
 	    std::chrono::duration<double> time_diff = (std::chrono::system_clock::now() - start_time);
@@ -110,6 +108,10 @@ bool plan_for( float time_alotted ){
 	out = out_tree->dfs_traj( best_node );
 	//out = out_tree->dfs_traj( rrt.goal );
 	pub_local_plan.publish(out);
+
+	local_goal.pos.x = best_node->x;
+	local_goal.pos.y = best_node->y;
+	local_goal.vehicle_angle = best_node->angle;
 
 	std::cout << "[Local Planner] ran for: " << total_time << "\n";
 	std::cout << "[Local Planner]   steps: " << step_count << "\n";
@@ -138,7 +140,7 @@ void check_pos(){
 // increment based on distance from vehicle
 void check_pos(){
     float v1[2] = {vehicle_state.pos.x, vehicle_state.pos.y};
-    float v2[2] = {local_goal.pos.x, local_goal.pos.y};
+    float v2[2];
 
     int max_index = goal_index;
     for( int i = goal_index; i < global_plan.points.size(); i++ ){

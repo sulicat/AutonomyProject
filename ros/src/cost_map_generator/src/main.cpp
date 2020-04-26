@@ -15,7 +15,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 
-#define RATE (1)
+#define RATE (10)
 
 cost_map_generator::ObstacleList obstacles_static;
 cost_map_generator::ObstacleList obstacles_dynamic;
@@ -24,7 +24,7 @@ cost_map_generator::CostMap cost_map_local;
 cost_map_generator::VehicleState vehicle_state;
 
 float cell_size = 2; // in m
-float local_map_radius = 20; // in m
+float local_map_radius = 200; // in m
 
 
 void print_cost_map( cost_map_generator::CostMap cost_map, char* name ){
