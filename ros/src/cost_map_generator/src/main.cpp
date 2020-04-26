@@ -24,7 +24,7 @@ cost_map_generator::CostMap cost_map_local;
 cost_map_generator::VehicleState vehicle_state;
 
 float cell_size = 2; // in m
-float local_map_radius = 200; // in m
+float local_map_radius = 50; // in m
 
 
 void print_cost_map( cost_map_generator::CostMap cost_map, char* name ){

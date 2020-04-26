@@ -36,7 +36,7 @@ local_planner::VehicleState local_goal;
 int goal_index = 0;
 bool is_running = false;
 float REACHED_RADIUS = 15;
-float plan_fetch_radius = 500;
+float plan_fetch_radius = 300;
 
 void local_plan_start_callback( std_msgs::Bool e ){
     is_running = e.data;
@@ -92,7 +92,7 @@ bool plan_for( float time_alotted ){
 
 	while( total_time < time_alotted ){
 	    // keep stepping the tree
-	    rrt.step( step_count % 2 == 0 );
+	    rrt.step( step_count % 10 == 0 );
 
 	    step_count += 1;
 	    std::chrono::duration<double> time_diff = (std::chrono::system_clock::now() - start_time);

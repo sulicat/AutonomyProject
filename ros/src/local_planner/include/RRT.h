@@ -130,8 +130,12 @@ public:
 	float sampled_pnt_x;
 	float sampled_pnt_y;
 	if( !at_goal ){
-	    sampled_pnt_x = (rand() / (float)RAND_MAX) * (cost_map_w*2 + cost_map.x - cost_map_w);
-	    sampled_pnt_y = (rand() / (float)RAND_MAX) * (cost_map_h*2 + cost_map.y - cost_map_h);
+	    //sampled_pnt_x = (rand() / (float)RAND_MAX) * (cost_map_w*2 + cost_map.x - cost_map_w);
+	    //sampled_pnt_y = (rand() / (float)RAND_MAX) * (cost_map_h*2 + cost_map.y - cost_map_h);
+
+	    sampled_pnt_x = (rand() / (float)RAND_MAX) * (30) + start.pos.x - 15;
+	    sampled_pnt_y = (rand() / (float)RAND_MAX) * (30) + start.pos.y - 15;
+
 
 	}else{
 	    sampled_pnt_x = goal->x;
@@ -175,7 +179,7 @@ public:
 	// add the root to all the nodes
 	float _start_x = start.pos.x;
 	float _start_y = start.pos.y;
-	root = new Node( _start_x, _start_y );
+	root = new Node( _start_x, _start_y, start.vehicle_angle );
 	all_tree_nodes.push_back(root);
 
 	// goal not added yet, since we don't want to consider it
